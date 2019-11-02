@@ -1,0 +1,53 @@
+* {
+	margin: 0;
+	padding: 0;
+	outline: 0;
+}
+
+.back {
+	background-image: url('../images/back2.png');
+	background-repeat: no-repeat;
+	background-size: cover;
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	z-index: -1;
+}
+
+#brand {
+	font-family: 'Lobster', cursive;
+	font-size: 30px;
+}
+
+body
+{
+	background: #1c2444;
+	font-family: Montserrat, sans-serif;
+	width: 100%;
+	height: 100%;
+}
+
+.navbar {
+	background-color: #272f51;
+	color: white;
+	line-height: 30px;
+}
+
+.profilepic {
+	clip-path: circle(15px at center);
+}
+
+.nav-item {
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+.logout {
+	line-height: 25px;
+}
+
+.text {
+	line-height: 30px;
+	margin-left: 5px;
+}
