@@ -1,21 +1,16 @@
 <?php 
-	include("includes/config.php");
-	include ("includes/classes/Account.class.php");
-	include ("includes/classes/Constants.class.php");
+	session_start();
+	include_once ("includes/config.php");
+	include_once ("includes/classes/Account.class.php");
+	include_once ("includes/classes/Constants.class.php");
 	$account = new Account($pdo);
-	include ("includes/handlers/register-handler.php");
+	include_once ("includes/handlers/register-handler.php");
 ?>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<meta http-equiv="X-UA-Compatible" content="ie=edge">
-		<link rel="icon" href="./assets/images/logo.ico">
-		<link href="https://fonts.googleapis.com/css?family=Lobster&display=swap" rel="stylesheet">
-		<link rel="stylesheet" href="http://localhost/Camagru/assets/frameworks/bootstrap/css/bootstrap.css">
-		<link rel="stylesheet" href="http://localhost/Camagru/assets/css/global.css">
-		<link rel="stylesheet" href="http://localhost/Camagru/assets/css/login.css">
+		<?php include("includes/links.php") ?>
+		<link rel="stylesheet" href="/camagru/assets/css/login.css">
 		<title>Camagru - Sign up</title>
 	</head>
 <body>
@@ -23,6 +18,9 @@
 	<?php include("includes/navbar.php"); ?>
 	<div class="container">
 		<div class="jumbotron">
+			<a href="javascript:history.back()" class="goback">
+				<img src="/camagru/assets/images/goback.png" alt="go back" width="30" height="30">
+			</a>
 			<h1 class="signup display-3">Sign up !</h1>
 			<form action="register.php" method="POST">
 				<?php echo $account->getError(Constants::$usernameCharacters); ?>
@@ -38,7 +36,7 @@
 				<?php echo $account->getError(Constants::$passwordCharacters); ?>
 				<input name="registerPassword" class="form-control form-control-lg inputt" type="password" placeholder="Password" required>
 				<input name="registerPassword2" class="form-control form-control-lg inputt" type="password" placeholder="Re-type Password" required>
-				<button name="registerButton" type="submit" class="btn-lg login-btn">Sign Up</button>
+				<button name="registerButton" type="submit" class="btn-lg login-btn botona">Sign Up</button>
 			</form>
 		  </div>
 	</div>

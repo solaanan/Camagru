@@ -1,0 +1,25 @@
+.jumbotron {
+	background-color: #272f51E5;
+	color: white;
+	margin-top: 100px;
+	text-align: center;
+}
+
+hr {
+	background: white;
+}
+
+.good {
+	margin: auto;
+	display: block;
+	margin-bottom: 30px;
+}
+
+.login {
+	color: #76BAFC;
+	cursor: pointer;
+}
+
+.login:hover {
+	color: #03B1F3;
+}

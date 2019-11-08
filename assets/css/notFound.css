@@ -1,3 +1,10 @@
+.jumbotron
+{
+	margin-top: 100px;
+	background-color: #272f51E5;
+	color: white;
+}
+
 .oops {
 	text-align: center;
 }
@@ -9,5 +16,7 @@
 .image {
 	margin: auto;
 	margin-top: 60px;
+	width: 100%;
+	height: auto;
 	display: block;
 }

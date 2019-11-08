@@ -25,7 +25,6 @@
 		$status = $account->register($username, $email1, $email2, $password1, $password2);
 		if ($status)
 		{
-			$_SESSION['userLoggedIn'] = $username;
-			header("Location: index.php");
+			header("Location: confirmMail.php");
 		}
 	}

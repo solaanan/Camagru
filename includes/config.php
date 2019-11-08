@@ -1,5 +1,5 @@
 <?php
-	session_start();
+	date_default_timezone_set('Europe/France');
 	$dsn = 'mysql:dbname=Camagru;host=10.12.2.2;port:8080';
 	$user = 'root';
 	$password = '';

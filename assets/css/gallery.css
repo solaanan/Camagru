@@ -1,3 +1,22 @@
 .jumbotron {
-	
+	background-color: #272f51;
+	color: white;
+	max-width: 700px;
+}
+
+.top-jumbotron {
+	margin-top: 30px;
+}
+
+.separator {
+	background: white;
+}
+
+.post {
+	width: 100%;
+	border-radius: 10px;
+}
+
+.new-badge {
+	background: #191e36;
 }

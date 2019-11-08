@@ -1,0 +1,108 @@
+.jumbotron {
+	margin-top: 100px;
+	background: #272f51E5;
+	text-align: center;
+}
+
+.absolute-div {
+	position: inherit;
+	height: 150px;
+	width: 100%;
+}
+
+.pdp-container {
+	width: 100%;
+	clip-path: circle(75px at center);
+}
+
+.pdp {
+	position: relative;
+	left: 77px;
+	z-index: 1;
+}
+
+.update {
+	position: relative;
+	left: -77px;
+	z-index: 2;
+	/* display: none; */
+	opacity: 0;
+	cursor: pointer;
+}
+
+.info {
+	line-height: 50px;
+	overflow: hidden;
+	padding: 10px;
+}
+
+.info-container {
+	overflow: hidden;
+	background: #1c223b;
+	border-radius: 10px;
+	height: 50px;
+}
+
+.edit {
+	float: right;
+	background: #141a2e;
+	color: white;
+	padding: 15px;
+	padding-top: 13px;
+	border-radius: 0px 10px 10px 0px;
+	text-decoration: none;
+	height: 50px;
+}
+
+.edit:hover {
+	background: #2e385a;
+}
+
+.label {
+	color: white;
+	display: block;
+	margin: auto;
+	margin-top: 20px;
+	text-align: left;
+}
+
+.username {
+	background: none;
+}
+
+.botona {
+	margin: auto;
+	margin-top: 50px;
+}
+
+@media screen and (max-width: 420px) {
+	.pdp {
+		position: unset;
+	}
+	.update {
+		position: unset;
+		display: none;
+	}
+	.pdp-container:hover .pdp {
+		display: none;
+	}
+	.pdp-container:hover .update {
+		margin: auto;
+		display: block;
+	}
+}
+
+#newPicture, #canvas, #spinner {
+	display: none;
+}
+
+#spinner {
+	margin: auto;
+	text-align: center;
+}
+
+.errorMessage {
+	background: #ef5e5e;
+	color: white;
+	display: block;
+}

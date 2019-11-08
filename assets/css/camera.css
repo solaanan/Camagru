@@ -1,0 +1,21 @@
+.botona {
+	width: 100px;
+	height: 50px;
+	border-radius: 10px;
+	display: block;
+	margin: auto;
+	margin-top: 30px;
+}
+
+.video {
+	width: 100%;
+	height: auto;
+	background: url('/camagru/assets/images/permission.png');
+	background-size: cover;
+	background-position: center;
+	border: 10px solid #1c2444;
+}
+
+#canvas {
+	display: none;
+}
