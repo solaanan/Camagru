@@ -23,7 +23,6 @@ window.addEventListener('load', function() {
 					spinner.style.display = "none";
 					if (this.readyState == 4 && this.status == 200) {
 						if (xhttp.responseText === "All good") {
-							var ratio = canvas.width / canvas.height;
 							pdp.setAttribute("src", data);
 							pdp2.setAttribute("src", data);
 							var div = document.createElement("div");

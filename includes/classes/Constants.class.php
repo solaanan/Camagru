@@ -15,4 +15,5 @@
 			public static $usernameIsNotValid = "Your username must only contains letters and numbers and these characters _ - .";
 			public static $imageCannotBeFound = "Please upload a valid image file.";
 			public static $imageTooBig = "Your image is too big (maximum 2MB).";
+			public static $imageTooBig2 = "Your image is too big (maximum 8MB).";
 		}

@@ -13,7 +13,14 @@
 	<?php include("includes/navbar.php"); ?>
 	<div class="container">
 		<div class="jumbotron top-jumbotron text-center mx-auto">
-			<a class="btn btn-primary btn-lg" href="#" role="button">Add a new post</a>
+			<a class="btn btn-primary btn-lg botona m-1 text-break" href="#" role="button">
+				<img src="/camagru/assets/images/snap.png" alt="take a photo" width="25" height="20">
+				Take a photo
+			</a>
+			<a class="btn btn-primary btn-lg botona m-1 text-break" href="#" role="button">
+				<img src="/camagru/assets/images/upload_file.png" alt="upload" width="20" height="20">
+				Upload a photo
+			</a>
 		</div>
 		<div class="jumbotron py-3 px-3 mx-auto">
 			<a class="text-decoration-none text-reset" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

@@ -7,15 +7,44 @@
 	margin-top: 30px;
 }
 
+h1 {
+	font-size: 30px !important;
+	margin: auto;
+	text-align: center;
+	margin-bottom: 40px;
+}
+
+.col {
+	margin-top: 60px;
+	background-color: #272f51E5;
+	color: white;
+	border-radius: 10px;
+	padding: 50px;
+}
+
+.blank {
+	opacity: 0;
+}
+
 .video {
 	width: 100%;
 	height: auto;
-	background: url('/camagru/assets/images/permission.png');
-	background-size: cover;
-	background-position: center;
+	/* background: url('/camagru/assets/images/permission.png'); */
+	/* background-size: cover; */
+	/* background-position: center; */
 	border: 10px solid #1c2444;
+	border-radius: 10px;
+	-webkit-transform: scaleX(-1);
+	transform: scaleX(-1);
 }
 
-#canvas {
+#canvas, #img, #save, #retake {
 	display: none;
+}
+
+.preview {
+	width: 100%;
+	height: auto;
+	border: 10px solid #1c2444;
+	border-radius: 10px;
 }

@@ -1,6 +1,6 @@
 <?php
 	include_once("includes/config.php");
-	include_once("includes/confirm-handler.php")
+	include_once("includes/handlers/confirm-handler.php")
 ?>
 
 <!DOCTYPE html>
@@ -8,7 +8,7 @@
 <head>
 	<?php include_once("includes/links.php"); ?>
 	<link rel="stylesheet" href="/camagru/assets/css/confirmMail.css">
-	<title><?php echo $title; ?></title>
+	<title><?php echo "Camagru - " . $header ; ?></title>
 </head>
 <body>
 	<div class="back">

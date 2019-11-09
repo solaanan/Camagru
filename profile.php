@@ -25,7 +25,7 @@
 	<title>Camagru - My Profile</title>
 </head>
 <body id="body">
-	<? include_once("includes/navbar.php"); ?>
+	<?php include_once("includes/navbar.php"); ?>
 	<div class="container">
 		<div class="jumbotron" id="form">
 			<div id="spinner" class="spinner-border"></div>

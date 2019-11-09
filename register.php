@@ -32,7 +32,7 @@
 				<input name="registerEmail" class="form-control form-control-lg inputt" type="email" placeholder="Email" required>
 				<input name="registerEmail2" class="form-control form-control-lg inputt" type="email" placeholder="Re-type Email" required>
 				<?php echo $account->getError(Constants::$passwordsDoNotMatch); ?>
-				<?php echo $account->getError(Constants::$passwordIsNotAlphanumeric); ?>
+				<?php echo $account->getError(Constants::$passwordIsNotValid); ?>
 				<?php echo $account->getError(Constants::$passwordCharacters); ?>
 				<input name="registerPassword" class="form-control form-control-lg inputt" type="password" placeholder="Password" required>
 				<input name="registerPassword2" class="form-control form-control-lg inputt" type="password" placeholder="Re-type Password" required>
