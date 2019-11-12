@@ -6,6 +6,7 @@ window.addEventListener('load', function() {
 	var pub = document.getElementById('pub');
 	var say = document.getElementById('say');
 	var save = document.getElementById('save');
+	var postsContainer = document.getElementById('postsContainer');
 
 	input.addEventListener('change', function() {
 		var errors = document.querySelectorAll(".errorMessage");
@@ -24,7 +25,7 @@ window.addEventListener('load', function() {
 				xhttp.onreadystatechange = function() {
 				if (this.readyState == 4 && this.status == 200) {
 					pub.value = '';
-					if (xhttp.responseText === "All good") {
+					if (xhttp.responseText.match(/All good/g)) {
 						spinner.style.display = 'none';
 						pub.style.display = 'block';
 						save.style.display = 'block';
@@ -36,6 +37,7 @@ window.addEventListener('load', function() {
 						setTimeout(function () {
 							div.remove();
 						}, 5000);
+						postsContainer.innerHTML = xhttp.responseText.replace('All good\n', '')
 						botona.style.display = "table";
 						say.style.display = "none";
 						save.style.display = "none";
@@ -55,7 +57,8 @@ window.addEventListener('load', function() {
 					}
 				}
 				};
-
+				xhttp.open('POST', '/camagru/includes/handlers/post-handler.php', true);
+				xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 				img.addEventListener('load', function() {
 					var ctx = canvas.getContext('2d');
 					canvas.width = img.width;
@@ -67,8 +70,6 @@ window.addEventListener('load', function() {
 						pub.style.display = 'none';
 						save.style.display = 'none';
 						spinner.style.display = 'block';
-						xhttp.open('POST', '/camagru/includes/handlers/post-handler.php', true);
-						xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 						xhttp.send('picture='+data+'&publication='+pub.value);
 					})
 				})
@@ -77,8 +78,6 @@ window.addEventListener('load', function() {
 					pub.style.display = 'none';
 					save.style.display = 'none';
 					spinner.style.display = 'block';
-					xhttp.open('POST', '/camagru/includes/handlers/post-handler.php', true);
-					xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 					xhttp.send('picture=&publication=');
 				})
 			}

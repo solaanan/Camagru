@@ -74,13 +74,13 @@ window.addEventListener("load", function() {
 			save.disabled = (pub.value.length < 1000 && pub.value.length > 1) ? false : true;
 		})
 
-		var xhttp = new  XMLHttpRequest();
-		save.addEventListener("click", function(e) {
-			e.preventDefault();
-			save.disabled = true;
+		var xhttp = new XMLHttpRequest();
 		xhttp.open('POST', '/camagru/includes/handlers/post-handler.php', true);
 		xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		save.addEventListener("click", function(e) {
+			save.disabled = true;
 			xhttp.send('saveButton=true&publication='+ pub.value +'&pictureData='+data);
+			e.preventDefault();
 		});
 		xhttp.onreadystatechange = function() {
 			save.disabled = false;
@@ -94,7 +94,7 @@ window.addEventListener("load", function() {
 					setTimeout(function () {
 						div.remove();
 					}, 5000);
-					postsContainer.innerHTML = xhttp.responseText.replace('All good', '');
+					postsContainer.innerHTML = xhttp.responseText.replace('All good\n', '');
 					retake_pic();
 				}
 			}

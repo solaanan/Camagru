@@ -11,10 +11,10 @@
 		$base64 = $_POST['pictureData'];
 		$un = $_SESSION['userLoggedIn'];
 
-		if ($post->post($un, $pub, $base64))
+		if ($post->post($un, $pub, $base64)) {
 			echo 'All good';
-			include_once('includes/refresh_posts.php');
-		else
+			include_once('../refresh_posts.php');
+		} else
 			$post->getErrors();
 	}
 
@@ -41,7 +41,7 @@
 
 		if ($post->post($_SESSION['userLoggedIn'], $pub, $base64)) {
 			echo 'All good';
-			include_once('includes/refresh_posts.php');
+			include_once('../refresh_posts.php');
 		} else {
 			$post->getErrors();
 		}

@@ -17,6 +17,10 @@
 	}
 	$result = $stmt->fetchAll();
 	$post = new Post($pdo);
-	foreach ($result as $element) {
-		$post->putPost($element);
+	if ($result) {
+		foreach ($result as $element) {
+			$post->putPost($element);
+		}
+	} else {
+		// echo '<img class="nothing" src="/camagru/assets/images/nothing.png">';
 	}
