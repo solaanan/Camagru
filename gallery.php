@@ -2,25 +2,6 @@
 	session_start();
 	if (!isset($_SESSION) || !isset($_SESSION['userLoggedIn']))
 		header('Location: /camagru/index.php');
-	include_once('includes/config.php');
-	include_once('includes/classes/Post.class.php');
-	try {
-		$query = "SELECT * FROM posts, users WHERE users.id=posts.user_id ORDER BY dateOfPub DESC";
-		$stmt = $pdo->prepare($query);
-		$stmt->bindValue(':username', $_SESSION['userLoggedIn']);
-		$stmt->execute();
-		if ($stmt === false)
-			die('An error occured communicating with the databases');
-	} catch (PDOException $e) {
-		die('An error occured communicating with the databases');
-	}
-	$result = $stmt->fetchAll();
-	function put_posts($arr, $pdo) {
-		$post = new Post($pdo);
-		foreach ($arr as $element) {
-			$post->putPost($element);
-		}
-	}
 ?>
 
 <!DOCTYPE html>
@@ -32,7 +13,7 @@
 	<script src="/camagru/assets/js/gallery.js"></script>
 	<title>Camagru - Gallery</title>
 </head>
-<body>
+<body id='body'>
 	<?php include("includes/navbar.php"); ?>
 	<div class="container">
 		<div class="jumbotron top-jumbotron text-center mx-auto">
@@ -45,25 +26,27 @@
 				Upload a photo
 			</a>
 		</div>
-		<?php put_posts($result, $pdo); ?>
+		<div id="postsContainer">
+			<?php include_once('includes/refresh_posts.php'); ?>
+		</div>
 	</div>
-	<!-- <div class="alert-container">
+	<div class="alert-container" id="alert-container">
 		<div class="container">
 			<div class="alert-card jumbotron text-center m-auto">
 				<h1 class="text-break">Are you sure ?</h1>
 				<hr>
-				<p class="lead text-break">This action is irreversible!</p>
-				<button class="btn btn-lg botona my-2 mx-4">
+				<p class="lead text-break">Do you really want to delete this post?<br>This action is irreversible!</p>
+				<button class="btn btn-lg botona my-2 mx-4" id="delete">
 					<img src="/camagru/assets/images/good.png" alt="yes" width="30" height="30">
 					Delete
 				</button>
-				<button class="btn btn-lg botona m-0 mx-4">
+				<button class="btn btn-lg botona m-0 mx-4" id="cancel">
 					<img src="/camagru/assets/images/bad.png" alt="no" width="30" height="30">
 					Cancel
 				</button>
 			</div>
 		</div>
-	</div> -->
+	</div>
 </div>
 </body>
 </html>

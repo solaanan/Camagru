@@ -80,6 +80,19 @@
 		public function			deletePost($post_id) {
 			$username = $_SESSION['userLoggedIn'];
 			try {
+				$query = "SELECT * FROM posts WHERE post_id=:post_id AND `user_id` IN (SELECT id FROM users WHERE username=:username)";
+				$stmt = $this->pdo->prepare($query);
+				$stmt->bindValue(':post_id', $post_id);
+				$stmt->bindValue(':username', $username);
+				$stmt->execute();
+				if ($stmt === false)
+					die('There was an error communicating with the databases.');
+			} catch (PDOException $e) {
+				die('There was an error communicating with the databases: $e');
+			}
+			$path = $stmt->fetch()['picture'];
+			unlink(str_replace('/camagru', '../..', $path));
+			try {
 				$query = "DELETE FROM posts WHERE post_id=:post_id AND `user_id` IN (SELECT id FROM users WHERE username=:username)";
 				$stmt = $this->pdo->prepare($query);
 				$stmt->bindValue(':post_id', $post_id);

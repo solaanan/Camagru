@@ -62,7 +62,7 @@
 			<div class="col-xs-1 col-md-1"></div>
 			<div class="colona posts col-xs-6 col-md-4">
 				<h1 class="h2 text-break">Your recent posts:</h1>
-				<?php put_posts($result, $pdo); ?>
+				<?php include_once('includes/refresh_posts.php') ?>
 			</div>
 			<div class="col-xs-1 col-md-1"></div>
 		</div>

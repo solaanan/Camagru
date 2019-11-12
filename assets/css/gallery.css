@@ -36,7 +36,7 @@ html, body {
 .alert-container {
 	background: #000000CD;
 	display: block;
-	position: absolute;
+	position: fixed;
 	top: 0;
 	left: 0;
 	width: 100%;
@@ -54,4 +54,8 @@ html, body {
 
 .comment {
 	margin-left: 10px;
+}
+
+#alert-container {
+	display: none;
 }

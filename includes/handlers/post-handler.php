@@ -13,6 +13,7 @@
 
 		if ($post->post($un, $pub, $base64))
 			echo 'All good';
+			include_once('includes/refresh_posts.php');
 		else
 			$post->getErrors();
 	}
@@ -40,7 +41,15 @@
 
 		if ($post->post($_SESSION['userLoggedIn'], $pub, $base64)) {
 			echo 'All good';
+			include_once('includes/refresh_posts.php');
 		} else {
 			$post->getErrors();
+		}
+	}
+
+	if (isset($_POST['delete']) && $_POST['post_id']) {
+		$post_id = $_POST['post_id'];
+		if ($post->deletePost($post_id)) {
+			include_once('../refresh_posts.php');
 		}
 	}

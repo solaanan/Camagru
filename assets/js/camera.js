@@ -6,6 +6,7 @@ window.addEventListener("load", function() {
 	var save = document.getElementById('save');
 	var pub = document.getElementById('pub');
 	var say = document.getElementById('say');
+	var postsContainer = document.getElementById('postsContainer');
 	var stream;
 
 	snap.disabled = true;
@@ -73,18 +74,18 @@ window.addEventListener("load", function() {
 			save.disabled = (pub.value.length < 1000 && pub.value.length > 1) ? false : true;
 		})
 
-		var xhttp = new XMLHttpRequest();
-		xhttp.open('POST', '/camagru/includes/handlers/post-handler.php', true);
-		xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		var xhttp = new  XMLHttpRequest();
 		save.addEventListener("click", function(e) {
 			e.preventDefault();
 			save.disabled = true;
+		xhttp.open('POST', '/camagru/includes/handlers/post-handler.php', true);
+		xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 			xhttp.send('saveButton=true&publication='+ pub.value +'&pictureData='+data);
 		});
 		xhttp.onreadystatechange = function() {
 			save.disabled = false;
 			if (this.readyState == 4 && this.status == 200) {
-				if (xhttp.responseText === "All good") {
+				if (xhttp.responseText.match(/All good/g)) {
 					var div = document.createElement("div");
 					div.setAttribute("class", "alert alert-success message");
 					div.setAttribute("id", "message");
@@ -93,6 +94,7 @@ window.addEventListener("load", function() {
 					setTimeout(function () {
 						div.remove();
 					}, 5000);
+					postsContainer.innerHTML = xhttp.responseText.replace('All good', '');
 					retake_pic();
 				}
 			}
