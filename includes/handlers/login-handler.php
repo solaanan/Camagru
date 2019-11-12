@@ -1,4 +1,5 @@
 <?php
+	session_start();
 	if (isset($_POST['loginButton']))
 	{
 		session_start();

@@ -1,25 +1,26 @@
 .botona {
-	width: 100px;
 	height: 50px;
 	border-radius: 10px;
-	display: block;
 	margin: auto;
 	margin-top: 30px;
 }
 
+.say {
+	display: block;
+}
+
 h1 {
-	font-size: 30px !important;
 	margin: auto;
-	text-align: center;
 	margin-bottom: 40px;
 }
 
-.col {
+.colona {
 	margin-top: 60px;
-	background-color: #272f51E5;
 	color: white;
 	border-radius: 10px;
-	padding: 50px;
+	padding: 20px;
+	text-align: center;
+	height: auto !important;
 }
 
 .blank {
@@ -29,16 +30,16 @@ h1 {
 .video {
 	width: 100%;
 	height: auto;
-	/* background: url('/camagru/assets/images/permission.png'); */
-	/* background-size: cover; */
-	/* background-position: center; */
+	background: url('/camagru/assets/images/permission.png');
+	background-size: cover;
+	background-position: center;
 	border: 10px solid #1c2444;
 	border-radius: 10px;
 	-webkit-transform: scaleX(-1);
 	transform: scaleX(-1);
 }
 
-#canvas, #img, #save, #retake {
+#canvas, #img, #save, #retake, #say, #pub {
 	display: none;
 }
 
@@ -47,4 +48,47 @@ h1 {
 	height: auto;
 	border: 10px solid #1c2444;
 	border-radius: 10px;
+}
+
+.inputt {
+	border-radius: 10px;
+	background-color: #384064 !important;
+	padding: 10px;
+	width: 100%;
+	min-height: 200px;
+	resize: none;
+}
+
+.post {
+	width: 100%;
+	height: auto;
+}
+
+#spinner {
+	margin-top: 80px !important;
+}
+
+#fileInput, #spinner {
+	display: none;
+}
+
+.label {
+	padding: 12px;
+	cursor: pointer;
+}
+
+.post {
+	margin-top: 10px;
+}
+
+.element {
+	margin: 0;
+	background-color: #272f51E5;
+}
+
+
+.errorMessage {
+	background: #ef5e5e;
+	color: white;
+	display: block;
 }

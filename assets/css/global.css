@@ -4,6 +4,10 @@
 	outline: 0;
 }
 
+.botona:disabled {
+	opacity: 0.5;
+}
+
 .back {
 	background-image: url('../images/back2.png');
 	background-repeat: no-repeat;
@@ -61,6 +65,9 @@ body
 {
 	margin-top: 50px;
 	border: 0;
+	width: auto !important;
+	padding-left: 10px;
+	padding-right: 10px;
 	background-image: linear-gradient(to right, #00c6ff, #0072ff, #00c6ff);
 	background-size: 300px 1px;
 	background-position: left;
@@ -68,7 +75,7 @@ body
 	transition: 0.5s ease-in-out;
 }
 
-.botona:hover {
+.botona:not(:disabled):hover {
 	color: white;
 	background-position: -150px;
 	box-shadow: 0 5px 15px rgba(1, 5, 26, 0.4);

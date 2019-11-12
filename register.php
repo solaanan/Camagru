@@ -1,5 +1,7 @@
 <?php 
 	session_start();
+	if (isset($_SESSION) && isset($_SESSION['userLoggedIn']))
+		header('Location: /camagru/gallery');
 	include_once ("includes/config.php");
 	include_once ("includes/classes/Account.class.php");
 	include_once ("includes/classes/Constants.class.php");

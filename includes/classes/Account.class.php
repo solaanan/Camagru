@@ -1,4 +1,5 @@
 <?php
+	session_start();
 	include ("Mail.class.php");
 	class Account extends Mail {
 		private $errorArray;
@@ -40,7 +41,7 @@
 
 		private function	insertUserDetails($username, $email, $password) {
 			$encryptedPw = hash('whirlpool', Constants::$salt . $password);
-			$profilePic = "/camagru/assets/images/profile-pics/default.png";
+			$profilePic = "/camagru/assets/images/profilePics/default.png";
 			$token = hash('sha256', $username . uniqid());
 			$query = 'INSERT INTO `users`(`username`, `email`, `passwd`, `signUpDate`, `profilePic`, `token`) VALUES (:username,:email,:passwd, NOW() ,:profilePic,:token)';
 			try {
@@ -241,7 +242,7 @@
 			$name = "assets/images/profilePics/" . uniqid("IMG_PP_" . $_SESSION['userLoggedIn'] . "_") . ".png";
 			file_put_contents("../../" . $name, $data);
 			if (getimagesize("../../" . $name)) {
-				if (filesize("../../" . $name) > 2000000) {
+				if (filesize("../../" . $name) > 2000000 || filesize("../../" . $name) < 1) {
 					array_push($this->errorArray, Constants::$imageTooBig);
 					unlink("../../" . $name);
 					return false;

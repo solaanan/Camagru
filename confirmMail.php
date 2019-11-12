@@ -1,4 +1,8 @@
-<?php session_start(); ?>
+<?php
+	session_start();
+	if (!isset($_SESSION) || !isset($_SESSION['userLoggedIn']))
+		header('Location: /camagru/index.php');
+?>
 
 <!DOCTYPE html>
 <html lang="en">

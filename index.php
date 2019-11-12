@@ -1,5 +1,8 @@
 <?php
-session_start();
+	session_start();
+	if (isset($_SESSION) && isset($_SESSION['userLoggedIn'])) {
+		header('Location: /camagru/gallery');
+	}
 ?>
 <!DOCTYPE html>
 <html lang="en">

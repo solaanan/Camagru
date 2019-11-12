@@ -1,4 +1,5 @@
 <?php
+	session_start();
 	class Mail {
 		public function confirm_mail($username, $email, $token) {
 			$to = $email;

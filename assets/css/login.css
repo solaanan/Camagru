@@ -11,14 +11,14 @@
 .inputt {
   margin: 20px auto;
   border: 0;
-  background-color: #fff0;
+  background-color: #272e4d;
   color: white;
   border-bottom: 1px solid;
 }
 
 .inputt:focus {
   border: 0;
-  background-color: #fff0;
+  background-color: #384064;
   color: white;
   border-bottom: 1px solid;
   outline: none !important;

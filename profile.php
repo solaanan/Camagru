@@ -1,5 +1,7 @@
 <?php
 	session_start();
+	if (!isset($_SESSION) || !isset($_SESSION['userLoggedIn']))
+		header('Location: /camagru/index.php');
 	include_once("includes/config.php");
 	$username = $_SESSION['userLoggedIn'];
 	$query = "SELECT * FROM users WHERE username = :userLoggedIn";
