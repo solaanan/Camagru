@@ -4,23 +4,6 @@
 		header('Location: /camagru/index');
 	include_once('includes/config.php');
 	include_once('includes/classes/Post.class.php');
-	try {
-		$query = "SELECT * FROM users, posts WHERE users.id=posts.user_id AND username=:username ORDER BY dateOfPub DESC";
-		$stmt = $pdo->prepare($query);
-		$stmt->bindValue(':username', $_SESSION['userLoggedIn']);
-		$stmt->execute();
-		if ($stmt === false)
-			die('An error occured communicating with the databases');
-	} catch (PDOException $e) {
-		die('An error occured communicating with the databases');
-	}
-	$result = $stmt->fetchAll();
-	function put_posts($arr, $pdo) {
-		$post = new Post($pdo);
-		foreach ($arr as $element) {
-			$post->putPost($element);
-		}
-	}
 ?>
 
 <!DOCTYPE html>
@@ -29,6 +12,7 @@
 	<?php include_once('includes/links.php'); ?>
 	<link rel="stylesheet" href="/camagru/assets/css/camera.css">
 	<script src="/camagru/assets/js/imageUploader.js"></script>
+	<script src="/camagru/assets/js/deleteHandlerInPersonal.js"></script>
 	<title>Camagru - Upload a new Image</title>
 </head>
 <body id='body'>
@@ -47,7 +31,7 @@
 							<span id="upload_text"> Upload </span>
 						</label>
 					</form>
-					<img class="preview" id="img" alt="preview">
+					<img class="preview" id="preview" alt="preview">
 					<button id="say" class="botona say">
 						<img src="/camagru/assets/images/say.png" alt="say" width="20" height="20">
 						Say something
@@ -63,12 +47,29 @@
 			<div class="colona posts col-xs-6 col-md-4">
 				<h1 class="h2 text-break">Your recent posts:</h1>
 				<div id="postsContainer">
-					<?php include_once('includes/refresh_posts.php') ?>
+					<?php $loggedin = true; include_once('includes/refresh_posts.php'); ?>
 				</div>
 			</div>
 			<div class="col-xs-1 col-md-1"></div>
 		</div>
 	</div>
-		<canvas id="canvas"></canvas>
+	<canvas id="canvas"></canvas>
+	<div class="alert-container" id="alert-container">
+		<div class="container" id="alert-body">
+			<div class="alert-card jumbotron text-center m-auto">
+				<h1 class="text-break">Are you sure ?</h1>
+				<hr>
+				<p class="lead text-break">Do you really want to delete this post?<br>This action is irreversible!</p>
+				<button class="btn btn-lg botona my-2 mx-4" id="delete">
+					<img src="/camagru/assets/images/good.png" alt="yes" width="30" height="30">
+					Delete
+				</button>
+				<button class="btn btn-lg botona m-0 mx-4" id="cancel">
+					<img src="/camagru/assets/images/bad.png" alt="no" width="30" height="30">
+					Cancel
+				</button>
+			</div>
+		</div>
+	</div>
 </body>
 </html>

@@ -1,5 +1,6 @@
 <?php
-	session_start();
+	if (!isset($_SESSION))
+		session_start();
 	class Constants {
 			public static $usernameCharacters = "Your username must be between 5 and 25 characters.";
 			public static $usernameTaken = "This username is already in use.";
@@ -15,7 +16,6 @@
 			public static $wrongOldPasswd = "Wrong password.";
 			public static $usernameIsNotValid = "Your username must only contains letters and numbers and these characters _ - .";
 			public static $imageCannotBeFound = "Please upload a valid image file.";
-			public static $imageTooBig = "Your image is too big (maximum 2MB).";
-			public static $imageTooBig2 = "Your image is too big (maximum 8MB).";
+			public static $imageTooBig = "Your image is too big.";
 			public static $PublicationTooLong = "Your publication cannot exceed 1000 characters.";
 		}

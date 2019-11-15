@@ -1,5 +1,6 @@
 <?php
-	session_start();
+	if (!isset($_SESSION))
+		session_start();
 	include ("Mail.class.php");
 	class Account extends Mail {
 		private $errorArray;

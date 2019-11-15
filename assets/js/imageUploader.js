@@ -1,4 +1,5 @@
 window.addEventListener('load', function() {
+	var xhttp = new XMLHttpRequest();
 	var input = document.getElementById('fileInput');
 	var canvas = document.getElementById('canvas');
 	var botona = document.getElementById('botona');
@@ -6,25 +7,58 @@ window.addEventListener('load', function() {
 	var pub = document.getElementById('pub');
 	var say = document.getElementById('say');
 	var save = document.getElementById('save');
-	var postsContainer = document.getElementById('postsContainer');
+	var preview = document.getElementById('preview');
 
-	input.addEventListener('change', function() {
+	input.onchange = function() {
 		var errors = document.querySelectorAll(".errorMessage");
 		errors.forEach(function (e) {
 			e.style.display = "none";
 		});
-		botona.style.display = "none";
-		say.style.display = "block";
-		save.style.display = "block";
 		if (this.files && this.files[0]) {
 			var file = this.files[0];
-			if (file.size >= 1) {
+			console.log(file.size);
+			if (file.size >= 1 && file.size < 8000000){
 				var img = new Image();
 				img.src = URL.createObjectURL(file);
-				var xhttp = new XMLHttpRequest();
-				xhttp.onreadystatechange = function() {
+				img.onload = function() {
+					botona.style.display = "none";
+					say.style.display = "block";
+					save.style.display = "block";
+					var ctx = canvas.getContext('2d');
+					canvas.width = img.width;
+					canvas.height = img.height;
+					ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+					var data = canvas.toDataURL();
+					preview.src = data;
+					preview.style.display = 'block';
+					save.onclick = function(e) {
+						e.preventDefault();
+						say.style.display = 'none';
+						pub.style.display = 'none';
+						save.style.display = 'none';
+						preview.style.display = 'none';
+						spinner.style.display = 'block';
+						xhttp.open('POST', '/camagru/includes/handlers/post-handler.php', true);
+						xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+						xhttp.send('loggedin=true&picture='+data+'&publication='+pub.value);
+					}
+				}
+				img.onerror = function() {
+					say.style.display = 'none';
+					pub.style.display = 'none';
+					save.style.display = 'none';
+					spinner.style.display = 'block';
+					xhttp.open('POST', '/camagru/includes/handlers/post-handler.php', true);
+					xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+					xhttp.send('picture=error&publication=error');
+				}
+			} else {
+				xhttp.open('POST', '/camagru/includes/handlers/post-handler.php', true);
+				xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+				xhttp.send('big=true');
+			}
+			xhttp.onreadystatechange = function() {
 				if (this.readyState == 4 && this.status == 200) {
-					pub.value = '';
 					if (xhttp.responseText.match(/All good/g)) {
 						spinner.style.display = 'none';
 						pub.style.display = 'block';
@@ -37,7 +71,7 @@ window.addEventListener('load', function() {
 						setTimeout(function () {
 							div.remove();
 						}, 5000);
-						postsContainer.innerHTML = xhttp.responseText.replace('All good\n', '')
+						postsContainer.innerHTML = xhttp.responseText.replace('All good', '')
 						botona.style.display = "table";
 						say.style.display = "none";
 						save.style.display = "none";
@@ -56,36 +90,12 @@ window.addEventListener('load', function() {
 						});
 					}
 				}
-				};
-				xhttp.open('POST', '/camagru/includes/handlers/post-handler.php', true);
-				xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-				img.addEventListener('load', function() {
-					var ctx = canvas.getContext('2d');
-					canvas.width = img.width;
-					canvas.height = img.height;
-					ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-					var data = canvas.toDataURL();
-					save.addEventListener('click', function() {
-						say.style.display = 'none';
-						pub.style.display = 'none';
-						save.style.display = 'none';
-						spinner.style.display = 'block';
-						xhttp.send('picture='+data+'&publication='+pub.value);
-					})
-				})
-				img.addEventListener('error', function() {
-					say.style.display = 'none';
-					pub.style.display = 'none';
-					save.style.display = 'none';
-					spinner.style.display = 'block';
-					xhttp.send('picture=&publication=');
-				})
 			}
 		}
-	});
+	};
 
-	say.addEventListener('click', function() {
+	say.onclick =  function() {
 		pub.style.display = 'block';
 		say.style.display = 'none';
-	})
+	}
 });

@@ -1,5 +1,6 @@
 <?php
-	session_start();
+	if (!isset($_SESSION))
+		session_start();
 	include_once("../config.php");
 	include_once("../classes/Constants.class.php");
 	include_once("../classes/Account.class.php");
@@ -60,4 +61,12 @@
 			echo "All good";
 		else
 			$account->getErrors();
+	}
+
+	if (isset($_POST['imageError'])) {
+		echo Constants::$imageCannotBeFound;
+	}
+
+	if (isset($_POST['big'])) {
+		echo Constants::$imageTooBig;
 	}

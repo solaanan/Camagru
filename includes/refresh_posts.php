@@ -1,12 +1,17 @@
 <?php
-	session_start();
+	if (!isset($_SESSION))
+		session_start();
 	if (!isset($_SESSION) || !isset($_SESSION['userLoggedIn'])) {
 		header('Location: /camagru');
 	}
 	include_once('config.php');
 	include_once('classes/Post.class.php');
+	$subquery = '';
+	if (isset($loggedin) && $loggedin === true)
+		$subquery = 'WHERE username=:username';
 	try {
-		$query = "SELECT * FROM posts, users WHERE users.id=posts.user_id ORDER BY dateOfPub DESC";
+		$query = "SELECT username, profilePic, picture, publication, post_id FROM users INNER JOIN posts ON users.id = posts.user_id " . $subquery . " ORDER BY dateOfPub DESC";
+		// die($query);
 		$stmt = $pdo->prepare($query);
 		$stmt->bindValue(':username', $_SESSION['userLoggedIn']);
 		$stmt->execute();

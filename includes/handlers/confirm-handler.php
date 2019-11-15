@@ -1,5 +1,6 @@
 <?php
-	session_start();
+	if (!isset($_SESSION))
+		session_start();
 	$img = "bad.png";
 	$header = "Something went wrong!";
 	$paragraph = "Unexpected error was ocurred during your email confirmation process.";

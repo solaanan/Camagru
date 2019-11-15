@@ -1,5 +1,6 @@
 <?php
-	session_start();
+	if (!isset($_SESSION))
+		session_start();
 	include_once('Like.class.php');
 	class Post extends Like {
 		private		$pdo;
@@ -59,7 +60,7 @@
 			$isliked = $this->likeChecker($post_id) ? '1' : '0';
 			echo '
 			<div class="jumbotron py-3 px-3 mx-auto post" id="post_'. $post_id .'">
-				<a class="text-decoration-none text-reset" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				<a class="text-decoration-none text-reset" href="/camagru/profile?username='. $username .'">
 					<img class="profilepic" src="'. $profilePic .'" width="30" height="30" class="d-inline-block align-top" alt="">
 					<span class="text">'. $username .'<span class="badge badge-secondary new-badge">New</span></span>
 				</a>';
@@ -129,7 +130,7 @@
 			file_put_contents($name, $data);
 			if (getimagesize($name)) {
 				if (filesize($name) > 8000000) {
-					array_push($this->errorArray, Constants::$imageTooBig2);
+					array_push($this->errorArray, Constants::$imageTooBig);
 					unlink($name);
 					return false;
 				} else {

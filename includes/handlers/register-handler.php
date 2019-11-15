@@ -1,5 +1,6 @@
 <?php
-	session_start();
+	if (!isset($_SESSION))
+		session_start();
 	function	sanitizeFormUsername($un) {
 		$un = trim($un);
 		$un = strip_tags($un);

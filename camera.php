@@ -31,6 +31,7 @@
 	<link rel="stylesheet" href="/camagru/assets/css/login.css">
 	<link rel="stylesheet" href="/camagru/assets/css/camera.css">
 	<script src="/camagru/assets/js/camera.js"></script>
+	<script src="/camagru/assets/js/deleteHandlerInPersonal.js"></script>
 </head>
 <body id="body">
 	<?php include_once("includes/navbar.php") ?>
@@ -65,12 +66,29 @@
 			<div class="colona col-xs-6 col-md-4">
 				<h1 class="h2 text-break">Your recent posts:</h1>
 				<div id="postsContainer">
-					<?php include_once('includes/refresh_posts.php') ?>
+					<?php $loggedin = true; include_once('includes/refresh_posts.php') ?>
 				</div>
 			</div>
 			<div class="col-xs-1 col-md-1"></div>
 		</div>
 	</div>
-		<canvas id="canvas"></canvas>
+	<canvas id="canvas"></canvas>
+	<div class="alert-container" id="alert-container">
+		<div class="container" id="alert-body">
+			<div class="alert-card jumbotron text-center m-auto">
+				<h1 class="text-break">Are you sure ?</h1>
+				<hr>
+				<p class="lead text-break">Do you really want to delete this post?<br>This action is irreversible!</p>
+				<button class="btn btn-lg botona my-2 mx-4" id="delete">
+					<img src="/camagru/assets/images/good.png" alt="yes" width="30" height="30">
+					Delete
+				</button>
+				<button class="btn btn-lg botona m-0 mx-4" id="cancel">
+					<img src="/camagru/assets/images/bad.png" alt="no" width="30" height="30">
+					Cancel
+				</button>
+			</div>
+		</div>
+	</div>
 </body>
 </html>

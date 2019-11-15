@@ -1,5 +1,6 @@
 <?php
-	session_start();
+	if (!isset($_SESSION))
+		session_start();
 	if (isset($_SESSION) && isset($_SESSION['userLoggedIn']))
 		header('Location: /camagru/gallery');
 	include("includes/config.php");

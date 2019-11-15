@@ -1,8 +1,8 @@
 <?php
-	session_start();
+	if (!isset($_SESSION))
+		session_start();
 	if (isset($_POST['loginButton']))
 	{
-		session_start();
 		$username = $_POST['loginUsername'];
 		$password = $_POST['loginPassword'];
 		$result = $account->login($username, $password);

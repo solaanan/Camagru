@@ -13,7 +13,13 @@ window.addEventListener("load", function() {
 	function initWebCam() {
 		navigator.mediaDevices.getUserMedia({ audio:false, video: true}).then(function (mediaStream) {
 			snap.disabled = false;
-			video.srcObject = mediaStream;
+			if ("srcObject" in video) {
+				video.srcObject = mediaStream;
+			} else {
+				//old version
+				video.src = window.URL.createObjectURL(mediaStream);
+			}
+			// video.srcObject = mediaStream;
 			stream = mediaStream;
 			video.onloadedmetadata = function(e) {
 			video.play();
@@ -79,7 +85,7 @@ window.addEventListener("load", function() {
 		xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 		save.addEventListener("click", function(e) {
 			save.disabled = true;
-			xhttp.send('saveButton=true&publication='+ pub.value +'&pictureData='+data);
+			xhttp.send('loggedin=true&saveButton=true&publication='+ pub.value +'&pictureData='+data);
 			e.preventDefault();
 		});
 		xhttp.onreadystatechange = function() {
@@ -94,7 +100,7 @@ window.addEventListener("load", function() {
 					setTimeout(function () {
 						div.remove();
 					}, 5000);
-					postsContainer.innerHTML = xhttp.responseText.replace('All good\n', '');
+					postsContainer.innerHTML = xhttp.responseText.replace('All good', '');
 					retake_pic();
 				}
 			}

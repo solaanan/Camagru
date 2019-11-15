@@ -11,6 +11,7 @@
 	<link rel="stylesheet" href="/camagru/assets/css/gallery.css">
 	<link rel="stylesheet" href="/camagru/assets/css/animations.css">
 	<script src="/camagru/assets/js/gallery.js"></script>
+	<script src="/camagru/assets/js/deleteHandlerInGallery.js"></script>
 	<title>Camagru - Gallery</title>
 </head>
 <body id='body'>
@@ -31,7 +32,7 @@
 		</div>
 	</div>
 	<div class="alert-container" id="alert-container">
-		<div class="container">
+		<div class="container" id="alert-body">
 			<div class="alert-card jumbotron text-center m-auto">
 				<h1 class="text-break">Are you sure ?</h1>
 				<hr>
