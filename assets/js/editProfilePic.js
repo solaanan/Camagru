@@ -28,11 +28,11 @@ window.addEventListener('load', function() {
 			if (size >= 1 && size < 8000000) {
 				img.src = URL.createObjectURL(file);
 				img.onload = function() {
-					clearData();
+					// clearData();
 					var context = canvas.getContext("2d");
 					canvas.width = img.width;
-					context.drawImage(img, 0, 0, canvas.width, canvas.height);
 					canvas.height = img.height;
+					context.drawImage(img, 0, 0, canvas.width, canvas.height);
 					data = canvas.toDataURL();
 					console.log(data);
 					xhttp.open("POST", "/camagru/includes/handlers/edit-handler.php", true);

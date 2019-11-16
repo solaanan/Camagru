@@ -112,8 +112,13 @@
 		}
 
 		private function insertNewProfilePic($un, $path) {
-			$query = "UPDATE users SET profilePic = :newPath WHERE username = :username";
+			try{
+
+			} catch (PDOException $e) {
+				
+			}
 			try {
+				$query = "UPDATE users SET profilePic = :newPath WHERE username = :username";
 				$stmt = $this->pdo->prepare($query);
 				$stmt->bindValue(":newPath", $path);
 				$stmt->bindValue(":username", $un);

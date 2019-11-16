@@ -11,14 +11,14 @@
 .inputt {
   margin: 20px auto;
   border: 0;
-  background-color: #272e4d;
+  background-color: #272f5100;
   color: white;
   border-bottom: 1px solid;
 }
 
 .inputt:focus {
   border: 0;
-  background-color: #384064;
+  background-color: #272f5100;
   color: white;
   border-bottom: 1px solid;
   outline: none !important;
@@ -27,7 +27,7 @@
 }
 
 .inputt::placeholder {
-  color: white;
+  color: rgba(255, 255, 255, 0.658);
 }
 
 .errorMessage {

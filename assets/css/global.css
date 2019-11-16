@@ -42,6 +42,8 @@ body
 
 .profilepic {
 	clip-path: circle(15px at center);
+	-webkit-clip-path: circle(15px at center);
+	-moz-clip-path: circle(15px at center);
 }
 
 .logout {

@@ -74,8 +74,39 @@
 				<img class="like" src="/camagru/assets/images/like-'. $isliked .'.png" width="33" height="30" alt="like">'. '<span class="likeCounter">' . $this->likeCounter($post_id) . '</span>' .'
 				<img class="comment" src="/camagru/assets/images/comment.png" width="33" height="30" alt="comment">
 				<img src="/camagru/assets/images/share.png" width="33" height="30" alt="share">
+				<div class="commentsContiner" id="commentsContainer">'
+				. $this->putComments($post_id)  .
+				'</div>
 			</div>
 			';
+		}
+
+		public function			putComments($post_id) {
+			try {
+				$query = 'SELECT comment_id, post_id, user_id, comment_body, username, profilePic FROM comments JOIN users ON users.id=comments.user_id WHERE post_id=:post_id';
+				$stmt = $this->pdo->prepare($query);
+				$stmt->bindValue(':post_id', $post_id);
+				$stmt->execute();
+				if ($stmt === false)
+					die ('There was a problem communicating with the databases');
+			} catch (PDOException $e) {
+				die ('There was a problem communicating with the databases ' . $e);
+			}
+			$array = $stmt->fetchAll();
+			foreach($array as $arr) {
+				$commentId = $arr['comment_id'];
+				$username = $arr['username'];
+				$profilePic = $arr['profilePic'];
+				$commentBody = $arr['comment_body'];
+				echo '<div class="media" id="comment_'. $commentId .'">
+						<img class="profilepic" src="'. $profilePic .'" class="mr-3" alt="'. $username .'" width="30" height="30" >
+						<div class="media-body comment-body">
+							<h5 class="mt-0 comment-head">'. $username .'</h5>
+							'. $commentBody .'
+						</div>
+					</div>
+				</div>';
+			}
 		}
 		
 		public function			deletePost($post_id) {
