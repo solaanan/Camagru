@@ -2,18 +2,10 @@ window.addEventListener('load', function() {
 	var xhttp = new XMLHttpRequest();
 	var input = document.getElementById("newPicture");
 	var canvas = document.getElementById("canvas");
-	var pdp = document.getElementById("pdp");
 	var pdp2 = document.getElementById("imgNavbar");
+	var absoluteDiv = document.getElementById("absoluteDiv");
 	var spinner = document.getElementById("spinner");
 	var data = "";
-
-	function clearData() {
-		var context = canvas.getContext('2d');
-		context.fillStyle = "#000";
-		context.fillRect(0, 0, 1920, 1080);
-
-		var data = canvas.toDataURL('image/png');
-	}
 
 	input.onchange = function() {
 		var errors = document.querySelectorAll(".errorMessage");
@@ -28,13 +20,11 @@ window.addEventListener('load', function() {
 			if (size >= 1 && size < 8000000) {
 				img.src = URL.createObjectURL(file);
 				img.onload = function() {
-					// clearData();
 					var context = canvas.getContext("2d");
 					canvas.width = img.width;
 					canvas.height = img.height;
 					context.drawImage(img, 0, 0, canvas.width, canvas.height);
 					data = canvas.toDataURL();
-					console.log(data);
 					xhttp.open("POST", "/camagru/includes/handlers/edit-handler.php", true);
 					xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 					xhttp.send("newPicture="+data);
@@ -59,8 +49,8 @@ window.addEventListener('load', function() {
 				spinner.style.display = "none";
 				if (this.readyState == 4 && this.status == 200) {
 					if (xhttp.responseText === "All good") {
-						pdp.setAttribute("src", data);
 						pdp2.setAttribute("src", data);
+						absoluteDiv.style.backgroundImage = "url('"+data+"'";
 						var div = document.createElement("div");
 						div.setAttribute("class", "alert alert-success message");
 						div.setAttribute("id", "message");

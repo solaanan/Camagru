@@ -16,7 +16,6 @@ window.addEventListener('load', function() {
 		});
 		if (this.files && this.files[0]) {
 			var file = this.files[0];
-			console.log(file.size);
 			if (file.size >= 1 && file.size < 8000000){
 				var img = new Image();
 				img.src = URL.createObjectURL(file);

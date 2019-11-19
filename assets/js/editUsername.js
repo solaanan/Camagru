@@ -34,9 +34,9 @@ window.addEventListener("load", function() {
 				}
 				else
 				{
-					botona.className += " shake";
+					username.className += " shake";
 					setTimeout(function () {
-						botona.className = "btn btn-primary botona"
+						username.className = "form-control form-control-lg inputt"
 					}, 1000);
 					username.style.border = "1px solid red";
 					var array = xhttp.responseText.split('\n');

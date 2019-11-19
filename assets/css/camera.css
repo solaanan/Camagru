@@ -63,9 +63,10 @@ h1 {
 	resize: none;
 }
 
-.post {
+.postImg {
 	width: 100%;
 	height: auto;
+	border-radius: 10px;
 }
 
 #spinner {

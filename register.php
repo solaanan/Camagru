@@ -39,6 +39,7 @@
 				<input name="registerPassword" class="form-control form-control-lg inputt" type="password" placeholder="Password" required>
 				<input name="registerPassword2" class="form-control form-control-lg inputt" type="password" placeholder="Re-type Password" required>
 				<button name="registerButton" type="submit" class="btn-lg login-btn botona">Sign Up</button>
+				<span class="text-break" style="font-size:15px"> or <a href="/camagru/login">Login</a> if you alreay have an account.</span>
 			</form>
 		  </div>
 	</div>

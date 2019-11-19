@@ -18,18 +18,18 @@
 
 <script src="/camagru/assets/js/responsiveNavbar.js"></script>
 <div class="topnav" id="navbarElements">
-	<a class="navbar-brand" href="/camagru/index.php">
+	<a class="navbar-brand click" href="/camagru/index.php">
 		<img src="/Camagru/assets/images/logo.svg" width="30" height="30" class="d-inline-block align-top" alt="">
 		<span id="brand"> Camagru </span>
 	</a>
 	<?php
 		if (isset($_SESSION['userLoggedIn'])) {
 		echo '
-		<a class="" href="/Camagru/logout.php">
+		<a class="click" href="/Camagru/logout.php">
 			<img class="logout" src="/Camagru/assets/images/logout.png" width="25" height="25" class="d-inline-block align-top" alt="">
 			<span class="text"> Log out </span>
 		</a>
-		<a class="" href="/Camagru/profile.php" id="">
+		<a class="click" href="/Camagru/profile.php" id="">
 			<img id="imgNavbar" class="profilepic" src="'. $picPath .'" width="30" height="30" class="d-inline-block align-top" alt="">
 			<span class="text" id="userLoggedIn">'. $username .'</span>
 		</a>

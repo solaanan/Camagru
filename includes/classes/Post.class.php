@@ -5,11 +5,13 @@
 	class Post extends Like {
 		private		$pdo;
 		private		$errorArray;
+		public		$username;
 
 		public function		__construct($pdo) {
 			parent::__construct($pdo);
 			$this->pdo = $pdo;
 			$this->errorArray = array();
+			$this->username = $_SESSION['userLoggedIn'];
 		}
 
 		public function	post($un, $pub, $base64) {
@@ -26,12 +28,12 @@
 					$stmt = $this->pdo->prepare($query);
 					$stmt->bindValue(':username', $un);
 					$stmt->execute();
+					if ($stmt === false)
+						return false;
 				} catch (PDOException $e) {
-					die('An error occured communicating with the databases: ' . $e);
+					die(Constants::$databasesProblem . $e);
 					return false;
 				}
-				if ($stmt === false)
-					return false;
 				$id = $stmt->fetch()['id'];
 				try {
 					$query = "INSERT INTO posts (`user_id`, picture, publication, dateOfPub) VALUES (:id_user, :picture, :publication, NOW())";
@@ -40,12 +42,12 @@
 					$stmt->bindValue(':picture', $picture);
 					$stmt->bindValue(':publication', $pub);
 					$stmt->execute();
+					if ($stmt === false)
+						return false;
 				} catch (PDOException $e) {
-					die('An error occured communicating with the databases: ' . $e);
+					die(Constants::$databasesProblem . $e);
 					return false;
 				}
-				if ($stmt === false)
-					return false;
 				return true;
 			}
 			return false;
@@ -55,30 +57,111 @@
 			$username = $array['username'];
 			$profilePic = $array['profilePic'];
 			$picture = $array['picture'];
+
+			$date = $array['signUpDate'];
+			$today = date('Y-m-d');
+			$diff = abs(strtotime($today) - strtotime($date));
+			$years = floor($diff / (365*60*60*24));
+			$months = floor(($diff - $years * 365*60*60*24) / (30*60*60*24));
+			$days = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24)/ (60*60*24));
+
 			$publication = str_replace("\n", "<br>", $array['publication']);
 			$post_id = $array['post_id'];
 			$isliked = $this->likeChecker($post_id) ? '1' : '0';
 			echo '
 			<div class="jumbotron py-3 px-3 mx-auto post" id="post_'. $post_id .'">
-				<a class="text-decoration-none text-reset" href="/camagru/profile?username='. $username .'">
+				<a class="text-decoration-none text-reset click" href="/camagru/profile?username='. $username .'">
 					<img class="profilepic" src="'. $profilePic .'" width="30" height="30" class="d-inline-block align-top" alt="">
-					<span class="text">'. $username .'<span class="badge badge-secondary new-badge">New</span></span>
-				</a>';
+					<span class="text">'. $username .'</span>';
+				if ($days < 7)
+					echo '<span class="badge badge-secondary new-badge">New</span>';
+				echo '</a>';
 				if ($username === $_SESSION['userLoggedIn'])
-					echo '<img src="/camagru/assets/images/delete.png" class="delete float-right my-auto" width="20" height="20" alt="delete">';
+					echo '<img id="delete_'. $post_id .'" src="/camagru/assets/images/delete.png" class="delete float-right my-auto" width="20" height="20" alt="delete">';
 				echo '<hr class="separator">';
 				if ($publication !== '')
 				echo ' <p class="text-break">'. $publication .'</p>';
-				echo '<img class="post" src="'. $picture .'" alt="">
+				echo '<div class="heartContainer" id="heart_'. $post_id .'"></div>';
+				echo '<img class="postImg" src="'. $picture .'">
 				<hr class="separator">
-				<img class="like" src="/camagru/assets/images/like-'. $isliked .'.png" width="33" height="30" alt="like">'. '<span class="likeCounter">' . $this->likeCounter($post_id) . '</span>' .'
-				<img class="comment" src="/camagru/assets/images/comment.png" width="33" height="30" alt="comment">
-				<img src="/camagru/assets/images/share.png" width="33" height="30" alt="share">
-				<div class="commentsContiner" id="commentsContainer">'
-				. $this->putComments($post_id)  .
-				'</div>
-			</div>
+				<img class="like" id="like_'. $post_id .'" src="/camagru/assets/images/like-'. $isliked .'.png" width="33" height="30" alt="like">'. '<span class="likeCounter">' . $this->likeCounter($post_id) . '</span>' .'
+				<img class="comment click" src="/camagru/assets/images/comment_0.png" width="33" height="30" alt="comment">' . '<span id="commentsCounter_'. $post_id .'" class="likeCounter">' . $this->commentCounter($post_id) . '</span>' .
+				'<img class="share click" src="/camagru/assets/images/share.png" width="33" height="30" alt="share">
+				<div class="commentsContainer" id="commentsContainer_'. $post_id .'">
+				<form class="commentForm" id="commentForm" method="POST" action="gallery">
+					<div class="input-group mb-3">
+						<textarea id="newComment_'. $post_id .'" type="text" class="form-control inpot" placeholder="Write a comment"></textarea>
+						<div class="input-group-append">
+							<button class="btn btn-outline-secondary comantir click" type="button" id="newCommentButton_'. $post_id .'" name="newCommentButton">Send</button>
+						</div>
+					</div>
+				</form>
+				';
+				$this->putComments($post_id);
+				if ((int)$this->commentCounter($post_id) > 2)
+					echo '
+					<a class="showMore" id="show_'. $post_id .'"> Show more </a>
+					';
+				echo'
+				</div>
+				</div>';
+		}
+
+		public function			insertNewComment($comment, $post_id) {
+			if (isset($comment) && $comment !== '') {
+				try {
+					$query = "SELECT * FROM users WHERE username=:username";
+					$stmt = $this->pdo->prepare($query);
+					$stmt->bindValue(':username', $this->username);
+					$stmt->execute();
+					if ($stmt === false)
+						return false;
+				} catch (PDOException $e) {
+					die(Constants::$databasesProblem . $e);
+				}
+				$userData = $stmt->fetch();
+				try {
+					$query = 'INSERT INTO comments (post_id, `user_id`, comment_body, dateOfCom) VALUES (:post_id, :user_id, :comment_body, NOW())';
+					$stmt = $this->pdo->prepare($query);
+					$stmt->bindValue(':post_id', $post_id);
+					$stmt->bindValue(':user_id', $userData['id']);
+					$stmt->bindValue(':comment_body', $comment);
+					$stmt->execute();
+					if ($stmt === false)
+						return false;
+				} catch (PDOException $e) {
+					die (Constants::$databasesProblem . $e);
+				}
+			} else {
+				return false;
+			}
+			try {
+				$query = 'SELECT comment_id FROM comments WHERE post_id=:post_id AND `user_id`=:user_id AND comment_body=:comment_body';
+				$stmt = $this->pdo->prepare($query);
+				$stmt->bindValue(':post_id', $post_id);
+				$stmt->bindValue(':user_id', $userData['id']);
+				$stmt->bindValue(':comment_body', $comment);
+				$stmt->execute();
+				if ($stmt === false)
+					return false;
+			} catch (PDOEXception $e) {
+				die (Constants::$databasesProblem . $e);
+			}
+			$newCommentId = $stmt->fetch()['comment_id'];
+			$comment = str_replace("\n", '<br>', $comment);
+			$ret = '
+				<div class="media commentt" id="comment_'. $newCommentId .'">
+					<a class="text-decoration-none text-reset" href="/camagru/profile?username='. $this->username .'">
+						<img class="profilepic d-inline-block align-top" src="'. $userData['profilePic'] .'" width="30" height="30" alt="">
+					</a>
+					<div class="media-body comment-body">'
+					. '<img id="delCom_'. $newCommentId .'" src="/camagru/assets/images/delete.png" class="deleteComment float-right my-auto" width="10" height="10" alt="delete">'
+					. '<span class="text mt-0 comment-head">'. $this->username .'</span>
+						<br><span class="text text-break comment-text d-block">'. $comment .'</span>
+					</div>
+				</div>
 			';
+			return $ret;
 		}
 
 		public function			putComments($post_id) {
@@ -88,39 +171,77 @@
 				$stmt->bindValue(':post_id', $post_id);
 				$stmt->execute();
 				if ($stmt === false)
-					die ('There was a problem communicating with the databases');
+					return false;
 			} catch (PDOException $e) {
-				die ('There was a problem communicating with the databases ' . $e);
+				die (Constants::$databasesProblem . $e);
 			}
 			$array = $stmt->fetchAll();
+			$username = '';
 			foreach($array as $arr) {
 				$commentId = $arr['comment_id'];
-				$username = $arr['username'];
 				$profilePic = $arr['profilePic'];
 				$commentBody = $arr['comment_body'];
-				echo '<div class="media" id="comment_'. $commentId .'">
-						<img class="profilepic" src="'. $profilePic .'" class="mr-3" alt="'. $username .'" width="30" height="30" >
-						<div class="media-body comment-body">
-							<h5 class="mt-0 comment-head">'. $username .'</h5>
-							'. $commentBody .'
-						</div>
+				$username = $arr['username'];
+				echo '
+				<div class="media commentt" id="comment_'. $commentId .'">
+					<a class="text-decoration-none text-reset" href="/camagru/profile?username='. $username .'">
+						<img class="profilepic" src="'. $profilePic .'" width="30" height="30" class="d-inline-block align-top" alt="">
+					</a>
+					<div class="media-body comment-body">';
+					if ($username === $this->username)
+						echo '<img id="delCom_'. $commentId .'" src="/camagru/assets/images/delete.png" class="deleteComment float-right my-auto" width="10" height="10" alt="delete">';
+					echo	'<span class="text mt-0 comment-head">'. $username .'</span>
+						<br><span class="text text-break comment-text d-block">'. $commentBody .'</span>
 					</div>
 				</div>';
 			}
 		}
+
+		public function		commentCounter($post_id) {
+			try {
+				$query = 'SELECT COUNT(*) AS `counter` FROM comments WHERE post_id=:post_id';
+				$stmt = $this->pdo->prepare($query);
+				$stmt->bindValue(':post_id', $post_id);
+				$stmt->execute();
+				if ($stmt === false)
+					return false;
+			} catch (PDOException $e) {
+				die(Constants::$databasesProblem . $e);
+			}
+			$array = $stmt->fetch();
+			if ($array['counter'] === '0')
+				return '';
+			return ($array['counter']);
+		}
 		
+
+		public function			deleteComment($postId, $commentId) {
+			try {
+				$query = 'DELETE FROM comments WHERE post_id=:post_id AND comment_id=:comment_id AND `user_id` IN (SELECT id FROM users WHERE username=:username)';
+				$stmt = $this->pdo->prepare($query);
+				$stmt->bindValue(':post_id', $postId);
+				$stmt->bindValue(':comment_id', $commentId);
+				$stmt->bindValue(':username', $this->username);
+				$stmt->execute();
+				if ($stmt === false)
+					return false;
+			} catch (PDOExeption $e) {
+				die(Constants::$databasesProblem . $e);
+			}
+			return true;
+		}
+
 		public function			deletePost($post_id) {
-			$username = $_SESSION['userLoggedIn'];
 			try {
 				$query = "SELECT * FROM posts WHERE post_id=:post_id AND `user_id` IN (SELECT id FROM users WHERE username=:username)";
 				$stmt = $this->pdo->prepare($query);
 				$stmt->bindValue(':post_id', $post_id);
-				$stmt->bindValue(':username', $username);
+				$stmt->bindValue(':username', $this->username);
 				$stmt->execute();
 				if ($stmt === false)
-					die('There was an error communicating with the databases.');
+					return false;
 			} catch (PDOException $e) {
-				die('There was an error communicating with the databases: $e');
+				die(Constants::$databasesProblem . $e);
 			}
 			$path = $stmt->fetch()['picture'];
 			unlink(str_replace('/camagru', '../..', $path));
@@ -128,12 +249,12 @@
 				$query = "DELETE FROM posts WHERE post_id=:post_id AND `user_id` IN (SELECT id FROM users WHERE username=:username)";
 				$stmt = $this->pdo->prepare($query);
 				$stmt->bindValue(':post_id', $post_id);
-				$stmt->bindValue(':username', $username);
+				$stmt->bindValue(':username', $this->username);
 				$stmt->execute();
 				if ($stmt === false)
-					die('There was an error communicating with the databases.');
+					return false;
 			} catch (PDOException $e) {
-				die('There was an error communicating with the databases: $e');
+				die(Constants::$databasesProblem . $e);
 			}
 			return(true);
 		}

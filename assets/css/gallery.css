@@ -1,7 +1,6 @@
 html, body {
 	width: 100%;
 	height: 100%;
-	/* overflow: hidden; */
 }
 .jumbotron {
 	background-color: #272f51;
@@ -18,18 +17,14 @@ html, body {
 	background: white;
 }
 
-.post {
-	width: 100%;
-	border-radius: 10px;
-}
-
 .new-badge {
 	background: #191e36;
 }
 
-.post {
+.postImg {
 	width: 100%;
 	height: auto;
+	border-radius: 10px;
 	/* clip-path: inset(10px 20px 30px 40px); */
 }
 
@@ -54,6 +49,13 @@ html, body {
 
 .comment {
 	margin-left: 10px;
+	cursor: pointer;
+	margin-right: 5px;
+}
+
+.share {
+	margin-left: 10px;
+	cursor: pointer;
 }
 
 #alert-container {
@@ -74,6 +76,97 @@ html, body {
 
 .delete {
 	cursor: pointer;
+	display: none;
 }
 
-.co
+.commentt {
+	margin: 0;
+	margin-top: 10px;
+}
+
+.comment-text {
+	background: #191e36;
+	padding: 10px;
+	padding-left: 20px;
+	border-radius: 10px;
+}
+
+.deleteComment {
+	display: none;
+	cursor: pointer;
+}
+
+.commentsContainer {
+	display: none;
+	border-radius: 10px;
+	margin-top: 10px;
+}
+
+.commentForm {
+	display: block;
+	width: 100%;
+}
+
+.inpot {
+	height: 45px;
+	width: auto;
+	border-radius: 10px;
+	padding: 10px;
+	padding-left: 20px;
+	margin-top: 20px;
+	border: 1px solid white;
+	outline: none !important;
+	box-shadow: none;
+	color: #272f51;
+	background-color: white;
+	box-sizing: 0;
+	overflow: hidden;
+	resize: none;
+}
+
+.inpot:focus {
+	background-color: white;
+	border-style: solid;
+	border-width: 1px 0px 1px 1px;
+	outline: none !important;
+	box-shadow: none;
+	color: #272f51;
+}
+
+.comantir {
+	margin-top: 20px;
+	background: #191f3a;
+	color: white;
+	border: 0;
+	z-index: 0 !important;
+}
+
+.comantir:hover {
+	background: #5765a5;
+}
+
+.comantir:active {
+	background: #191f3a !important;
+}
+
+.showMore {
+	text-align: center;
+	cursor: pointer;
+	margin: auto;
+	display: block;
+	width: 100%;
+	margin-top: 10px;
+	text-decoration: underline !important;
+}
+
+.showMore:hover {
+	color: #5765a5 !important;
+}
+
+.heartContainer {
+	margin: 0;
+	padding: 0;
+	width: 0px;
+	height: 0px;
+	position: relative;
+}

@@ -19,13 +19,11 @@ window.addEventListener("load", function() {
 				//old version
 				video.src = window.URL.createObjectURL(mediaStream);
 			}
-			// video.srcObject = mediaStream;
 			stream = mediaStream;
 			video.onloadedmetadata = function(e) {
 			video.play();
 		};
 		}).catch(function (err) {
-			// console.log("Erreur: " + err);
 		})
 	}
 

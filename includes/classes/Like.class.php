@@ -37,6 +37,8 @@
 				die('There was an error communicating with the databases: ' . $e);
 			}
 			$array = $stmt->fetch();
+			if ($array['counter'] === '0')
+				return '';
 			return ($array['counter']);
 		}
 

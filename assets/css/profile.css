@@ -5,31 +5,22 @@
 }
 
 .absolute-div {
-	position: inherit;
 	height: 150px;
-	width: 100%;
-}
+	min-height: 150px !important;
+	width: 150px;
+	margin: auto;
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center;
+	clip-path: circle(70px at center);
 
-.pdp-container {
-	width: 100%;
-	clip-path: circle(75px at center);
-	-webkit-clip-path: circle(75px at center);
-	-moz-clip-path: circle(75px at center);
-}
-
-.pdp {
-	position: relative;
-	left: 77px;
-	z-index: 1;
 }
 
 .update {
-	position: relative;
-	left: -77px;
-	z-index: 2;
-	/* display: none; */
-	opacity: 0;
+	height: 150px;
+	width: auto;
 	cursor: pointer;
+	opacity: 0;
 }
 
 .info {
@@ -75,23 +66,6 @@
 .botona {
 	margin: auto;
 	margin-top: 50px;
-}
-
-@media screen and (max-width: 420px) {
-	.pdp {
-		position: unset;
-	}
-	.update {
-		position: unset;
-		display: none;
-	}
-	.pdp-container:hover .pdp {
-		display: none;
-	}
-	.pdp-container:hover .update {
-		margin: auto;
-		display: block;
-	}
 }
 
 #newPicture, #canvas, #spinner {

@@ -31,7 +31,8 @@
 				<?php echo $account->getError(Constants::$loginFailed); ?>
 				<input name="loginUsername" class="form-control form-control-lg inputt" type="text" placeholder="Username" required>
 				<input name="loginPassword" class="form-control form-control-lg inputt" type="password" placeholder="Password" required>
-				<button name ="loginButton" type="submit" class="btn login-btn btn-lg botona">Login</button>
+				<button name ="loginButton" type="submit" class="login-btn btn-lg botona">Login</button>
+				<span class="text-break" style="font-size:15px"> or <a href="/camagru/register">Register</a> if you still don't have an account.</span>
 			</form>
 		  </div>
 	</div>

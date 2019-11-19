@@ -113,10 +113,18 @@
 
 		private function insertNewProfilePic($un, $path) {
 			try{
-
+				$query = 'SELECT profilePic FROM users WHERE username=:username';
+				$stmt = $this->pdo->prepare($query);
+				$stmt->bindValue(':username', $un);
+				$stmt->execute();
+				if ($stmt === false)
+					return false;
 			} catch (PDOException $e) {
-				
+				return false;				
 			}
+			$existant = $stmt->fetch()['profilePic'];
+			$existant = str_replace('/camagru'.'/', '', $existant);
+			unlink('../../' . $existant);
 			try {
 				$query = "UPDATE users SET profilePic = :newPath WHERE username = :username";
 				$stmt = $this->pdo->prepare($query);
@@ -248,7 +256,7 @@
 			$name = "assets/images/profilePics/" . uniqid("IMG_PP_" . $_SESSION['userLoggedIn'] . "_") . ".png";
 			file_put_contents("../../" . $name, $data);
 			if (getimagesize("../../" . $name)) {
-				if (filesize("../../" . $name) > 2000000 || filesize("../../" . $name) < 1) {
+				if (filesize("../../" . $name) > 8000000 || filesize("../../" . $name) < 1) {
 					array_push($this->errorArray, Constants::$imageTooBig);
 					unlink("../../" . $name);
 					return false;

@@ -2,6 +2,8 @@
 	margin: 0;
 	padding: 0;
 	outline: 0;
+	box-shadow: none !important;
+	color: white;
 }
 
 .botona:disabled {
@@ -74,13 +76,18 @@ body
 	background-size: 300px 1px;
 	background-position: left;
 	color: white;
-	transition: 0.5s ease-in-out;
+	transition: all 0.5s ease-in-out;
 }
 
 .botona:not(:disabled):hover {
 	color: white;
 	background-position: -150px;
 	box-shadow: 0 5px 15px rgba(1, 5, 26, 0.4);
+}
+
+.botona:not(:disabled):active {
+	background-position: +150px;
+	transition-duration: 100ms;
 }
 
 hr {
@@ -141,4 +148,18 @@ hr {
 	margin-bottom: 50px;
 	text-align: left;;
 	display: block;
+}
+
+.goback:hover {
+	animation-name: back;
+	animation-duration: 0.5s;
+}
+
+@keyframes back {
+	60% {
+		transform: translateX(-4px);
+	}
+	80% {
+		transform: translateX(2px);
+	}
 }

@@ -37,9 +37,11 @@ window.addEventListener("load", function() {
 				}
 				else
 				{
-					botona.className += " shake";
+					email1.className += " shake";
+					email2.className += " shake";
 					setTimeout(function () {
-						botona.className = "btn btn-primary botona"
+						email1.className = "form-control form-control-lg inputt"
+						email2.className = "form-control form-control-lg inputt"
 					}, 1000);
 					email1.style.border = "1px solid red";
 					email2.style.border = "1px solid red";

@@ -18,4 +18,5 @@
 			public static $imageCannotBeFound = "Please upload a valid image file.";
 			public static $imageTooBig = "Your image is too big.";
 			public static $PublicationTooLong = "Your publication cannot exceed 1000 characters.";
+			public static $databasesProblem = "There was a problem communicating with the databases: ";
 		}

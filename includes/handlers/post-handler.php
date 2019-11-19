@@ -14,6 +14,7 @@
 
 		if ($post->post($un, $pub, $base64)) {
 			echo 'All good';
+			$loggedin = true;
 			include_once('../refresh_posts.php');
 		} else
 			$post->getErrors();
