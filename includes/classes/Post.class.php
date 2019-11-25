@@ -68,6 +68,19 @@
 			$publication = str_replace("\n", "<br>", $array['publication']);
 			$post_id = $array['post_id'];
 			$isliked = $this->likeChecker($post_id) ? '1' : '0';
+			try {
+				$query = 'SELECT username FROM likes INNER JOIN users ON users.id=likes.id_user WHERE id_post=:id_post';
+				$stmt = $this->pdo->prepare($query);
+				$stmt->bindValue(':id_post', $post_id);
+				$stmt->execute();
+			} catch (PDOException $e) {
+				die('There was an error communicating with the databases: ' . $e);
+			}
+			$arr = $stmt->fetchAll(PDO::FETCH_ASSOC);
+			if ($arr)
+				foreach($arr as $user) {
+					$tooltip .= $user['username'] . '<br>';
+				}
 			echo '
 			<div class="jumbotron py-3 px-3 mx-auto post" id="post_'. $post_id .'">
 				<a class="text-decoration-none text-reset click" href="/camagru/profile?username='. $username .'">
@@ -84,6 +97,10 @@
 				echo '<div class="heartContainer" id="heart_'. $post_id .'"></div>';
 				echo '<img class="postImg" src="'. $picture .'">
 				<hr class="separator">
+				<div class="tooltip-holder">';
+				if ($tooltip)
+					echo '<span id="tooltip_'. $post_id .'" class="tooltipp">'. $tooltip .'</span>';
+				echo '</div>
 				<img class="like" id="like_'. $post_id .'" src="/camagru/assets/images/like-'. $isliked .'.png" width="33" height="30" alt="like">'. '<span class="likeCounter">' . $this->likeCounter($post_id) . '</span>' .'
 				<img class="comment click" src="/camagru/assets/images/comment_0.png" width="33" height="30" alt="comment">' . '<span id="commentsCounter_'. $post_id .'" class="likeCounter">' . $this->commentCounter($post_id) . '</span>' .
 				'<img class="share click" src="/camagru/assets/images/share.png" width="33" height="30" alt="share">

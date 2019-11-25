@@ -28,10 +28,10 @@
 <head>
 	<?php include_once("includes/links.php") ?>
 	<title>Camagru - Take a new photo</title>
-	<link rel="stylesheet" href="/camagru/assets/css/login.css">
+	<link rel="stylesheet" href="/camagru/assets/css/animations.css">
 	<link rel="stylesheet" href="/camagru/assets/css/camera.css">
-	<script src="/camagru/assets/js/camera.js"></script>
-	<script src="/camagru/assets/js/deleteHandlerInPersonal.js"></script>
+	<link rel="stylesheet" href="/camagru/assets/css/gallery.css">
+	<script src="/camagru/assets/js/postManagement.js"></script>
 </head>
 <body id="body">
 	<?php include_once("includes/navbar.php") ?>
@@ -63,7 +63,7 @@
 				</div>
 			</div>
 			<div class="col-xs-1 col-md-1"></div>
-			<div class="colona col-xs-6 col-md-4">
+			<div class="colona posts col-xs-6 col-md-4">
 				<h1 class="h2 text-break">Your recent posts:</h1>
 				<div id="postsContainer">
 					<?php $loggedin = true; include_once('includes/refresh_posts.php') ?>

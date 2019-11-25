@@ -10,10 +10,10 @@
 <html lang="en">
 <head>
 	<?php include_once('includes/links.php'); ?>
-	<link rel="stylesheet" href="/camagru/assets/css/gallery.css">
+	<link rel="stylesheet" href="/camagru/assets/css/animations.css">
 	<link rel="stylesheet" href="/camagru/assets/css/camera.css">
-	<script src="/camagru/assets/js/imageUploader.js"></script>
-	<script src="/camagru/assets/js/deleteHandlerInPersonal.js"></script>
+	<link rel="stylesheet" href="/camagru/assets/css/gallery.css">
+	<script src="/camagru/assets/js/postManagement.js"></script>
 	<title>Camagru - Upload a new Image</title>
 </head>
 <body id='body'>

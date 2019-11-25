@@ -11,9 +11,7 @@
 	<link rel="stylesheet" href="/camagru/assets/css/login.css">
 	<link rel="stylesheet" href="/camagru/assets/css/gallery.css">
 	<link rel="stylesheet" href="/camagru/assets/css/animations.css">
-	<script src="/camagru/assets/js/gallery.js"></script>
-	<script src="/camagru/assets/js/deleteHandlerInGallery.js"></script>
-	<script src="/camagru/assets/js/comments.js"></script>
+	<script src="/camagru/assets/js/postManagement.js"></script>
 	<title>Camagru - Gallery</title>
 </head>
 <body id='body'>

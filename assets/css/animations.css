@@ -41,6 +41,29 @@
 	}
 }
 
+.heartbeat2 {
+	animation-name: heartbeat2;
+	animation-duration: 1s;
+}
+
+@keyframes heartbeat2 {
+	0% {
+		transform: scale( 0 );
+	}
+	20% {
+		transform: scale( 1.5 );
+	}
+	30% {
+		transform: scale( 1 );
+	}
+	80% {
+		transform: scale( 1 );
+	}
+	100% {
+		transform: scale( 0 );
+	}
+}
+
 .click:active, .click:focus {
 	animation-name: click;
 	animation-duration: 0.2s;

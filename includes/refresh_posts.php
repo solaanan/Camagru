@@ -11,7 +11,6 @@
 		$subquery = 'WHERE username=:username';
 	try {
 		$query = "SELECT username, profilePic, picture, publication, post_id, signUpDate FROM users INNER JOIN posts ON users.id = posts.user_id " . $subquery . " ORDER BY dateOfPub DESC";
-		// die($query);
 		$stmt = $pdo->prepare($query);
 		$stmt->bindValue(':username', $_SESSION['userLoggedIn']);
 		$stmt->execute();

@@ -124,7 +124,8 @@
 			}
 			$existant = $stmt->fetch()['profilePic'];
 			$existant = str_replace('/camagru'.'/', '', $existant);
-			unlink('../../' . $existant);
+			if ($existant !== 'assets/images/profilePics/default.png')
+				unlink('../../' . $existant);
 			try {
 				$query = "UPDATE users SET profilePic = :newPath WHERE username = :username";
 				$stmt = $this->pdo->prepare($query);

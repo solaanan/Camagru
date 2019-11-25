@@ -37,6 +37,15 @@
 		}
 	}
 
+	if (isset($_POST['doubleHitLike'])) {
+		$post_id = $_POST['doubleHitLike'];
+		if (!$post->likeChecker($post_id)) {
+			if (!$post->like($post_id))
+				echo 'nah';
+		}
+		echo 'All good';
+	}
+
 	if (isset($_POST['picture']) && isset($_POST['publication'])) {
 		$base64 = $_POST['picture'];
 		$pub = $_POST['publication'];

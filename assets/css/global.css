@@ -163,3 +163,24 @@ hr {
 		transform: translateX(2px);
 	}
 }
+
+/* width */
+::-webkit-scrollbar {
+	width: 10px;
+	border-radius: 20px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+	background: #f1f1f100; 
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+background: #212b5f;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+	background: #343e70;
+  }
