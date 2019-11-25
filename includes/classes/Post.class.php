@@ -77,6 +77,7 @@
 				die('There was an error communicating with the databases: ' . $e);
 			}
 			$arr = $stmt->fetchAll(PDO::FETCH_ASSOC);
+			$tooltip = NULL;
 			if ($arr)
 				foreach($arr as $user) {
 					$tooltip .= $user['username'] . '<br>';

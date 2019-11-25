@@ -2,10 +2,10 @@
 -- version 4.9.1
 -- https://www.phpmyadmin.net/
 --
--- Host: mysql:3306
--- Generation Time: Nov 25, 2019 at 12:54 AM
--- Server version: 5.7.28
--- PHP Version: 7.2.23
+-- Host: 127.0.0.1
+-- Generation Time: Nov 25, 2019 at 06:54 AM
+-- Server version: 10.4.8-MariaDB
+-- PHP Version: 7.3.11
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `Camagru`
+-- Database: `camagrumac`
 --
 
 -- --------------------------------------------------------
@@ -87,7 +87,8 @@ INSERT INTO `likes` (`like_id`, `id_post`, `id_user`) VALUES
 (139, 14, 13),
 (141, 42, 13),
 (142, 41, 13),
-(146, 21, 11);
+(146, 21, 11),
+(159, 52, 11);
 
 -- --------------------------------------------------------
 
@@ -122,6 +123,25 @@ INSERT INTO `posts` (`post_id`, `user_id`, `picture`, `publication`, `dateOfPub`
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `tokens`
+--
+
+CREATE TABLE `tokens` (
+  `token_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `token` varchar(64) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `tokens`
+--
+
+INSERT INTO `tokens` (`token_id`, `user_id`, `token`) VALUES
+(3, 11, 'f8a646b10641bcce70d7bac7641e37e5b1514b0094da1eedf0c647b61b9b6d09');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `users`
 --
 
@@ -140,7 +160,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `email`, `passwd`, `signUpDate`, `profilePic`, `token`) VALUES
-(11, 'slaanani', 'nbj9x2albk@lalala.fun', 'f0d1fa99e699226713c727d370090e769d3fd21f55cc4ae4b480068fe94bad2a58c037f4f3dfd0b721a87264a30b483252b123f11d6fa8102f4c608706e0450f', '2019-11-05', '/camagru/assets/images/profilePics/IMG_PP_slaanani_5dd538c106b66.png', ''),
+(11, 'slaanani', 'slaanani@inbox-me.top', 'f0d1fa99e699226713c727d370090e769d3fd21f55cc4ae4b480068fe94bad2a58c037f4f3dfd0b721a87264a30b483252b123f11d6fa8102f4c608706e0450f', '2019-11-05', '/camagru/assets/images/profilePics/IMG_PP_slaanani_5dd538c106b66.png', ''),
 (13, 'yoouali', 'eldj2lsey9@smart-email.me', '4a6ddbeae96ebf866963b379434fbcb8b27563ae6dfe12b9bacfe3f8162e74f4a02297a2061f85afa508f940a1daac76b7bfeb87ee684fdde796b4b1cf61e2c5', '2019-11-10', '/camagru/assets/images/profilePics/IMG_PP_yoouali_5dd612f41330d.png', ''),
 (14, 'EdgeLord', 'mderri@student.1337.ma', '58d30863d4a57f6c183333349c23ad678ad6503f65e9d19b5c3ecc51db7a36cb7650c460fd293e7feaa33d787f9d3c34b2c900b2de2f81251f245a9e1223e6f1', '2019-11-22', '/camagru/assets/images/profilePics/IMG_PP_EdgeLord_5dd7c4539e8f3.png', ''),
 (15, 'hwayKolchi', 'jayatob299@mytmail.net', '9d4d26dec97ad2a3111359c70f28c09b0db18faecf6bba8fcbed76157b01c4093468a78e058877e195406882d64c4db3624062d991e94e5f7a0ea41c8a537975', '2019-11-22', '/camagru/assets/images/profilePics/IMG_PP_hwayKolchi_5dd8546fd7032.png', '');
@@ -168,6 +188,12 @@ ALTER TABLE `posts`
   ADD PRIMARY KEY (`post_id`);
 
 --
+-- Indexes for table `tokens`
+--
+ALTER TABLE `tokens`
+  ADD PRIMARY KEY (`token_id`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -187,13 +213,19 @@ ALTER TABLE `comments`
 -- AUTO_INCREMENT for table `likes`
 --
 ALTER TABLE `likes`
-  MODIFY `like_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=147;
+  MODIFY `like_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=161;
 
 --
 -- AUTO_INCREMENT for table `posts`
 --
 ALTER TABLE `posts`
-  MODIFY `post_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
+  MODIFY `post_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
+
+--
+-- AUTO_INCREMENT for table `tokens`
+--
+ALTER TABLE `tokens`
+  MODIFY `token_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `users`

@@ -33,9 +33,9 @@
 				<input name="loginPassword" class="form-control form-control-lg inputt" type="password" placeholder="Password" required>
 				<button name ="loginButton" type="submit" class="login-btn btn-lg botona">Login</button>
 				<p class="create text-break" style="font-size:15px"> <a href="/camagru/register">Create a new account</a> if you still don't have an account.</p>
-				<p class="forgot text-break" id="forgot"><a href="#">Reset your password</a> if you have forgotten it.</p>
+				<p class="forgot text-break" id="forgot"><a href="/camagru/resetPassword">Reset your password</a> if you have forgotten it.</p>
 			</form>
-		  </div>
+		</div>
 	</div>
 </body>
 </html>
