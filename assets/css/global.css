@@ -152,8 +152,8 @@ hr {
 
 .goback {
 	margin-bottom: 50px;
-	text-align: left;;
-	display: block;
+	text-align: left;
+	display: inline-block;
 }
 
 .goback:hover {
@@ -196,7 +196,7 @@ hr {
 	position: fixed;
 	top: 0;
 	width: 100%;
-	z-index: 1;
+	z-index: 2;
 }
 
 .smoothing-navbar {

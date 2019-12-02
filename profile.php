@@ -76,14 +76,14 @@
 				<div class="info-container">
 					<span class="info"><?php echo $em; ?></span>
 					<?php
-						if ($_GET['username'] === $_SESSION['userLoggedIn'] || !isset($_GET) || !isset($_GET['username']))
+						if (!isset($_GET) || !isset($_GET['username']) || $_GET['username'] === $_SESSION['userLoggedIn'])
 						echo '<a href="/camagru/editUsername.php" class="edit">
 							<img class="click" src="/camagru/assets/images/edit.png" width="20" height="20" alt="edit">
 						</a>';
 					?>
 				</div>
 				<?php
-					if ($_GET['username'] === $_SESSION['userLoggedIn'] || !isset($_GET) || !isset($_GET['username']))
+					if (!isset($_GET) || !isset($_GET['username']) || $_GET['username'] === $_SESSION['userLoggedIn'])
 						echo '<span class="label">Password:</span>
 						<div class="info-container">
 							<span class="info">****************</span>

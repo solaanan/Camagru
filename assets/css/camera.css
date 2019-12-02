@@ -48,8 +48,6 @@ h1 {
 .preview {
 	width: 100%;
 	height: auto;
-	border: 10px solid #1c2444;
-	border-radius: 10px;
 }
 
 .inputt {
@@ -117,11 +115,13 @@ h1 {
 	visibility: hidden;
 	opacity: 0;
 	transition: visibility 0s, opacity 0.3s linear;
+	z-index: 2;
 }
 
 .previous {
 	float: left;
 	cursor: pointer;
+	opacity: 0.5;
 }
 
 .next {
@@ -137,9 +137,9 @@ h1 {
 
 .sticker {
 	position: absolute;
+	z-index: 1;
 	top: 0;
 	left: 0;
 	width: 100%;
-	z-index: 1;
 	display: none;
 }

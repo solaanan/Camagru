@@ -11,8 +11,9 @@
 		$pub = $_POST['publication'];
 		$base64 = $_POST['pictureData'];
 		$un = $_SESSION['userLoggedIn'];
+		$stickerIndex = $_POST['index'];
 
-		if ($post->post($un, $pub, $base64)) {
+		if ($post->post($un, $pub, $base64, $stickerIndex)) {
 			echo 'All good';
 			$loggedin = true;
 			include_once('../refresh_posts.php');
@@ -49,10 +50,11 @@
 	if (isset($_POST['picture']) && isset($_POST['publication'])) {
 		$base64 = $_POST['picture'];
 		$pub = $_POST['publication'];
+		$index = $_POST['index'];
 		if ($base64 === 'error') {
 			echo Constants::$imageCannotBeFound;
 		} else {
-			if ($post->post($_SESSION['userLoggedIn'], $pub, $base64)) {
+			if ($post->post($_SESSION['userLoggedIn'], $pub, $base64, $index)) {
 				echo 'All good';
 				$loggedin = true;
 				include_once('../refresh_posts.php');

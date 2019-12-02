@@ -37,13 +37,14 @@ window.addEventListener('load', function() {
 	var save = document.getElementById('save');
 	var preview = document.getElementById('preview');
 	var sticker = document.getElementById('sticker');
+	var arrowsContainer = document.getElementById('arrowsContainer');
 	var i = 0;
 
 	if (next)
 	next.onclick = function() {
-		if (i < 4)
+		if (i < 5)
 		i++;
-		if (i === 4) {
+		if (i === 5) {
 			next.style.opacity = '0.5';
 			next.style.cursor = 'unset';
 		}
@@ -62,7 +63,7 @@ window.addEventListener('load', function() {
 			previous.style.opacity = '0.5';
 			previous.style.cursor = 'unset';
 		}
-		if (i < 5) {
+		if (i < 6) {
 			next.style.opacity = '1';
 			next.style.cursor = 'pointer';
 		}
@@ -105,7 +106,8 @@ window.addEventListener('load', function() {
 	initWebCam();
 	if (snap) {
 		var sticker = document.getElementById('sticker');
-		snap.addEventListener('click', function (e) {
+		snap.onclick = function (e) {
+			(i);
 			e.preventDefault();
 			var context = canvas.getContext('2d');
 			canvas.width = video.videoWidth;
@@ -148,7 +150,7 @@ window.addEventListener('load', function() {
 			save.onclick =  function(e) {
 				e.preventDefault();
 				save.disabled = true;
-				xhttp.send('loggedin=true&saveButton=true&publication='+ pub.value +'&pictureData='+data);
+				xhttp.send('loggedin=true&saveButton=true&publication='+ pub.value +'&pictureData='+data+'&index='+i);
 			}
 			xhttp.onreadystatechange = function() {
 				save.disabled = false;
@@ -171,7 +173,7 @@ window.addEventListener('load', function() {
 					}
 				}
 			}
-		});
+		};
 	}
 
 	/* ************************************************************* */
@@ -346,6 +348,7 @@ window.addEventListener('load', function() {
 
 	if (input)
 	input.onchange = function() {
+		pub.value = '';
 		var errors = document.querySelectorAll(".errorMessage");
 		var desiredWidth = 668;
 		errors.forEach(function (e) {
@@ -368,16 +371,20 @@ window.addEventListener('load', function() {
 					var data = canvas.toDataURL();
 					preview.src = data;
 					preview.style.display = 'block';
+					sticker.style.display = 'block';
+					arrowsContainer.style.display = 'block';
 					save.onclick = function(e) {
 						e.preventDefault();
 						say.style.display = 'none';
 						pub.style.display = 'none';
 						save.style.display = 'none';
 						preview.style.display = 'none';
+						sticker.style.display = 'none';
+						arrowsContainer.style.display = 'none';
 						spinner.style.display = 'block';
 						xhttp.open('POST', '/camagru/includes/handlers/post-handler.php', true);
 						xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-						xhttp.send('loggedin=true&picture='+data+'&publication='+pub.value);
+						xhttp.send('loggedin=true&picture='+data+'&publication='+pub.value+'&index='+ i);
 					}
 				}
 				img.onerror = function() {
@@ -390,7 +397,7 @@ window.addEventListener('load', function() {
 					xhttp.send('picture=error&publication=error');
 				}
 			} else {
-				console.log('big')
+				('big')
 				xhttp.open('POST', '/camagru/includes/handlers/post-handler.php', true);
 				xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 				xhttp.send('big=true');

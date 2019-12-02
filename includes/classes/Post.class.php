@@ -14,38 +14,51 @@
 			$this->username = $_SESSION['userLoggedIn'];
 		}
 
-		public function	post($un, $pub, $base64) {
+		public function	post($un, $pub, $base64, $stickerIndex) {
+			$stickerfileName = '../../assets/images/stickers/sticker-' . $stickerIndex. '.png';
+			$sticker = imagecreatefrompng($stickerfileName);
 			$data = $this->validateImage($base64);
 			$pub = $this->validatePub($pub);
 			if (empty($this->errorArray) && $data !== false && $pub !== false) {
 				if (!file_exists('../../assets/images/posts'))
 					mkdir('../../assets/images/posts');
 				$picture = 'assets/images/posts/' . uniqid('IMG_POST_') . '.png';
-				file_put_contents('../../' .  $picture, $data);
-				$picture = '/camagru'. '/' . $picture;
-				try {
-					$query = "SELECT id FROM users WHERE username=:username";
-					$stmt = $this->pdo->prepare($query);
-					$stmt->bindValue(':username', $un);
-					$stmt->execute();
-					if ($stmt === false)
-						return false;
-				} catch (PDOException $e) {
-					die(Constants::$databasesProblem . $e);
+				// file_put_contents('../../' .  $picture, $data);
+				$final = imagecreatefromstring($data);
+				$finalX = imagesx($final);
+				$finalY = imagesy($final);
+				$stickerX = imagesx($sticker);
+				$stickerY = imagesy($sticker);
+				if (imagecopyresized($final, $sticker, 0, 0, 0, 0, $finalX,  $finalX * $stickerY / $stickerX, $stickerX, $stickerY)) {
+					if (!imagepng($final, '../../' . $picture))
 					return false;
-				}
-				$id = $stmt->fetch()['id'];
-				try {
-					$query = "INSERT INTO posts (`user_id`, picture, publication, dateOfPub) VALUES (:id_user, :picture, :publication, NOW())";
-					$stmt = $this->pdo->prepare($query);
-					$stmt->bindValue(':id_user', $id);
-					$stmt->bindValue(':picture', $picture);
-					$stmt->bindValue(':publication', $pub);
-					$stmt->execute();
-					if ($stmt === false)
+					$picture = '/camagru'. '/' . $picture;
+					try {
+						$query = "SELECT id FROM users WHERE username=:username";
+						$stmt = $this->pdo->prepare($query);
+						$stmt->bindValue(':username', $un);
+						$stmt->execute();
+						if ($stmt === false)
+							return false;
+					} catch (PDOException $e) {
+						die(Constants::$databasesProblem . $e);
 						return false;
-				} catch (PDOException $e) {
-					die(Constants::$databasesProblem . $e);
+					}
+					$id = $stmt->fetch()['id'];
+					try {
+						$query = "INSERT INTO posts (`user_id`, picture, publication, dateOfPub) VALUES (:id_user, :picture, :publication, NOW())";
+						$stmt = $this->pdo->prepare($query);
+						$stmt->bindValue(':id_user', $id);
+						$stmt->bindValue(':picture', $picture);
+						$stmt->bindValue(':publication', $pub);
+						$stmt->execute();
+						if ($stmt === false)
+							return false;
+					} catch (PDOException $e) {
+						die(Constants::$databasesProblem . $e);
+						return false;
+					}
+				} else {
 					return false;
 				}
 				return true;
@@ -106,7 +119,7 @@
 				<img class="comment click" src="/camagru/assets/images/comment_0.png" width="33" height="30" alt="comment">' . '<span id="commentsCounter_'. $post_id .'" class="likeCounter">' . $this->commentCounter($post_id) . '</span>' .
 				'<img class="share click" src="/camagru/assets/images/share.png" width="33" height="30" alt="share">
 				<div class="commentsContainer" id="commentsContainer_'. $post_id .'">
-				<form class="commentForm" id="commentForm" method="POST" action="gallery">
+				<form class="commentForm" method="POST" action="gallery">
 					<div class="input-group mb-3">
 						<textarea id="newComment_'. $post_id .'" type="text" class="form-control inpot" placeholder="Write a comment"></textarea>
 						<div class="input-group-append">

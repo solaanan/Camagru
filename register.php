@@ -7,6 +7,14 @@
 	include_once ("includes/classes/Constants.class.php");
 	$account = new Account($pdo);
 	include_once ("includes/handlers/register-handler.php");
+
+	function getInputValue($name)
+	{
+		if (isset($_POST[$name]))
+		{
+			echo $_POST[$name];
+		}
+	}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -27,12 +35,12 @@
 			<form action="register.php" method="POST">
 				<?php echo $account->getError(Constants::$usernameCharacters); ?>
 				<?php echo $account->getError(Constants::$usernameTaken); ?>
-				<input name="registerUsername" class="form-control form-control-lg inputt" type="text" placeholder="Username" required>
+				<input name="registerUsername" class="form-control form-control-lg inputt" type="text" placeholder="Username" value="<?php getInputValue('registerUsername') ?>" required>
 				<?php echo $account->getError(Constants::$emailsDoNotMatch); ?>
 				<?php echo $account->getError(Constants::$emailInvalid); ?>
 				<?php echo $account->getError(Constants::$emailTaken); ?>
-				<input name="registerEmail" class="form-control form-control-lg inputt" type="email" placeholder="Email" required>
-				<input name="registerEmail2" class="form-control form-control-lg inputt" type="email" placeholder="Re-type Email" required>
+				<input name="registerEmail" class="form-control form-control-lg inputt" type="email" placeholder="Email" value="<?php getInputValue('registerEmail') ?>" required>
+				<input name="registerEmail2" class="form-control form-control-lg inputt" type="email" placeholder="Re-type Email" value="<?php getInputValue('registerEmail2') ?>" required>
 				<?php echo $account->getError(Constants::$passwordsDoNotMatch); ?>
 				<?php echo $account->getError(Constants::$passwordIsNotValid); ?>
 				<?php echo $account->getError(Constants::$passwordCharacters); ?>

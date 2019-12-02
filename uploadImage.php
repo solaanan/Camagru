@@ -32,7 +32,14 @@
 							<span id="upload_text"> Upload </span>
 						</label>
 					</form>
+					<div class="stickerContainer">
+						<img class="sticker" src="/camagru/assets/images/stickers/sticker-0.png" alt="sticker" id="sticker">
+					</div>
 					<img class="preview" id="preview" alt="preview">
+					<div id="arrowsContainer" class="arrowsContainer" style="display:none">
+						<img src="/camagru/assets/images/left.png" alt="previous" width="30" height="30" class="previous" id="previous">
+						<img src="/camagru/assets/images/right.png" alt="next" width="30" height="30" class="next" id="next">
+					</div>
 					<button id="say" class="botona say">
 						<img src="/camagru/assets/images/say.png" alt="say" width="20" height="20">
 						Say something

@@ -8,6 +8,12 @@
 	include ("includes/classes/Constants.class.php");
 	$account = new Account($pdo);
 	include ("includes/handlers/login-handler.php");
+
+	function getInputValue($name) {
+		if (isset($_POST[$name])) {
+			echo $_POST[$name];
+		}
+	}
 ?>
 
 <!DOCTYPE html>
@@ -29,7 +35,7 @@
 			<form action="login.php" method="POST">
 				<?php echo $account->getError(Constants::$confirmationNeeded); ?>
 				<?php echo $account->getError(Constants::$loginFailed); ?>
-				<input name="loginUsername" class="form-control form-control-lg inputt" type="text" placeholder="Username" required>
+				<input name="loginUsername" class="form-control form-control-lg inputt" type="text" value="<?php getInputValue('loginUsername') ?>" placeholder="Username" required>
 				<input name="loginPassword" class="form-control form-control-lg inputt" type="password" placeholder="Password" required>
 				<button name ="loginButton" type="submit" class="login-btn btn-lg botona">Login</button>
 				<p class="create text-break" style="font-size:15px"> <a href="/camagru/register">Create a new account</a> if you still don't have an account.</p>
