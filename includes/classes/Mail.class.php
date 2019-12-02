@@ -80,7 +80,7 @@
 							This will enhance overall<br>account security, and could help you recover your account if you forget 
 							your password.<br>It’s also good for us to know that you’re not a robot :)<br>Please click the button 
 							below to complete your account registration.</p>
-							<a href="localhost/camagru/confirm.php?token='. $token .'" class="confirm">
+							<a href="http://localhost/camagru/confirm.php?token='. $token .'" class="confirm">
 								<img src="https://i.imgur.com/2vGe5lT.png" alt="confirmation-buttom">
 							</a>
 						</div>
@@ -88,7 +88,6 @@
 					</body>
 				</html>
 				';
-			$subject = "Confirmation mail";
 			$headers = "From: " . $from . "\r\n";
 			$headers .= "MIME-Version: 1.0\r\n";
 			$headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
@@ -98,7 +97,6 @@
 		}
 
 		public function reset_password($email, $token) {
-			return true;
 			$to = $email;
 			$from = 'sohbay.852@gmail.com';
 			$fromName = 'Camagru Service';
@@ -173,7 +171,7 @@
 							<h2 class="title">Reset your password</h2>
 							<p class="message">Hey There.<br>
 							You asked to reset your account password, click the button below:</p>
-							<a href="localhost/camagru/resetPassword?token='. $token .'" class="confirm">
+							<a href="http://localhost/camagru/resetPassword?token='. $token .'" class="confirm">
 								<img src="https://i.imgur.com/2vGe5lT.png" alt="confirmation-buttom">
 							</a>
 						</div>
@@ -181,7 +179,6 @@
 					</body>
 				</html>
 				';
-			$subject = "Confirmation mail";
 			$headers = "From: " . $from . "\r\n";
 			$headers .= "MIME-Version: 1.0\r\n";
 			$headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";

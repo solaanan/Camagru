@@ -274,6 +274,25 @@
 			return false;
 		}
 
+		public function resetPassword($un, $pw1, $pw2) {
+			$this->validatePasswords($pw1, $pw2);
+			if (empty($this->errorArray)) {
+				if ($this->insertNewPassword($un, $pw1)) {
+					try {
+						$query = 'DELETE FROM tokens WHERE `user_id` IN (SELECT id FROM users WHERE username=:un)';
+						$stmt = $this->pdo->prepare($query);
+						$stmt->bindValue(':un', $un);
+						$stmt->execute();
+						if ($stmt === false)
+							return false;
+					} catch (PDOException $e) {
+						die ('There was an error communicating with the databases: ' . $e);
+					}
+					return true;
+				}
+			}
+		}
+
 		public function getErrors() {
 			foreach ($this->errorArray as $error)
 			{

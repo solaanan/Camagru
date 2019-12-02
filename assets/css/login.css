@@ -63,3 +63,7 @@
 .create {
   margin-top: 20px;
 }
+
+#success {
+  display: none;
+}

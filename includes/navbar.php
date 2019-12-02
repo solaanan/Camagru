@@ -50,3 +50,26 @@
 			<img src="/camagru/assets/images/bars.png" width="30" height="30" id="collapsor">
 		</a>
 </div>
+<div class="alert alert-danger" id="beta">We still in beta, please tkayss azebbi</div>
+<a class="goUp" href="#navbarElements" id="goUp">
+		<img src="/camagru/assets/images/goUp.png" alt="go up" width="30" height="30">
+</a>
+<script>
+	window.addEventListener('scroll', function() {
+		var goUp = document.getElementById('goUp');
+		var beta = document.getElementById('beta');
+		var nav = document.getElementById('navbarElements');
+		if (window.pageYOffset > 61) {
+			beta.classList.add("sticky");
+			nav.classList.add("smoothing-navbar");
+		} else {
+			beta.classList.remove("sticky");
+			nav.classList.remove("smoothing-navbar");
+		}
+		if (window.pageYOffset > 2508) {
+			goUp.style.opacity = '1';
+		} else {
+			goUp.style.opacity = '0';
+		}
+	});
+</script>

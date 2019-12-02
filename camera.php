@@ -41,7 +41,14 @@
 			<div class="colona col-xs-12 col-md-5">
 				<div class="element jumbotron">
 					<h1 class="h2 text-break">Smile at the camera!</h1>
+					<div class="stickerContainer">
+						<img class="sticker" src="/camagru/assets/images/stickers/sticker-0.png" alt="sticker" id="sticker">
+					</div>
 					<video id="video" class="video" autoplay>yes</video>
+					<div class="arrowsContainer">
+						<img src="/camagru/assets/images/left.png" alt="previous" width="30" height="30" class="previous" id="previous">
+						<img src="/camagru/assets/images/right.png" alt="next" width="30" height="30" class="next" id="next">
+					</div>
 					<button id="snap" class="botona">
 						<img src="/camagru/assets/images/snap.png" alt="snap" width="25" height="20">
 						Snap

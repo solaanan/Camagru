@@ -99,7 +99,7 @@
 				echo '<img class="postImg" src="'. $picture .'">
 				<hr class="separator">
 				<div class="tooltip-holder">';
-				if ($tooltip)
+				// if ($tooltip)
 					echo '<span id="tooltip_'. $post_id .'" class="tooltipp">'. $tooltip .'</span>';
 				echo '</div>
 				<img class="like" id="like_'. $post_id .'" src="/camagru/assets/images/like-'. $isliked .'.png" width="33" height="30" alt="like">'. '<span class="likeCounter">' . $this->likeCounter($post_id) . '</span>' .'
@@ -126,6 +126,7 @@
 		}
 
 		public function			insertNewComment($comment, $post_id) {
+			$comment = trim($comment);
 			if (isset($comment) && $comment !== '') {
 				try {
 					$query = "SELECT * FROM users WHERE username=:username";
@@ -262,7 +263,8 @@
 				die(Constants::$databasesProblem . $e);
 			}
 			$path = $stmt->fetch()['picture'];
-			unlink(str_replace('/camagru', '../..', $path));
+			if (file_exists(str_replace('/camagru', '../..', $path)))
+				unlink(str_replace('/camagru', '../..', $path));
 			try {
 				$query = "DELETE FROM posts WHERE post_id=:post_id AND `user_id` IN (SELECT id FROM users WHERE username=:username)";
 				$stmt = $this->pdo->prepare($query);

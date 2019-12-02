@@ -5,6 +5,8 @@ window.addEventListener('load', function() {
 	var input2 = document.getElementById('newPassword2');
 	var emailButton = document.getElementById('emailButton');
 	var newPasswordButton = document.getElementById('newPasswordButton');
+	var form = document.getElementById('form');
+	var success = document.getElementById('success');
 	var xhttp = new XMLHttpRequest();
 
 	if (emailButton)
@@ -43,7 +45,6 @@ window.addEventListener('load', function() {
 						div.remove();
 					}, 5000);
 				} else {
-					alert(xhttp.responseText);
 					emailButton.disabled = false;
 					input.className += " shake";
 					input.style.border = "1px solid red";
@@ -62,15 +63,46 @@ window.addEventListener('load', function() {
 	if (newPasswordButton)
 	newPasswordButton.onclick = function(e) {
 		e.preventDefault();
+		document.querySelectorAll('.errorMessage').forEach(function(d) {
+			d.remove();
+		})
+		newPasswordButton.disabled = true;
+		input1.style.border = "0px";
+		input2.style.border = "0px";
+		input1.style.borderBottom = "1px solid";
+		input2.style.borderBottom = "1px solid";
+		var username = document.getElementById('username').innerHTML;
 		if (input1.value !== '' && input2.value !== '') {
 			xhttp.open('POST', '/camagru/includes/handlers/reset-handler.php', true);
 			xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-			xhttp.send('resetPasswordButton=true&password1='+input1.value+'&password2='+input2.value);
+			xhttp.send('resetPasswordButton=true&password1='+input1.value+'&password2='+input2.value+'&username='+username);
 		}
 	}
 	xhttp.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
-			alert(xhttp.responseText);
+			if (xhttp.responseText === 'All good') {
+				form.style.display = 'none';
+				success.style.display = 'block';
+			} else {
+				newPasswordButton.disabled = false;
+				input1.className += " shake";
+				input2.className += " shake";
+				input1.style.border = "1px solid red";
+				input2.style.border = "1px solid red";
+				setTimeout(function () {
+					input1.className = "form-control form-control-lg inputt"
+					input2.className = "form-control form-control-lg inputt"
+				}, 1000);
+				var array = xhttp.responseText.split('\n');
+				array.forEach(function(e) {
+					if (e !== "") {
+					var div = document.createElement("div");
+					div.setAttribute("class", "alert errorMessage");
+					div.innerHTML = e;
+					form.insertBefore(div, form.firstChild);
+					}
+				});
+			}
 		}
 	}
 });

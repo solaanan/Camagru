@@ -1,9 +1,9 @@
 <?php
 	include_once("../config.php");
 	include_once("../classes/Constants.class.php");
-	include_once("../classes/Mail.class.php");
+	include_once("../classes/Account.class.php");
 
-	$mail = new Mail();
+	$account = new Account($pdo);
 
 	function	email_exists($pdo, $em) {
 		try {
@@ -66,10 +66,18 @@
 		if ($id = email_exists($pdo, $_POST['email'])) {
 			$token = hash('sha256', uniqid($id));
 			if (insertResetToken($pdo, $id, $token)) {
-				$mail->reset_password($_POST['email'], $token);
+				$account->reset_password($_POST['email'], $token);
 				echo 'All good';
 			}
 		}
 		else
 			echo 'nah';
+	}
+
+	if(isset($_POST['resetPasswordButton'])) {
+		if ($account->resetPassword($_POST['username'], $_POST['password1'], $_POST['password2'])) {
+			echo 'All good';
+		} else {
+			$account->getErrors();
+		}
 	}

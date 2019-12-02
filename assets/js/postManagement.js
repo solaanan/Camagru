@@ -10,6 +10,8 @@ window.addEventListener('load', function() {
 	var alertCancel = document.getElementById('cancel');
 	var body = document.getElementById('body');
 	var postsContainer = document.getElementById('postsContainer');
+	var next = document.getElementById('next');
+	var previous = document.getElementById('previous');
 	var post_id;
 
 	var video = document.getElementById('video');
@@ -34,7 +36,38 @@ window.addEventListener('load', function() {
 	var say = document.getElementById('say');
 	var save = document.getElementById('save');
 	var preview = document.getElementById('preview');
+	var sticker = document.getElementById('sticker');
+	var i = 0;
 
+	if (next)
+	next.onclick = function() {
+		if (i < 4)
+		i++;
+		if (i === 4) {
+			next.style.opacity = '0.5';
+			next.style.cursor = 'unset';
+		}
+		if (i > 0) {
+			previous.style.opacity = '1';
+			previous.style.cursor = 'pointer';
+		}
+		sticker.src = '/camagru/assets/images/stickers/sticker-'+ i +'.png';
+	}
+
+	if (previous)
+	previous.onclick = function() {
+		if (i > 0)
+		i--;
+		if (i === 0) {
+			previous.style.opacity = '0.5';
+			previous.style.cursor = 'unset';
+		}
+		if (i < 5) {
+			next.style.opacity = '1';
+			next.style.cursor = 'pointer';
+		}
+		sticker.src = '/camagru/assets/images/stickers/sticker-'+ i +'.png';
+	}
 	if (snap)
 		snap.disabled = true;
 	function initWebCam() {
@@ -49,6 +82,7 @@ window.addEventListener('load', function() {
 			stream = mediaStream;
 			video.onloadedmetadata = function(e) {
 			video.play();
+			sticker.style.display = 'block';
 		};
 		}).catch(function (err) {
 		})
@@ -69,74 +103,76 @@ window.addEventListener('load', function() {
 
 	if (video && canvas && img)
 	initWebCam();
-	if (snap)
-	snap.addEventListener('click', function (e) {
-		e.preventDefault();
-		var context = canvas.getContext('2d');
-		canvas.width = video.videoWidth;
-		canvas.height = video.videoHeight;
-		context.translate(canvas.width, 0);
-		context.scale(-1, 1);
-		context.drawImage(video, 0, 0, canvas.width, canvas.height);
-		var data = canvas.toDataURL('image/png');
-		stream.getTracks().forEach(function(track) {
-			track.stop();
-		});
-		img.setAttribute("src", data);
-		img.setAttribute("width", canvas.width);
-		img.setAttribute("height", canvas.height);
-		video.style.display = "none";
-		snap.style.display = "none";
-		img.style.display = "block";
-		say.style.display = "block";
-		save.style.display = "inline-block";
-		retake.style.display = "inline-block";
-
-		say.addEventListener("click", function() {
-			if (pub.style.display !== "block")
-				pub.style.display = "block";
-			say.style.display = "none";
-			if (pub.value > 1000 || pub.value < 1)
-					save.disabled = true;
-		});
-
-		retake.addEventListener('click', retake_pic);
-
-		pub.addEventListener("keyup", function(e) {
+	if (snap) {
+		var sticker = document.getElementById('sticker');
+		snap.addEventListener('click', function (e) {
 			e.preventDefault();
-			save.disabled = (pub.value.length < 1000 && pub.value.length > 1) ? false : true;
-		})
+			var context = canvas.getContext('2d');
+			canvas.width = video.videoWidth;
+			canvas.height = video.videoHeight;
+			context.translate(canvas.width, 0);
+			context.scale(-1, 1);
+			context.drawImage(video, 0, 0, canvas.width, canvas.height);
+			var data = canvas.toDataURL('image/png');
+			stream.getTracks().forEach(function(track) {
+				track.stop();
+			});
+			img.setAttribute("src", data);
+			img.setAttribute("width", canvas.width);
+			img.setAttribute("height", canvas.height);
+			video.style.display = "none";
+			snap.style.display = "none";
+			img.style.display = "block";
+			say.style.display = "block";
+			save.style.display = "inline-block";
+			retake.style.display = "inline-block";
 
-		var xhttp = new XMLHttpRequest();
-		xhttp.open('POST', '/camagru/includes/handlers/post-handler.php', true);
-		xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-		save.onclick =  function(e) {
-			e.preventDefault();
-			save.disabled = true;
-			xhttp.send('loggedin=true&saveButton=true&publication='+ pub.value +'&pictureData='+data);
-		}
-		xhttp.onreadystatechange = function() {
-			save.disabled = false;
-			if (this.readyState == 4 && this.status == 200) {
-				if (xhttp.responseText.match(/All good/g)) {
-					var div = document.createElement("div");
-					div.setAttribute("class", "alert alert-success message");
-					div.setAttribute("id", "message");
-					div.innerHTML = "Posted !";
-					body.insertBefore(div, body.children[2]);
-					setTimeout(function () {
-						div.remove();
-					}, 5000);
-					postsContainer.innerHTML = xhttp.responseText.replace('All good', '');
-					postHandler();
-					deleteHandlerInPersonal();
-					commentHandler();
-					snap.disabled = true;
-					retake_pic();
+			say.addEventListener("click", function() {
+				if (pub.style.display !== "block")
+					pub.style.display = "block";
+				say.style.display = "none";
+				if (pub.value > 1000 || pub.value < 1)
+						save.disabled = true;
+			});
+
+			retake.addEventListener('click', retake_pic);
+
+			pub.addEventListener("keyup", function(e) {
+				e.preventDefault();
+				save.disabled = (pub.value.length < 1000 && pub.value.length > 1) ? false : true;
+			})
+
+			var xhttp = new XMLHttpRequest();
+			xhttp.open('POST', '/camagru/includes/handlers/post-handler.php', true);
+			xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+			save.onclick =  function(e) {
+				e.preventDefault();
+				save.disabled = true;
+				xhttp.send('loggedin=true&saveButton=true&publication='+ pub.value +'&pictureData='+data);
+			}
+			xhttp.onreadystatechange = function() {
+				save.disabled = false;
+				if (this.readyState == 4 && this.status == 200) {
+					if (xhttp.responseText.match(/All good/g)) {
+						var div = document.createElement("div");
+						div.setAttribute("class", "alert alert-success message");
+						div.setAttribute("id", "message");
+						div.innerHTML = "Posted !";
+						body.insertBefore(div, body.children[2]);
+						setTimeout(function () {
+							div.remove();
+						}, 5000);
+						postsContainer.innerHTML = xhttp.responseText.replace('All good', '');
+						postHandler();
+						deleteHandlerInPersonal();
+						commentHandler();
+						snap.disabled = true;
+						retake_pic();
+					}
 				}
 			}
-		}
-	});
+		});
+	}
 
 	/* ************************************************************* */
 	/*                             COMMENTS                          */
@@ -209,6 +245,7 @@ window.addEventListener('load', function() {
 		});
 	}
 
+	if (inpot)
 	inpot.forEach( function(d) {
 		d.onkeydown = function(e) {
 			autoResize(e.target)
@@ -310,12 +347,13 @@ window.addEventListener('load', function() {
 	if (input)
 	input.onchange = function() {
 		var errors = document.querySelectorAll(".errorMessage");
+		var desiredWidth = 668;
 		errors.forEach(function (e) {
 			e.style.display = "none";
 		});
 		if (this.files && this.files[0]) {
 			var file = this.files[0];
-			if (file.size >= 1 && file.size < 8000000){
+			if (file.size >= 1 && file.size < 8000000) {
 				var img = new Image();
 				img.src = URL.createObjectURL(file);
 				img.onload = function() {
@@ -323,8 +361,9 @@ window.addEventListener('load', function() {
 					say.style.display = "block";
 					save.style.display = "block";
 					var ctx = canvas.getContext('2d');
-					canvas.width = img.width;
-					canvas.height = img.height;
+					var ratio = img.height / img.width;
+					canvas.width = desiredWidth;
+					canvas.height = desiredWidth * ratio;
 					ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 					var data = canvas.toDataURL();
 					preview.src = data;
@@ -351,6 +390,7 @@ window.addEventListener('load', function() {
 					xhttp.send('picture=error&publication=error');
 				}
 			} else {
+				console.log('big')
 				xhttp.open('POST', '/camagru/includes/handlers/post-handler.php', true);
 				xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 				xhttp.send('big=true');
@@ -433,8 +473,11 @@ window.addEventListener('load', function() {
 									e.target.nextSibling.innerHTML = '';
 								else if (e.target.nextSibling.innerHTML !== '' && e.target.nextSibling.innerHTML !== '0')
 								e.target.nextSibling.innerHTML = (parseInt(e.target.nextSibling.innerHTML) - 1).toString();
-								if (tooltip)
+								if (tooltip) {
 									tooltip.innerHTML = tooltip.innerHTML.replace(userLoggedIn.innerHTML+'<br>', '');
+									if (tooltip.innerHTML === '')
+										tooltip.style.visibility = 'hidden';
+								}
 							}
 							e.target.className += ' heartbeat';
 							setTimeout(function () {
@@ -454,8 +497,12 @@ window.addEventListener('load', function() {
 		d.onmouseover = function() {
 			var post_id = d.parentNode.id.replace('post_', '');
 			var tooltip = document.getElementById('tooltip_'+post_id);
-			if (tooltip)
-				tooltip.style.visibility = 'visible';
+			if (tooltip) {
+				if (tooltip.innerHTML === '')
+					tooltip.style.visibility = 'hidden';
+				else
+					tooltip.style.visibility = 'visible';
+			}
 		}
 		d.onmouseout = function() {
 			var post_id = d.parentNode.id.replace('post_', '');
@@ -490,6 +537,7 @@ window.addEventListener('load', function() {
 		document.querySelectorAll('.postImg').forEach(function(d) {
 			d.ondblclick = function(e) {
 				var post_id = d.parentNode.id.replace('post_', '');
+				var tooltip = document.getElementById('tooltip_'+post_id);
 				var heartContainer = document.getElementById('heart_'+post_id);
 				var like = document.getElementById('like_'+post_id);
 				xhttp.onreadystatechange = function() {
@@ -504,6 +552,8 @@ window.addEventListener('load', function() {
 								setTimeout(function () {
 									like.className = 'like';
 								}, 500);
+								if (tooltip)
+									tooltip.innerHTML += userLoggedIn.innerHTML +'<br>'
 							} else {
 								like.className += ' heartbeat';
 								setTimeout(function () {
@@ -512,8 +562,9 @@ window.addEventListener('load', function() {
 							}
 							var img = document.createElement('img');
 							img.src = '/camagru/assets/images/heart.png'
-							img.style.height = d.height / 4 + 'px';
-							img.style.width = d.height / 4 + 'px';
+							var length = (d.height < d.width) ? d.height : d.width;
+							img.style.height = length / 8 + 'px';
+							img.style.width = length / 8 + 'px';
 							img.style.position = 'absolute';
 							img.style.margin = 'auto';
 							img.style.top = d.height / 2 - img.style.height.replace('px' , '') / 2 + 'px';

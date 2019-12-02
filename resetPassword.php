@@ -50,7 +50,7 @@
 					$id = $arr['id'];
 					if ($res)
 						echo '<h1 class="display-4">Reset your password !</h1>
-						<p class="lead">Enter a new password for the user: '. $username .'</p>
+						<p class="lead">Enter a new password for the user: <span id="username">'. $username .'</span></p>
 						<input type="password" name="newPassword1" id="newPassword1" class="form-control form-control-lg inputt" placeholder="New password" required>
 						<input type="password" name="newPassword2" id="newPassword2" class="form-control form-control-lg inputt" placeholder="Re-type new password" required>
 						<button name="newPasswordButton" id="newPasswordButton" class="btn-lg botona">Save changes</button>';
@@ -61,6 +61,12 @@
 						<p class="lead good">An error has occured during the process of your operation.</p>';
 				}
 			?>
+		</div>
+		<div class="jumbotron" id="success">
+			<img class="good" src="/camagru/assets/images/good.png" width="200" height="200" alt="error">
+			<h1 class="display-4 good">Success !</h1>
+			<hr>
+			<p class="lead good">Your password has been changed successfully, <a href="/camagru/login">Login</a> to your account.</p>
 		</div>
 	</div>
 </body>

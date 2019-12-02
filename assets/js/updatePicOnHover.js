@@ -1,8 +1,11 @@
 window.addEventListener("load", function() {
-	var containerenter = document.getElementById("pdpContainer").addEventListener("mouseenter", showUpdate);
-	var containerleave = document.getElementById("pdpContainer").addEventListener("mouseleave", hideUpdate);
-	var pdp = document.getElementById("pdp");
+	var containerenter = document.getElementById("pdpContainer");
+	var containerleave = document.getElementById("pdpContainer");
 	var update = document.getElementById("updatePic");
+	if (containerenter)
+		containerenter.addEventListener("mouseenter", showUpdate);
+	if (containerleave)
+		containerleave.addEventListener("mouseleave", hideUpdate);
 
 	function showUpdate() {
 		update.style.opacity = "100";

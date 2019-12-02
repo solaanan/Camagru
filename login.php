@@ -1,8 +1,8 @@
 <?php
 	if (!isset($_SESSION))
 		session_start();
-	// if (isset($_SESSION) && isset($_SESSION['userLoggedIn']))
-	// 	header('Location: /camagru/gallery');
+	if (isset($_SESSION) && isset($_SESSION['userLoggedIn']))
+		header('Location: /camagru/gallery');
 	include("includes/config.php");
 	include ("includes/classes/Account.class.php");
 	include ("includes/classes/Constants.class.php");

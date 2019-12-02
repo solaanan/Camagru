@@ -7,6 +7,7 @@ window.addEventListener('load', function() {
 	var spinner = document.getElementById("spinner");
 	var data = "";
 
+	if (input)
 	input.onchange = function() {
 		var errors = document.querySelectorAll(".errorMessage");
 		errors.forEach(function (e) {

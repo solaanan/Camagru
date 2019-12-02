@@ -1,7 +1,7 @@
 <?php
 	date_default_timezone_set('Europe/Paris');
-	// $dsn = 'mysql:dbname=Camagru;host=10.12.2.2;port:8080';
-	$dsn = 'mysql:dbname=CamagruMac;host=localhost;port:3306';
+	$dsn = 'mysql:dbname=Camagru;host=10.12.2.2;port:8080';
+	// $dsn = 'mysql:dbname=CamagruMac;host=localhost;port:3306';
 	$user = 'root';
 	$password = '';
 	
