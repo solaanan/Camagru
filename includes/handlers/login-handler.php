@@ -4,7 +4,11 @@
 	if (isset($_POST['loginButton']))
 	{
 		$username = $_POST['loginUsername'];
+		$username = trim($username);
+		$username = htmlspecialchars($username);
 		$password = $_POST['loginPassword'];
+		$password = trim($password);
+		$password = htmlspecialchars($password);
 		$result = $account->login($username, $password);
 		if ($result)
 		{

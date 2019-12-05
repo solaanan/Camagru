@@ -33,15 +33,16 @@
 			<img id="imgNavbar" class="profilepic" src="'. $picPath .'" width="30" height="30" class="d-inline-block align-top" alt="">
 			<span class="text" id="userLoggedIn">'. $username .'</span>
 		</a>
-
-
-		
 		';
 		}else{
 		echo '
-		<a class="" href="/Camagru/login.php">
+		<a class="click" href="/Camagru/login.php">
 			<img class="logout" src="/Camagru/assets/images/login.png" width="25" height="25" class="d-inline-block align-top" alt="">
 			<span class="text"> Log in </span>
+		</a>
+		<a class="click" href="/Camagru/gallery">
+			<img class="logout" src="/Camagru/assets/images/snap.png" width="30" height="23" class="d-inline-block align-top" alt="">
+			<span class="text"> Gallery </span>
 		</a>
 		';
 		}
@@ -50,22 +51,12 @@
 			<img src="/camagru/assets/images/bars.png" width="30" height="30" id="collapsor">
 		</a>
 </div>
-<div class="alert alert-danger" id="beta">We still in beta, please tkayss azebbi</div>
 <a class="goUp" href="#navbarElements" id="goUp">
 		<img src="/camagru/assets/images/goUp.png" alt="go up" width="30" height="30">
 </a>
 <script>
 	window.addEventListener('scroll', function() {
 		var goUp = document.getElementById('goUp');
-		var beta = document.getElementById('beta');
-		var nav = document.getElementById('navbarElements');
-		if (window.pageYOffset > 61) {
-			beta.classList.add("sticky");
-			nav.classList.add("smoothing-navbar");
-		} else {
-			beta.classList.remove("sticky");
-			nav.classList.remove("smoothing-navbar");
-		}
 		if (window.pageYOffset > 2508) {
 			goUp.style.opacity = '1';
 		} else {

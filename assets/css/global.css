@@ -208,4 +208,5 @@ hr {
 	bottom: 50px;
 	right: 50px;
 	opacity: 0;
+	z-index: 2;
 }

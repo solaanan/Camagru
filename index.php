@@ -1,31 +1,4 @@
 <?php
-		$error ='
-				<html>
-					<head>
-					<link rel="stylesheet" href="/camagru/assets/css/global.css">
-					</head>
-					<body>
-						<h1 style="text-align:center;margin-top:100px">ERROR 401: Unauthorized</h1><hr>
-						<p style="text-align:center;margin-top:20px">Sir T9awed, get a fokin life.</p>
-						<p style="margin:auto;text-align:center;display:block;position:absolute;bottom:0">Admin: Holk</p>
-					</body>
-				</html>';
-	if (!isset($_SERVER['PHP_AUTH_USER'])) {
-		header('WWW-Authenticate: Basic realm="My Realm"');
-		header('HTTP/1.0 401 Unauthorized');
-		echo $error;
-		exit;
-	} else {
-		if ($_SERVER['PHP_AUTH_USER'] !== 'slaanani' || $_SERVER['PHP_AUTH_PW'] !== 'I09m13G07o15@@') {
-			header('HTTP/1.0 401 Unauthorized');
-			echo $error;
-			exit;
-		}
-	}
-
-
-
-
 	session_start();
 	if (isset($_SESSION) && isset($_SESSION['userLoggedIn'])) {
 		header('Location: /camagru/gallery');

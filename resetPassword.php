@@ -1,5 +1,9 @@
 <?php
-	include_once('includes/config.php')
+	include_once('includes/config.php');
+	session_start();
+	if (isset($_SESSION) && isset($_SESSION['userLoggedIn'])) {
+		header('Location: notFound.php');
+	}
 ?>
 <!DOCTYPE html>
 <html lang="en">

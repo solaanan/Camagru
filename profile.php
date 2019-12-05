@@ -54,12 +54,14 @@
 				</a>
 				<div class="divini">
 					<div class="absolute-div" id="absoluteDiv" style="background-image: url('<?php echo $pcPath; ?>');">
+					<?php if ($_GET['username'] === $_SESSION['userLoggedIn'] || !isset($_GET) || !isset($_GET['username'])) { ?>
 						<form method="POST" action="profile.php">
 						<input type="file" name="newPicture" id="newPicture" enctype="multipart/form-data">
 							<label for="newPicture" id="pdpContainer">
 								<img class="update click" id="updatePic" src="/camagru/assets/images/update.png">
 							</label>
 						</form>
+					<?php } ?>
 					</div>
 				</div>
 				<span class="label">Username:</span>
@@ -77,7 +79,7 @@
 					<span class="info"><?php echo $em; ?></span>
 					<?php
 						if (!isset($_GET) || !isset($_GET['username']) || $_GET['username'] === $_SESSION['userLoggedIn'])
-						echo '<a href="/camagru/editUsername.php" class="edit">
+						echo '<a href="/camagru/editEmail.php" class="edit">
 							<img class="click" src="/camagru/assets/images/edit.png" width="20" height="20" alt="edit">
 						</a>';
 					?>
@@ -87,7 +89,7 @@
 						echo '<span class="label">Password:</span>
 						<div class="info-container">
 							<span class="info">****************</span>
-							<a href="/camagru/editUsername.php" class="edit">
+							<a href="/camagru/editPassword.php" class="edit">
 									<img class="click" src="/camagru/assets/images/edit.png" width="20" height="20" alt="edit">
 							</a>
 						</div>';
@@ -100,10 +102,26 @@
 		</div>
 		<?php if (!isset($_GET) || !isset($_GET['error']) || $_GET['error'] !== 'nouser') { ?>
 		<div id="postsContainer">
-			<?php $loggedin = true; include_once('includes/refresh_posts.php') ?>
 		</div>
 		<?php } ?>
 	</div>
 	<canvas id=canvas></canvas>
+	<div class="alert-container" id="alert-container">
+		<div class="container" id="alert-body">
+			<div class="alert-card jumbotron text-center m-auto">
+				<h1 class="text-break">Are you sure ?</h1>
+				<hr>
+				<p class="lead text-break">Do you really want to delete this post?<br>This action is irreversible!</p>
+				<button class="btn btn-lg botona my-2 mx-4 click" id="delete">
+					<img src="/camagru/assets/images/good.png" alt="yes" width="30" height="30">
+					Delete
+				</button>
+				<button class="btn btn-lg botona m-0 mx-4 click" id="cancel">
+					<img src="/camagru/assets/images/bad.png" alt="no" width="30" height="30">
+					Cancel
+				</button>
+			</div>
+		</div>
+	</div>
 </body>
 </html>

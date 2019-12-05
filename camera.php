@@ -73,7 +73,6 @@
 			<div class="colona posts col-xs-6 col-md-4">
 				<h1 class="h2 text-break">Your recent posts:</h1>
 				<div id="postsContainer">
-					<?php $loggedin = true; include_once('includes/refresh_posts.php') ?>
 				</div>
 			</div>
 			<div class="col-xs-1 col-md-1"></div>

@@ -72,6 +72,7 @@ window.addEventListener('load', function() {
 	if (snap)
 		snap.disabled = true;
 	function initWebCam() {
+		if (typeof navigator.mediaDevices === 'object')
 		navigator.mediaDevices.getUserMedia({ audio:false, video: true}).then(function (mediaStream) {
 			snap.disabled = false;
 			if ("srcObject" in video) {
@@ -85,8 +86,7 @@ window.addEventListener('load', function() {
 			video.play();
 			sticker.style.display = 'block';
 		};
-		}).catch(function (err) {
-		})
+		});
 	}
 
 	function retake_pic() {
@@ -164,7 +164,8 @@ window.addEventListener('load', function() {
 						setTimeout(function () {
 							div.remove();
 						}, 5000);
-						postsContainer.innerHTML = xhttp.responseText.replace('All good', '');
+						start = 0;
+						postsContainer.innerHTML = getUserData();;
 						postHandler();
 						deleteHandlerInPersonal();
 						commentHandler();
@@ -416,7 +417,8 @@ window.addEventListener('load', function() {
 						setTimeout(function () {
 							div.remove();
 						}, 5000);
-						postsContainer.innerHTML = xhttp.responseText.replace('All good', '')
+						start = 0;
+						getUserData();
 						botona.style.display = "table";
 						say.style.display = "none";
 						save.style.display = "none";
@@ -452,12 +454,35 @@ window.addEventListener('load', function() {
 	/*                              Gallery                          */
 	/* ************************************************************* */
 
+	var postsContainer = document.getElementById('postsContainer');
+	var xhttp = new XMLHttpRequest();
+	var start = 0;
+	var limit = 5;
+	var reachedLimit = false;
+	var un;
+
 	postHandler();
 	var pathname = window.location.pathname.split('/')[window.location.pathname.split('/').length - 1];
-	if (pathname === 'gallery' || pathname === 'gallery.php')
+	if (pathname === 'gallery' || pathname === 'gallery.php') {
 		deleteHandlerInGallery();
-	else
+		getData();
+		window.addEventListener('scroll', function() {
+			if (document.documentElement.offsetHeight + document.documentElement.scrollTop === document.documentElement.scrollHeight) {
+				getData();
+			}
+		})
+	}
+	else {
 		deleteHandlerInPersonal();
+		getUserData();
+		window.addEventListener('scroll', function() {
+			if (document.documentElement.offsetHeight + document.documentElement.scrollTop === document.documentElement.scrollHeight) {
+				getUserData();
+			}
+		})
+	}
+	postHandler();
+	commentHandler();
 	function hitLike() {
 		document.querySelectorAll('.like').forEach(function(d) {
 			d.onclick = function(e) {
@@ -550,6 +575,7 @@ window.addEventListener('load', function() {
 				xhttp.onreadystatechange = function() {
 					if (this.readyState == 4 && this.status == 200) {
 						if (xhttp.responseText === 'All good') {
+							if (like)
 							if (like.src.split('/')[like.src.split('/').length - 1] === 'like-0.png') {
 								like.src = '/camagru/assets/images/like-1.png';
 								if (like.nextSibling.innerHTML === '')
@@ -567,20 +593,22 @@ window.addEventListener('load', function() {
 									like.className = 'like';
 								}, 500);
 							}
-							var img = document.createElement('img');
-							img.src = '/camagru/assets/images/heart.png'
-							var length = (d.height < d.width) ? d.height : d.width;
-							img.style.height = length / 8 + 'px';
-							img.style.width = length / 8 + 'px';
-							img.style.position = 'absolute';
-							img.style.margin = 'auto';
-							img.style.top = d.height / 2 - img.style.height.replace('px' , '') / 2 + 'px';
-							img.style.left = d.width / 2 - img.style.width.replace('px', '') / 2 + 'px';
-							heartContainer.appendChild(img);
-							img.className = "heartbeat2";
-							setTimeout(function () {
-								img.remove();
-							}, 1000);
+							if (like) {
+								var img = document.createElement('img');
+								img.src = '/camagru/assets/images/heart.png'
+								var length = (d.height < d.width) ? d.height : d.width;
+								img.style.height = length / 8 + 'px';
+								img.style.width = length / 8 + 'px';
+								img.style.position = 'absolute';
+								img.style.margin = 'auto';
+								img.style.top = d.height / 2 - img.style.height.replace('px' , '') / 2 + 'px';
+								img.style.left = d.width / 2 - img.style.width.replace('px', '') / 2 + 'px';
+								heartContainer.appendChild(img);
+								img.className = "heartbeat2";
+								setTimeout(function () {
+									img.remove();
+								}, 1000);
+							}
 						}
 					}
 				}
@@ -589,6 +617,54 @@ window.addEventListener('load', function() {
 				xhttp.send('doubleHitLike='+post_id);
 			}
 		})
+	}
+
+	function getData() {
+		if (reachedLimit)
+			return ;
+		xhttp.open('POST', '/camagru/includes/handlers/gallery-handler.php', true);
+		xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+		xhttp.send('getData=1&start='+start+'&limit='+limit);
+		xhttp.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200) {
+				if (xhttp.responseText === 'reachedLimit') {
+					reachedLimit = true;
+				} else {
+					start += limit;
+					if (start === 0)
+						postsContainer.innerHTML = ''
+					postsContainer.innerHTML += xhttp.responseText;
+					postHandler();
+					commentHandler();
+				}
+			}
+		}
+	}
+
+	function getUserData() {
+		window.location.search.substr(1).split('&').forEach(function (a) {
+			if (a.match(/username/))
+				un = a.split('=')[1];
+		});
+		if (reachedLimit)
+			return ;
+		xhttp.open('POST', '/camagru/includes/handlers/gallery-handler.php', true);
+		xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+		xhttp.send('getData=1&start='+start+'&limit='+limit+'&loggedin=1&username='+un);
+		xhttp.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200) {
+				if (xhttp.responseText === 'reachedLimit') {
+					reachedLimit = true;
+				} else {
+					start += limit;
+					if (start === 0)
+						postsContainer.innerHTML = ''
+					postsContainer.innerHTML += xhttp.responseText;
+					postHandler();
+					commentHandler();
+				}
+			}
+		}
 	}
 
 	/* ************************************************************* */
@@ -621,7 +697,8 @@ window.addEventListener('load', function() {
 							setTimeout(function () {
 								div.remove();
 							}, 5000);
-							postsContainer.innerHTML = xhttp.responseText;
+							start = 0;
+							postsContainer.innerHTML = getUserData();
 							body.style.overflow = 'unset';
 							postHandler();
 							deleteHandlerInPersonal();

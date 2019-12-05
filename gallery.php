@@ -1,7 +1,5 @@
 <?php
 	session_start();
-	// if (!isset($_SESSION) || !isset($_SESSION['userLoggedIn']))
-	// 	header('Location: /camagru/index.php');
 ?>
 
 <!DOCTYPE html>
@@ -17,6 +15,7 @@
 <body id='body'>
 	<?php include("includes/navbar.php"); ?>
 	<div class="container">
+		<?php if (isset($_SESSION) && isset($_SESSION['userLoggedIn'])) { ?>
 		<div class="jumbotron top-jumbotron text-center mx-auto">
 			<a class="btn btn-primary btn-lg botona m-1 text-break click" href="/camagru/camera" role="button">
 				<img src="/camagru/assets/images/snap.png" alt="take a photo" width="25" height="20">
@@ -26,9 +25,9 @@
 				<img src="/camagru/assets/images/upload_file.png" alt="upload" width="20" height="20">
 				Upload a photo
 			</a>
+		<?php } ?>
 		</div>
 		<div id="postsContainer">
-			<?php include_once('includes/refresh_posts.php'); ?>
 		</div>
 	</div>
 	<div class="alert-container" id="alert-container">

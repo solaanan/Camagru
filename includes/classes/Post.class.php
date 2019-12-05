@@ -109,37 +109,40 @@
 				if ($publication !== '')
 				echo ' <p class="text-break">'. $publication .'</p>';
 				echo '<div class="heartContainer" id="heart_'. $post_id .'"></div>';
-				echo '<img class="postImg" src="'. $picture .'">
-				<hr class="separator">
-				<div class="tooltip-holder">';
-				// if ($tooltip)
-					echo '<span id="tooltip_'. $post_id .'" class="tooltipp">'. $tooltip .'</span>';
-				echo '</div>
-				<img class="like" id="like_'. $post_id .'" src="/camagru/assets/images/like-'. $isliked .'.png" width="33" height="30" alt="like">'. '<span class="likeCounter">' . $this->likeCounter($post_id) . '</span>' .'
-				<img class="comment click" src="/camagru/assets/images/comment_0.png" width="33" height="30" alt="comment">' . '<span id="commentsCounter_'. $post_id .'" class="likeCounter">' . $this->commentCounter($post_id) . '</span>' .
-				'<img class="share click" src="/camagru/assets/images/share.png" width="33" height="30" alt="share">
-				<div class="commentsContainer" id="commentsContainer_'. $post_id .'">
-				<form class="commentForm" method="POST" action="gallery">
-					<div class="input-group mb-3">
-						<textarea id="newComment_'. $post_id .'" type="text" class="form-control inpot" placeholder="Write a comment"></textarea>
-						<div class="input-group-append">
-							<button class="btn btn-outline-secondary comantir click" type="button" id="newCommentButton_'. $post_id .'" name="newCommentButton">Send</button>
+				echo '<img class="postImg" src="'. $picture .'">';
+				if (isset($_SESSION) && isset($_SESSION['userLoggedIn'])) {
+					echo '<hr class="separator">
+					<div class="tooltip-holder">';
+					// if ($tooltip)
+						echo '<span id="tooltip_'. $post_id .'" class="tooltipp">'. $tooltip .'</span>';
+					echo '</div>
+					<img class="like" id="like_'. $post_id .'" src="/camagru/assets/images/like-'. $isliked .'.png" width="33" height="30" alt="like">'. '<span class="likeCounter">' . $this->likeCounter($post_id) . '</span>' .'
+					<img class="comment click" src="/camagru/assets/images/comment_0.png" width="33" height="30" alt="comment">' . '<span id="commentsCounter_'. $post_id .'" class="likeCounter">' . $this->commentCounter($post_id) . '</span>' .
+					'<img class="share click" src="/camagru/assets/images/share.png" width="33" height="30" alt="share">
+					<div class="commentsContainer" id="commentsContainer_'. $post_id .'">
+					<form class="commentForm" method="POST" action="gallery">
+						<div class="input-group mb-3">
+							<textarea id="newComment_'. $post_id .'" type="text" class="form-control inpot" placeholder="Write a comment"></textarea>
+							<div class="input-group-append">
+								<button class="btn btn-outline-secondary comantir click" type="button" id="newCommentButton_'. $post_id .'" name="newCommentButton">Send</button>
+							</div>
 						</div>
-					</div>
-				</form>
-				';
-				$this->putComments($post_id);
-				if ((int)$this->commentCounter($post_id) > 2)
-					echo '
-					<a class="showMore" id="show_'. $post_id .'"> Show more </a>
+					</form>
 					';
-				echo'
-				</div>
-				</div>';
+					$this->putComments($post_id);
+					if ((int)$this->commentCounter($post_id) > 2)
+						echo '
+						<a class="showMore" id="show_'. $post_id .'"> Show more </a>
+						';
+					echo'
+					</div>';
+				}
+				echo '</div>';
 		}
 
 		public function			insertNewComment($comment, $post_id) {
 			$comment = trim($comment);
+			$comment = htmlspecialchars($comment);
 			if (isset($comment) && $comment !== '') {
 				try {
 					$query = "SELECT * FROM users WHERE username=:username";
@@ -198,7 +201,7 @@
 
 		public function			putComments($post_id) {
 			try {
-				$query = 'SELECT comment_id, post_id, user_id, comment_body, username, profilePic FROM comments JOIN users ON users.id=comments.user_id WHERE post_id=:post_id';
+				$query = 'SELECT comment_id, post_id, user_id, comment_body, username, profilePic FROM comments JOIN users ON users.id=comments.user_id WHERE post_id=:post_id ORDER BY dateOfCom DESC';
 				$stmt = $this->pdo->prepare($query);
 				$stmt->bindValue(':post_id', $post_id);
 				$stmt->execute();

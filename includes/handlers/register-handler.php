@@ -3,18 +3,18 @@
 		session_start();
 	function	sanitizeFormUsername($un) {
 		$un = trim($un);
-		$un = strip_tags($un);
+		$un = htmlspecialchars($un);
 		return $un;
 	}
 
 	function	sanitizeFormEmail($em) {
 		$em = trim($em);
-		$em = strip_tags($em);
+		$em = htmlspecialchars($em);
 		return $em;
 	}
 
 	function	sanitizeFormPassword($p) {
-		$p = strip_tags($p);
+		$p = htmlspecialchars($p);
 		return $p;
 	}
 
@@ -26,7 +26,5 @@
 		$password2 = sanitizeFormPassword($_POST['registerPassword2']);
 		$status = $account->register($username, $email1, $email2, $password1, $password2);
 		if ($status)
-		{
 			header("Location: confirmMail.php");
-		}
 	}

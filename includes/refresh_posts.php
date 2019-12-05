@@ -25,6 +25,7 @@
 	}
 	$result = $stmt->fetchAll();
 	$post = new Post($pdo);
+	die(var_dump($result));
 	if ($result) {
 		foreach ($result as $element) {
 			$post->putPost($element);

@@ -56,8 +56,6 @@
 		} else {
 			if ($post->post($_SESSION['userLoggedIn'], $pub, $base64, $index)) {
 				echo 'All good';
-				$loggedin = true;
-				include_once('../refresh_posts.php');
 			} else {
 				$post->getErrors();
 			}
@@ -69,10 +67,8 @@
 	}
 
 	if (isset($_POST['delete']) && $_POST['post_id']) {
-		if (isset($_POST['loggedin']))
-			$loggedin = true;
 		$post_id = $_POST['post_id'];
 		if ($post->deletePost($post_id)) {
-			include_once('../refresh_posts.php');
+			echo 'All good';
 		}
 	}
