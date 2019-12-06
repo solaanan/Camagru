@@ -24,13 +24,11 @@ window.addEventListener('load', function() {
 	var stream;
 
 	var comment = document.querySelectorAll('.commentt');
-	var inpot = document.querySelectorAll('.inpot');
 	var showStatus = 0;
 	var xhttp = new XMLHttpRequest();
 
 	var input = document.getElementById('fileInput');
 	var canvas = document.getElementById('canvas');
-	var botona = document.getElementById('botona');
 	var spinner = document.getElementById('spinner');
 	var pub = document.getElementById('pub');
 	var say = document.getElementById('say');
@@ -69,6 +67,13 @@ window.addEventListener('load', function() {
 		}
 		sticker.src = '/camagru/assets/images/stickers/sticker-'+ i +'.png';
 	}
+
+	if (pub)
+	pub.addEventListener("keyup", function(e) {
+		e.preventDefault();
+		save.disabled = (pub.value.length < 1000) ? false : true;
+	})
+
 	if (snap)
 		snap.disabled = true;
 	function initWebCam() {
@@ -129,20 +134,15 @@ window.addEventListener('load', function() {
 			save.style.display = "inline-block";
 			retake.style.display = "inline-block";
 
-			say.addEventListener("click", function() {
+			say.onclick = function() {
 				if (pub.style.display !== "block")
 					pub.style.display = "block";
 				say.style.display = "none";
-				if (pub.value > 1000 || pub.value < 1)
+				if (pub.value > 1000)
 						save.disabled = true;
-			});
+			};
 
 			retake.addEventListener('click', retake_pic);
-
-			pub.addEventListener("keyup", function(e) {
-				e.preventDefault();
-				save.disabled = (pub.value.length < 1000 && pub.value.length > 1) ? false : true;
-			})
 
 			var xhttp = new XMLHttpRequest();
 			xhttp.open('POST', '/camagru/includes/handlers/post-handler.php', true);
@@ -164,10 +164,9 @@ window.addEventListener('load', function() {
 						setTimeout(function () {
 							div.remove();
 						}, 5000);
-						start = 0;
-						postsContainer.innerHTML = getUserData();;
+						userPostsContainer.innerHTML = xhttp.responseText.substr(8) + userPostsContainer.innerHTML;
 						postHandler();
-						deleteHandlerInPersonal();
+						deleteHandler();
 						commentHandler();
 						snap.disabled = true;
 						retake_pic();
@@ -220,6 +219,7 @@ window.addEventListener('load', function() {
 	commentToggler.forEach(function (d) {
 			var post_id = d.parentNode.id.replace('post_', '');
 			var commentContainer = document.getElementById('commentsContainer_'+post_id);
+			var shareContainer = document.getElementById('shareContainer_'+post_id);
 			d.onmouseover = function () {
 				d.src = '/camagru/assets/images/comment_1.png'
 			}
@@ -234,6 +234,7 @@ window.addEventListener('load', function() {
 				} else {
 					d.src = '/camagru/assets/images/comment_1.png'
 					commentContainer.style.display = 'block';
+					shareContainer.style.display = 'none';
 				}
 				var array = Array.prototype.slice.call(commentContainer.children);
 				var i = 0;
@@ -248,19 +249,21 @@ window.addEventListener('load', function() {
 		});
 	}
 
-	if (inpot)
-	inpot.forEach( function(d) {
-		d.onkeydown = function(e) {
-			autoResize(e.target)
-		}
-	})
-
 	function commentHandler() {
 		commentToggle();
 		newComment();
 		toggleDeleteComment();
 		toggleShowMore();
 		deleteComment();
+
+		var inpot = document.querySelectorAll('.inpot');
+		if (inpot)
+		inpot.forEach( function(d) {
+			d.onkeydown = function(e) {
+				e.target.nextElementSibling.firstElementChild.disabled = (e.target.value.length > 500) ? true : false;
+				autoResize(e.target)
+			}
+		})
 }
 
 	function autoResize(d) {
@@ -346,7 +349,135 @@ window.addEventListener('load', function() {
 	/* ************************************************************* */
 	/*                           imageUploader                       */
 	/* ************************************************************* */
+	var elementt = document.getElementById('element');
+	var uploadBotona = document.getElementById('uploadBotona');
+	var dropImg = document.getElementById('dropImg');
+	var uploadHeading = document.getElementById('uploadHeading');
+	var dropHeading = document.getElementById('dropHeading');
 
+	if (elementt) {
+		body.ondragover = function (e) {
+			e.preventDefault();
+			e.stopPropagation();
+			[].slice.call(elementt.children).forEach(function(d) {
+					d.style.display = 'none';
+			})
+			dropImg.style.display = 'block';
+			dropHeading.style.display = 'block';
+		}
+		body.ondrop = function(e) {
+			e.preventDefault();
+			e.stopPropagation();
+			form.style.display = 'block';
+			uploadHeading.style.display = 'block';
+			dropImg.style.display = 'none';
+			dropHeading.style.display = 'none';
+		}
+		elementt.ondrop = function(e) {
+			e.preventDefault();
+			e.stopPropagation();
+			form.style.display = 'block';
+			uploadHeading.style.display = 'block';
+			dropImg.style.display = 'none';
+			dropHeading.style.display = 'none';
+
+			var dt = e.dataTransfer
+			pub.value = '';
+			var errors = document.querySelectorAll(".errorMessage");
+			var desiredWidth = 668;
+			errors.forEach(function (e) {
+				e.style.display = "none";
+			});
+			if (dt.files && dt.files[0]) {
+				var file = dt.files[0];
+				if (file.size >= 1 && file.size < 8000000) {
+					var img = new Image();
+					img.src = URL.createObjectURL(file);
+					img.onload = function() {
+						uploadBotona.style.display = "none";
+						say.style.display = "block";
+						save.style.display = "block";
+						var ctx = canvas.getContext('2d');
+						var ratio = img.height / img.width;
+						canvas.width = desiredWidth;
+						canvas.height = desiredWidth * ratio;
+						ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+						var data = canvas.toDataURL();
+						preview.src = data;
+						preview.style.display = 'block';
+						sticker.style.display = 'block';
+						sticker.parentNode.style.display = 'block';
+						arrowsContainer.style.display = 'block';
+						save.onclick = function(e) {
+							e.preventDefault();
+							say.style.display = 'none';
+							pub.style.display = 'none';
+							save.style.display = 'none';
+							preview.style.display = 'none';
+							sticker.style.display = 'none';
+							sticker.parentNode.style.display = 'none';
+							arrowsContainer.style.display = 'none';
+							spinner.style.display = 'block';
+							xhttp.open('POST', '/camagru/includes/handlers/post-handler.php', true);
+							xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+							xhttp.send('loggedin=true&picture='+data+'&publication='+pub.value+'&index='+ i);
+						}
+					}
+					img.onerror = function() {
+						say.style.display = 'none';
+						pub.style.display = 'none';
+						save.style.display = 'none';
+						spinner.style.display = 'block';
+						xhttp.open('POST', '/camagru/includes/handlers/post-handler.php', true);
+						xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+						xhttp.send('picture=error&publication=error');
+					}
+				} else {
+					('big')
+					xhttp.open('POST', '/camagru/includes/handlers/post-handler.php', true);
+					xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+					xhttp.send('big=true');
+				}
+				xhttp.onreadystatechange = function() {
+					if (this.readyState == 4 && this.status == 200) {
+						if (xhttp.responseText.match(/All good/g)) {
+							spinner.style.display = 'none';
+							pub.style.display = 'block';
+							save.style.display = 'block';
+							var div = document.createElement("div");
+							div.setAttribute("class", "alert alert-success message");
+							div.setAttribute("id", "message");
+							div.innerHTML = "Posted !";
+							body.insertBefore(div, body.children[2]);
+							setTimeout(function () {
+								div.remove();
+							}, 5000);
+							userPostsContainer.innerHTML = xhttp.responseText.substr(8) + userPostsContainer.innerHTML;
+							uploadBotona.style.display = "table";
+							say.style.display = "none";
+							save.style.display = "none";
+							pub.style.display = "none";
+						} else {
+							spinner.style.display = 'none';
+							uploadBotona.style.display = 'table';
+							var array = xhttp.responseText.split('\n');
+							array.forEach(function(e) {
+								if (e !== "") {
+									var div = document.createElement("div");
+									div.setAttribute("class", "alert errorMessage");
+									div.innerHTML = e;
+									form.insertBefore(div, form.firstChild);
+								}
+							});
+						}
+						postHandler();
+						deleteHandler();
+						commentHandler();
+					}
+				}
+			}
+		}
+	}
 	if (input)
 	input.onchange = function() {
 		pub.value = '';
@@ -361,7 +492,7 @@ window.addEventListener('load', function() {
 				var img = new Image();
 				img.src = URL.createObjectURL(file);
 				img.onload = function() {
-					botona.style.display = "none";
+					uploadBotona.style.display = "none";
 					say.style.display = "block";
 					save.style.display = "block";
 					var ctx = canvas.getContext('2d');
@@ -417,15 +548,14 @@ window.addEventListener('load', function() {
 						setTimeout(function () {
 							div.remove();
 						}, 5000);
-						start = 0;
-						getUserData();
-						botona.style.display = "table";
+						userPostsContainer.innerHTML = xhttp.responseText.substr(8) + userPostsContainer.innerHTML;
+						uploadBotona.style.display = "table";
 						say.style.display = "none";
 						save.style.display = "none";
 						pub.style.display = "none";
 					} else {
 						spinner.style.display = 'none';
-						botona.style.display = 'table';
+						uploadBotona.style.display = 'table';
 						var array = xhttp.responseText.split('\n');
 						array.forEach(function(e) {
 							if (e !== "") {
@@ -437,7 +567,7 @@ window.addEventListener('load', function() {
 						});
 					}
 					postHandler();
-					deleteHandlerInPersonal();
+					deleteHandler();
 					commentHandler();
 				}
 			}
@@ -455,32 +585,27 @@ window.addEventListener('load', function() {
 	/* ************************************************************* */
 
 	var postsContainer = document.getElementById('postsContainer');
+	var userPostsContainer = document.getElementById('userPostsContainer');
 	var xhttp = new XMLHttpRequest();
 	var start = 0;
 	var limit = 5;
 	var reachedLimit = false;
 	var un;
 
+	if (postsContainer)
+	getData();
+	if (userPostsContainer)
+	getUserData();
 	postHandler();
-	var pathname = window.location.pathname.split('/')[window.location.pathname.split('/').length - 1];
-	if (pathname === 'gallery' || pathname === 'gallery.php') {
-		deleteHandlerInGallery();
-		getData();
-		window.addEventListener('scroll', function() {
-			if (document.documentElement.offsetHeight + document.documentElement.scrollTop === document.documentElement.scrollHeight) {
-				getData();
-			}
-		})
-	}
-	else {
-		deleteHandlerInPersonal();
-		getUserData();
-		window.addEventListener('scroll', function() {
-			if (document.documentElement.offsetHeight + document.documentElement.scrollTop === document.documentElement.scrollHeight) {
-				getUserData();
-			}
-		})
-	}
+	deleteHandler();
+	window.addEventListener('scroll', function() {
+		if (document.documentElement.offsetHeight + document.documentElement.scrollTop === document.documentElement.scrollHeight) {
+			if (postsContainer)
+			getData();
+			if (userPostsContainer)
+			getUserData();
+		}
+	})
 	postHandler();
 	commentHandler();
 	function hitLike() {
@@ -563,6 +688,7 @@ window.addEventListener('load', function() {
 		toggleDeletePost();
 		hitLike();
 		doubleHitLike();
+		shareHandler();
 	}
 
 	function doubleHitLike() {
@@ -631,9 +757,11 @@ window.addEventListener('load', function() {
 					reachedLimit = true;
 				} else {
 					start += limit;
-					if (start === 0)
-						postsContainer.innerHTML = ''
-					postsContainer.innerHTML += xhttp.responseText;
+					if (postsContainer) {
+						if (start === 0)
+							postsContainer.innerHTML = ''
+						postsContainer.innerHTML += xhttp.responseText;
+					}
 					postHandler();
 					commentHandler();
 				}
@@ -657,9 +785,11 @@ window.addEventListener('load', function() {
 					reachedLimit = true;
 				} else {
 					start += limit;
-					if (start === 0)
-						postsContainer.innerHTML = ''
-					postsContainer.innerHTML += xhttp.responseText;
+					if (userPostsContainer) {
+						if (start === 0)
+							userPostsContainer.innerHTML = ''
+						userPostsContainer.innerHTML += xhttp.responseText;
+					}
 					postHandler();
 					commentHandler();
 				}
@@ -671,7 +801,7 @@ window.addEventListener('load', function() {
 	/*                          DeleteHandler                        */
 	/* ************************************************************* */
 
-	function deleteHandlerInPersonal() {
+	function deleteHandler() {
 		onclick = function(e) {
 			if (e.target.className === 'delete float-right my-auto') {
 			body.style.overflow = 'hidden';
@@ -688,7 +818,7 @@ window.addEventListener('load', function() {
 			else if (e.target === alertDelete) {
 				xhttp.onreadystatechange = function() {
 					if (this.readyState == 4 && this.status == 200) {
-						if (xhttp.responseText) {
+						if (xhttp.responseText === 'All good') {
 							var div = document.createElement("div");
 							div.setAttribute("class", "alert alert-success message");
 							div.setAttribute("id", "message");
@@ -698,10 +828,10 @@ window.addEventListener('load', function() {
 								div.remove();
 							}, 5000);
 							start = 0;
-							postsContainer.innerHTML = getUserData();
+							document.getElementById('post_'+post_id).remove();
 							body.style.overflow = 'unset';
 							postHandler();
-							deleteHandlerInPersonal();
+							deleteHandler();
 							commentHandler();
 						}
 					}
@@ -713,51 +843,32 @@ window.addEventListener('load', function() {
 					alertContainer.style.visibility = 'hidden';
 				}, 500);alertContainer.style.visibility = 'hidden';
 				alertContainer.style.opacity = '0';
+				body.style.overflow = 'unset';
 			}
 		}
 	}
 
-	function deleteHandlerInGallery() {
-		onclick = function(e) {
-			if (e.target.className === 'delete float-right my-auto') {
-			body.style.overflow = 'hidden';
-			alertContainer.style.visibility = 'visible';
-			alertContainer.style.opacity = '1';
-			post_id = e.target.parentNode.id.replace('post_', '');
-			} else if (e.target === alertCancel || e.target.id === 'alert-container' || e.target.id === 'alert-body') {
-				alertContainer.style.opacity = '0';
-				setTimeout(function () {
-					alertContainer.style.visibility = 'hidden';
-				}, 500);
-				body.style.overflow = 'unset';
-			} else if (e.target === alertDelete) {
-				xhttp.onreadystatechange = function() {
-					if (this.readyState == 4 && this.status == 200) {
-						if (xhttp.responseText) {
-							var div = document.createElement("div");
-							div.setAttribute("class", "alert alert-success message");
-							div.setAttribute("id", "message");
-							div.innerHTML = "Deleted !";
-							body.insertBefore(div, body.children[2]);
-							setTimeout(function () {
-								div.remove();
-							}, 5000);
-							postsContainer.innerHTML = xhttp.responseText;
-							body.style.overflow = 'unset';
-							postHandler();
-							deleteHandlerInGallery();
-							commentHandler();
-						}
-					}
+	/* ************************************************************* */
+	/*                           ShareHandler                        */
+	/* ************************************************************* */
+
+	function shareHandler() {
+		var share = document.querySelectorAll('.share');
+
+		share.forEach(function(d) {
+			var postId = d.id.replace('share_', '');
+			var shareContainer = document.getElementById('shareContainer_'+postId);
+			var commentsContainer = document.getElementById('commentsContainer_'+postId);
+			var commentToggler = document.getElementById('comment_'+postId);
+			d.onclick = function(e) {
+				if (shareContainer.style.display === 'none') {
+					shareContainer.style.display = 'block';
+					commentsContainer.style.display = 'none';
+					commentToggler.src = '/camagru/assets/images/comment_0.png';
 				}
-				xhttp.open('POST', '/camagru/includes/handlers/post-handler.php', true);
-				xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-				xhttp.send('delete=true&post_id='+post_id);
-				alertContainer.style.opacity = '0';
-				setTimeout(function () {
-					alertContainer.style.visibility = 'hidden';
-				}, 500)
+				else
+					shareContainer.style.display = 'none';
 			}
-		}
+		})
 	}
 })

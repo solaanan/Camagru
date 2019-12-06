@@ -11,12 +11,22 @@
 		$pub = $_POST['publication'];
 		$base64 = $_POST['pictureData'];
 		$un = $_SESSION['userLoggedIn'];
-		$stickerIndex = $_POST['index'];
+		$stickerIndex = isset($_POST['index']) ? $_POST['index'] : 0;
 
-		if ($post->post($un, $pub, $base64, $stickerIndex)) {
+		if ($id = $post->post($un, $pub, $base64, $stickerIndex)) {
 			echo 'All good';
-			$loggedin = true;
-			include_once('../refresh_posts.php');
+			try {
+				$query = 'SELECT username, profilePic, picture, publication, post_id, signUpDate FROM users INNER JOIN posts ON users.id = posts.user_id WHERE post_id=:post_id';
+				$stmt = $pdo->prepare($query);
+				$stmt->bindValue(':post_id', $id);
+				$stmt->execute();
+				if ($stmt === false)
+					return false;
+			} catch (PDOException $e) {
+				die ('There was an error communicating with the databases ' . $e);
+			}
+			$array = $stmt->fetch();
+			$post->putPost($array);
 		} else
 			$post->getErrors();
 	}
@@ -50,12 +60,24 @@
 	if (isset($_POST['picture']) && isset($_POST['publication'])) {
 		$base64 = $_POST['picture'];
 		$pub = $_POST['publication'];
-		$index = $_POST['index'];
+		$index = isset($_POST['index']) ? $_POST['index'] : 0;
 		if ($base64 === 'error') {
 			echo Constants::$imageCannotBeFound;
 		} else {
-			if ($post->post($_SESSION['userLoggedIn'], $pub, $base64, $index)) {
+			if ($id = $post->post($_SESSION['userLoggedIn'], $pub, $base64, $index)) {
 				echo 'All good';
+				try {
+					$query = 'SELECT username, profilePic, picture, publication, post_id, signUpDate FROM users INNER JOIN posts ON users.id = posts.user_id WHERE post_id=:post_id';
+					$stmt = $pdo->prepare($query);
+					$stmt->bindValue(':post_id', $id);
+					$stmt->execute();
+					if ($stmt === false)
+						return false;
+				} catch (PDOException $e) {
+					die ('There was an error communicating with the databases ' . $e);
+				}
+				$array = $stmt->fetch();
+				$post->putPost($array);
 			} else {
 				$post->getErrors();
 			}

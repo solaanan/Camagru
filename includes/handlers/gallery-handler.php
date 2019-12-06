@@ -8,7 +8,7 @@
 	if (isset($_POST['username']) && $_POST['username'] !== '' && $_POST['username'] !== 'undefined') 
 		$un = $_POST['username'];
 	else
-		$un = $_SESSION['userLoggedIn'];
+		$un = isset($_SESSION['userLoggedIn']) ? $_SESSION['userLoggedIn'] : '';
 	$subquery = '';
 	if (isset($_POST['loggedin']))
 		$subquery = 'WHERE username=:username';

@@ -11,7 +11,7 @@
 			parent::__construct($pdo);
 			$this->pdo = $pdo;
 			$this->errorArray = array();
-			$this->username = $_SESSION['userLoggedIn'];
+			$this->username = isset($_SESSION['userLoggedIn']) ? $_SESSION['userLoggedIn'] : '';
 		}
 
 		public function	post($un, $pub, $base64, $stickerIndex) {
@@ -61,7 +61,7 @@
 				} else {
 					return false;
 				}
-				return true;
+				return $this->pdo->lastInsertId();
 			}
 			return false;
 		}
@@ -103,7 +103,7 @@
 				if ($days < 7)
 					echo '<span class="badge badge-secondary new-badge">New</span>';
 				echo '</a>';
-				if ($username === $_SESSION['userLoggedIn'])
+				if ($username === $this->username)
 					echo '<img id="delete_'. $post_id .'" src="/camagru/assets/images/delete.png" class="delete float-right my-auto" width="20" height="20" alt="delete">';
 				echo '<hr class="separator">';
 				if ($publication !== '')
@@ -117,8 +117,8 @@
 						echo '<span id="tooltip_'. $post_id .'" class="tooltipp">'. $tooltip .'</span>';
 					echo '</div>
 					<img class="like" id="like_'. $post_id .'" src="/camagru/assets/images/like-'. $isliked .'.png" width="33" height="30" alt="like">'. '<span class="likeCounter">' . $this->likeCounter($post_id) . '</span>' .'
-					<img class="comment click" src="/camagru/assets/images/comment_0.png" width="33" height="30" alt="comment">' . '<span id="commentsCounter_'. $post_id .'" class="likeCounter">' . $this->commentCounter($post_id) . '</span>' .
-					'<img class="share click" src="/camagru/assets/images/share.png" width="33" height="30" alt="share">
+					<img  id="comment_'. $post_id .'" class="comment click" src="/camagru/assets/images/comment_0.png" width="33" height="30" alt="comment">' . '<span id="commentsCounter_'. $post_id .'" class="likeCounter">' . $this->commentCounter($post_id) . '</span>' .
+					'<img id="share_'. $post_id .'" class="share click" src="/camagru/assets/images/share.png" width="33" height="30" alt="share">
 					<div class="commentsContainer" id="commentsContainer_'. $post_id .'">
 					<form class="commentForm" method="POST" action="gallery">
 						<div class="input-group mb-3">
@@ -137,12 +137,22 @@
 					echo'
 					</div>';
 				}
-				echo '</div>';
+				echo '
+				<div class="shareContainer" id="shareContainer_'. $post_id .'">
+						<div class="shareLink"> http://10.12.2.2/camagru/post?id='. $post_id .'</div>
+						<div class="shareButtons">
+							<a class="copy botona" id="copy_'. $post_id .'"> Copy </a>
+							<a class="copy botona" href="https://www.twitter.com/" target="_blank"> Tweet </a>
+						</div>
+				</div>
+				</div>';
 		}
 
 		public function			insertNewComment($comment, $post_id) {
 			$comment = trim($comment);
 			$comment = htmlspecialchars($comment);
+			if (strlen($comment) > 500)
+				return false;
 			if (isset($comment) && $comment !== '') {
 				try {
 					$query = "SELECT * FROM users WHERE username=:username";
@@ -278,6 +288,8 @@
 			} catch (PDOException $e) {
 				die(Constants::$databasesProblem . $e);
 			}
+			if ($stmt->rowCount() === 0)
+				return false;
 			$path = $stmt->fetch()['picture'];
 			if (file_exists(str_replace('/camagru', '../..', $path)))
 				unlink(str_replace('/camagru', '../..', $path));

@@ -16,7 +16,7 @@
 			public static $wrongOldPasswd = "Wrong password.";
 			public static $usernameIsNotValid = "Your username must only contains letters and numbers and these characters _ - .";
 			public static $imageCannotBeFound = "Please upload a valid image file.";
-			public static $imageTooBig = "Your image is too big.";
+			public static $imageTooBig = "Your file is too big.";
 			public static $PublicationTooLong = "Your publication cannot exceed 1000 characters.";
 			public static $databasesProblem = "There was a problem communicating with the databases: ";
 		}

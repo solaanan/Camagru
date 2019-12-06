@@ -3,9 +3,11 @@
 		session_start();
 	class Like {
 		private $pdo;
+		private $un;
 
 		public function __construct($pdo) {
 			$this->pdo = $pdo;
+			$this->un = isset($_SESSION['userLoggedIn']) ? $_SESSION['userLoggedIn'] : '';
 		}
 
 		public function like($post_id) {
@@ -14,7 +16,7 @@
 					$query = "INSERT INTO likes (id_post, id_user) SELECT :post_id, id FROM users WHERE username=:username";
 					$stmt = $this->pdo->prepare($query);
 					$stmt->bindValue(':post_id', $post_id);
-					$stmt->bindValue(':username', $_SESSION['userLoggedIn']);
+					$stmt->bindValue(':username', $this->un);
 					$stmt->execute();
 					if ($stmt === false)
 						die('There was an error communicating with the databases');
@@ -48,7 +50,7 @@
 					$query = "DELETE FROM likes WHERE id_post=:post_id AND id_user IN (SELECT id FROM users WHERE username=:username)";
 					$stmt = $this->pdo->prepare($query);
 					$stmt->bindValue(':post_id', $post_id);
-					$stmt->bindValue(':username', $_SESSION['userLoggedIn']);
+					$stmt->bindValue(':username', $this->un);
 					$stmt->execute();
 					if ($stmt === false)
 						die('There was an error communicating with the databases');
@@ -64,7 +66,7 @@
 				$query = 'SELECT COUNT(*) AS "isliked" FROM likes, users WHERE id_post=:post_id AND username=:username AND id_user=users.id';
 				$stmt = $this->pdo->prepare($query);
 				$stmt->bindValue(':post_id', $post_id);
-				$stmt->bindValue(':username', $_SESSION['userLoggedIn']);
+				$stmt->bindValue(':username', $this->un);
 				$stmt->execute();
 				if ($stmt === false)
 					die('There was an error communicating with the databases');

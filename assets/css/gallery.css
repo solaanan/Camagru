@@ -193,3 +193,35 @@ html, body {
 	border-radius: 10px;
 	visibility: hidden;
 }
+
+.shareContainer {
+	display: none;
+}
+
+.shareLink {
+	display: block;
+	width: 100%;
+	margin: auto;
+	margin-top: 20px;
+	text-align: center;
+	background: white;
+	border-radius: 10px;
+	padding: 10px;
+	color: #2c386d;
+}
+
+.shareButtons {
+	text-align: center;
+	margin-top: 20px;
+}
+
+.copy {
+	padding: 10px;
+	margin: 10px;
+	text-decoration: none;
+}
+
+.copy:hover {
+	text-decoration: none;
+	
+}

@@ -23,11 +23,13 @@
 			<div class="col-xs-1 col-md-1"></div>
 			<div class="colona col-xs-12 col-md-5">
 				<div class="element jumbotron" id="element">
-					<h1 class="h2 text-break">Upload a new image!</h1>
+					<h1 class="h2 text-break" id="uploadHeading">Upload a new image!</h1>
 					<div id="spinner" class="spinner-border m-auto"></div>
+					<img id="dropImg" src="/camagru/assets/images/upload.png" alt="snap" width="60" height="60">
+					<h1 class="h2 text-break" id="dropHeading">Drop your image here!</h1>
 					<form action="uploadImage.php" id="form" method="post">
 						<input type="file" name="imageFile" id="fileInput" enctype="multipart/form-data" accept="image/*">
-						<label for="fileInput" class="label botona" id="botona">
+						<label for="fileInput" class="label botona" id="uploadBotona">
 							<img id="upload_img" src="/camagru/assets/images/upload_file.png" alt="snap" width="25" height="20">
 							<span id="upload_text"> Upload </span>
 						</label>
@@ -54,7 +56,7 @@
 			<div class="col-xs-1 col-md-1"></div>
 			<div class="colona posts col-xs-6 col-md-4">
 				<h1 class="h2 text-break">Your recent posts:</h1>
-				<div id="postsContainer">
+				<div id="userPostsContainer">
 				</div>
 			</div>
 			<div class="col-xs-1 col-md-1"></div>

@@ -54,7 +54,7 @@
 				</a>
 				<div class="divini">
 					<div class="absolute-div" id="absoluteDiv" style="background-image: url('<?php echo $pcPath; ?>');">
-					<?php if ($_GET['username'] === $_SESSION['userLoggedIn'] || !isset($_GET) || !isset($_GET['username'])) { ?>
+					<?php if ( !isset($_GET) || !isset($_GET['username']) || $_GET['username'] === $_SESSION['userLoggedIn']) { ?>
 						<form method="POST" action="profile.php">
 						<input type="file" name="newPicture" id="newPicture" enctype="multipart/form-data">
 							<label for="newPicture" id="pdpContainer">
@@ -68,7 +68,7 @@
 				<div class="info-container">
 					<span class="info"><?php echo $un; ?></span>
 					<?php
-						if ($_GET['username'] === $_SESSION['userLoggedIn'] || !isset($_GET) || !isset($_GET['username']))
+						if (!isset($_GET) || !isset($_GET['username']) || $_GET['username'] === $_SESSION['userLoggedIn'])
 						echo '<a href="/camagru/editUsername.php" class="edit">
 							<img class="click" src="/camagru/assets/images/edit.png" width="20" height="20" alt="edit">
 						</a>';
@@ -101,7 +101,7 @@
 			<?php } ?>
 		</div>
 		<?php if (!isset($_GET) || !isset($_GET['error']) || $_GET['error'] !== 'nouser') { ?>
-		<div id="postsContainer">
+		<div id="userPostsContainer">
 		</div>
 		<?php } ?>
 	</div>
