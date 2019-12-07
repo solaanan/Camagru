@@ -4,6 +4,7 @@
 		header('Location: /camagru/gallery');
 	}
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 	<head>

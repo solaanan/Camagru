@@ -51,7 +51,7 @@
 			<img src="/camagru/assets/images/bars.png" width="30" height="30" id="collapsor">
 		</a>
 </div>
-<a class="goUp" href="#navbarElements" id="goUp">
+<a class="goUp" href="#" id="goUp">
 		<img src="/camagru/assets/images/goUp.png" alt="go up" width="30" height="30">
 </a>
 <script>
