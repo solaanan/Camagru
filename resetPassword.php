@@ -22,13 +22,14 @@
 	</style>
 	<script src="/camagru/assets/js/resetPassword.js"></script>
 	<title>Camagru - Reset your password</title>
+	<script src="/camagru/assets/js/themeSwitcher.js"></script>
 </head>
 <body id="body">
 	<div class="back"></div>
 	<div class="container">
 		<div class="jumbotron" id="form">
 			<a href="javascript:history.back()" class="goback">
-				<img src="/camagru/assets/images/goback.png" alt="go back" width="30" height="30">
+				<img src="/camagru/assets/images/icons-dark/goback.png" alt="go back" width="30" height="30">
 			</a>
 			<?php
 				if (!isset($_GET['token']) || empty($_GET['token']))
@@ -59,7 +60,7 @@
 						<input type="password" name="newPassword2" id="newPassword2" class="form-control form-control-lg inputt" placeholder="Re-type new password" required>
 						<button name="newPasswordButton" id="newPasswordButton" class="btn-lg botona">Save changes</button>';
 					else
-						echo '<img class="good" src="/camagru/assets/images/bad.png" width="200" height="200" alt="error">
+						echo '<img class="good" src="/camagru/assets/images/icons-dark/bad.png" width="200" height="200" alt="error">
 						<h1 class="display-4 good">Something went wrong</h1>
 						<hr>
 						<p class="lead good">An error has occured during the process of your operation.</p>';
@@ -67,7 +68,7 @@
 			?>
 		</div>
 		<div class="jumbotron" id="success">
-			<img class="good" src="/camagru/assets/images/good.png" width="200" height="200" alt="error">
+			<img class="good" src="/camagru/assets/images/icons-dark/good.png" width="200" height="200" alt="error">
 			<h1 class="display-4 good">Success !</h1>
 			<hr>
 			<p class="lead good">Your password has been changed successfully, <a href="/camagru/login">Login</a> to your account.</p>

@@ -22,14 +22,15 @@
 		<?php include("includes/links.php") ?>
 		<link rel="stylesheet" href="/camagru/assets/css/login.css">
 		<title>Camagru - Sign up</title>
+		<script src="/camagru/assets/js/themeSwitcher.js"></script>
 	</head>
 <body>
-	<div class="back"></div>
+	<div class="back" id="bg"></div>
 	<?php include("includes/navbar.php"); ?>
 	<div class="container">
 		<div class="jumbotron">
 			<a href="javascript:history.back()" class="goback">
-				<img src="/camagru/assets/images/goback.png" alt="go back" width="30" height="30">
+				<img src="/camagru/assets/images/icons-dark/goback.png" alt="go back" width="30" height="30">
 			</a>
 			<h1 class="signup display-3">Sign up !</h1>
 			<form action="register.php" method="POST">

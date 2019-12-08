@@ -11,13 +11,14 @@
 	<link rel="stylesheet" href="/camagru/assets/css/login.css">
 	<title>Camagru - Edit profile</title>
 	<script src="/camagru/assets/js/editPassword.js"></script>
+	<script src="/camagru/assets/js/themeSwitcher.js"></script>
 </head>
 <body id="body">
 	<?php include_once("includes/navbar.php"); ?>
 	<div class="container">
 		<div class="jumbotron">
 			<a href="javascript:history.back()" class="goback">
-				<img src="/camagru/assets/images/goback.png" alt="go back" width="30" height="30">
+				<img src="/camagru/assets/images/icons-dark/goback.png" alt="go back" width="30" height="30">
 			</a>
 			<h1 class="display-4">Change your password:</h1>
 			<form id="form" method="POST" action="editPassword.php">

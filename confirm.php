@@ -9,6 +9,7 @@
 <head>
 	<?php include_once("includes/links.php"); ?>
 	<link rel="stylesheet" href="/camagru/assets/css/confirmMail.css">
+	<script src="/camagru/assets/js/themeSwitcher.js"></script>
 	<title><?php echo "Camagru - " . $header ; ?></title>
 </head>
 <body>

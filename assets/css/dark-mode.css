@@ -1,0 +1,77 @@
+html {
+	scrollbar-color: #f1f1f1 #343e70;
+
+}
+
+* {
+	color: white;
+}
+
+.botona:disabled {
+	opacity: 0.5;
+}
+
+.back {
+	background-image: url('../images/back2.png');
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+
+body
+{
+	background: #1c2444;
+}
+
+.topnav, .footer {
+	background-color: #272f51;
+	color: white;
+}
+
+.jumbotron
+{
+	background-color: #272f51E5;
+	color: white;
+}
+
+hr {
+	background: white;
+}
+
+.topnav a:not(.navbar-brand):hover {
+	background: #222847;
+}
+
+@media screen and (max-width: 600px) {
+	.topnav.responsive .bars {
+		background: #222847;
+	}
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+	background: #343e70;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+	background: #f1f1f1;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+	background: #c5c4c4;
+}
+  
+  .inputt {
+	background-color: #272f5100;
+	color: white;
+  }
+  
+  .inputt:focus {
+	background-color: #272f5100;
+	color: white;
+  }
+  
+  .inputt::placeholder {
+	color: rgba(255, 255, 255, 0.658);
+  }

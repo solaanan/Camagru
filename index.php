@@ -9,11 +9,11 @@
 <html lang="en">
 	<head>
 		<?php include("includes/links.php") ?>
-		<link rel="stylesheet" href="/camagru/assets/css/home.css">
 		<title>Camagru - Home</title>
+		<script src="/camagru/assets/js/themeSwitcher.js"></script>
 	</head>
 	<body>
-		<div class="back"></div>
+		<div class="back" id="bg"></div>
 		<?php include("includes/navbar.php") ?>
 		<div class="container">
 			<div class="jumbotron">

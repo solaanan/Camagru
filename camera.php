@@ -32,6 +32,7 @@
 	<link rel="stylesheet" href="/camagru/assets/css/camera.css">
 	<link rel="stylesheet" href="/camagru/assets/css/gallery.css">
 	<script src="/camagru/assets/js/postManagement.js"></script>
+	<script src="/camagru/assets/js/themeSwitcher.js"></script>
 </head>
 <body id="body">
 	<?php include_once("includes/navbar.php") ?>
@@ -46,8 +47,8 @@
 					</div>
 					<video id="video" class="video" autoplay>yes</video>
 					<div class="arrowsContainer">
-						<img src="/camagru/assets/images/left.png" alt="previous" width="30" height="30" class="previous" id="previous">
-						<img src="/camagru/assets/images/right.png" alt="next" width="30" height="30" class="next" id="next">
+						<img src="/camagru/assets/images/icons-dark/left.png" alt="previous" width="30" height="30" class="previous" id="previous">
+						<img src="/camagru/assets/images/icons-dark/right.png" alt="next" width="30" height="30" class="next" id="next">
 					</div>
 					<button id="snap" class="botona">
 						<img src="/camagru/assets/images/snap.png" alt="snap" width="25" height="20">
@@ -86,11 +87,11 @@
 				<hr>
 				<p class="lead text-break">Do you really want to delete this post?<br>This action is irreversible!</p>
 				<button class="btn btn-lg botona my-2 mx-4" id="delete">
-					<img src="/camagru/assets/images/good.png" alt="yes" width="30" height="30">
+					<img src="/camagru/assets/images/icons-dark/good.png" alt="yes" width="30" height="30">
 					Delete
 				</button>
 				<button class="btn btn-lg botona m-0 mx-4" id="cancel">
-					<img src="/camagru/assets/images/bad.png" alt="no" width="30" height="30">
+					<img src="/camagru/assets/images/icons-dark/bad.png" alt="no" width="30" height="30">
 					Cancel
 				</button>
 			</div>

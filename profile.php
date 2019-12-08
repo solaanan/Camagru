@@ -34,7 +34,9 @@
 	<script src="/camagru/assets/js/updatePicOnHover.js"></script>
 	<script src="/camagru/assets/js/editProfilePic.js"></script>
 	<script src="/camagru/assets/js/postManagement.js"></script>
+	<script src="/camagru/assets/js/themeSwitcher.js"></script>
 	<title>Camagru - My Profile</title>
+	<script src="/camagru/assets/js/themeSwitcher.js"></script>
 </head>
 <body id="body">
 	<?php include_once("includes/navbar.php"); ?>
@@ -43,14 +45,14 @@
 			<?php
 				if (isset($_GET) && isset($_GET['error']) && $_GET['error'] === 'nouser') {
 			?>
-				<img src="/camagru/assets/images/bad.png" class ="bad" alt="good" width="200" height="200">
+				<img src="/camagru/assets/images/icons-dark/bad.png" class ="bad" alt="good" width="200" height="200">
 				<h1 class="display-4">User not found !</h1>
 				<hr>
 				<p class="lead">We cannot find any account with this username</p>
 			<?php } else { ?>
 				<div id="spinner" class="spinner-border"></div>
 				<a href="javascript:history.back()" class="goback">
-					<img src="/camagru/assets/images/goback.png" alt="go back" width="30" height="30">
+					<img src="/camagru/assets/images/icons-dark/goback.png" alt="go back" width="30" height="30">
 				</a>
 				<div class="divini">
 					<div class="absolute-div" id="absoluteDiv" style="background-image: url('<?php echo $pcPath; ?>');">
@@ -70,7 +72,7 @@
 					<?php
 						if (!isset($_GET) || !isset($_GET['username']) || $_GET['username'] === $_SESSION['userLoggedIn'])
 						echo '<a href="/camagru/editUsername.php" class="edit">
-							<img class="click" src="/camagru/assets/images/edit.png" width="20" height="20" alt="edit">
+							<img class="click" src="/camagru/assets/images/icons-dark/edit.png" width="20" height="20" alt="edit">
 						</a>';
 					?>
 				</div>
@@ -80,7 +82,7 @@
 					<?php
 						if (!isset($_GET) || !isset($_GET['username']) || $_GET['username'] === $_SESSION['userLoggedIn'])
 						echo '<a href="/camagru/editEmail.php" class="edit">
-							<img class="click" src="/camagru/assets/images/edit.png" width="20" height="20" alt="edit">
+							<img class="click" src="/camagru/assets/images/icons-dark/edit.png" width="20" height="20" alt="edit">
 						</a>';
 					?>
 				</div>
@@ -90,7 +92,7 @@
 						<div class="info-container">
 							<span class="info">****************</span>
 							<a href="/camagru/editPassword.php" class="edit">
-									<img class="click" src="/camagru/assets/images/edit.png" width="20" height="20" alt="edit">
+									<img class="click" src="/camagru/assets/images/icons-dark/edit.png" width="20" height="20" alt="edit">
 							</a>
 						</div>';
 				?>
@@ -113,11 +115,11 @@
 				<hr>
 				<p class="lead text-break">Do you really want to delete this post?<br>This action is irreversible!</p>
 				<button class="btn btn-lg botona my-2 mx-4 click" id="delete">
-					<img src="/camagru/assets/images/good.png" alt="yes" width="30" height="30">
+					<img src="/camagru/assets/images/icons-dark/good.png" alt="yes" width="30" height="30">
 					Delete
 				</button>
 				<button class="btn btn-lg botona m-0 mx-4 click" id="cancel">
-					<img src="/camagru/assets/images/bad.png" alt="no" width="30" height="30">
+					<img src="/camagru/assets/images/icons-dark/bad.png" alt="no" width="30" height="30">
 					Cancel
 				</button>
 			</div>

@@ -1,7 +1,5 @@
 .jumbotron {
   margin-top: 100px;
-  background-color: #272f51e5;
-  color: white;
 }
 
 .signup {
@@ -11,34 +9,15 @@
 .inputt {
   margin: 20px auto;
   border: 0;
-  background-color: #272f5100;
-  color: white;
   border-bottom: 1px solid;
 }
 
 .inputt:focus {
   border: 0;
-  background-color: #272f5100;
-  color: white;
   border-bottom: 1px solid;
   outline: none !important;
   outline-style: none !important;
   box-shadow: none;
-}
-
-.inputt::placeholder {
-  color: rgba(255, 255, 255, 0.658);
-}
-
-.errorMessage {
-  background: #ef5e5e;
-  color: white;
-  display: block;
-}
-
-.important {
-  color: crimson;
-  font-weight: bold;
 }
 
 #spinner {

@@ -67,6 +67,7 @@
 		}
 
 		public function			putPost($array) {
+			$iconTheme = (isset($_COOKIE) && isset($_COOKIE['theme']) && $_COOKIE['theme'] === '1') ? 'icons-light' : 'icons-dark';
 			$username = $array['username'];
 			$profilePic = $array['profilePic'];
 			$picture = $array['picture'];
@@ -116,9 +117,9 @@
 					// if ($tooltip)
 						echo '<span id="tooltip_'. $post_id .'" class="tooltipp">'. $tooltip .'</span>';
 					echo '</div>
-					<img class="like" id="like_'. $post_id .'" src="/camagru/assets/images/like-'. $isliked .'.png" width="33" height="30" alt="like">'. '<span class="likeCounter">' . $this->likeCounter($post_id) . '</span>' .'
-					<img  id="comment_'. $post_id .'" class="comment click" src="/camagru/assets/images/comment_0.png" width="33" height="30" alt="comment">' . '<span id="commentsCounter_'. $post_id .'" class="likeCounter">' . $this->commentCounter($post_id) . '</span>' .
-					'<img id="share_'. $post_id .'" class="share click" src="/camagru/assets/images/share.png" width="33" height="30" alt="share">
+					<img class="like" id="like_'. $post_id .'" src="/camagru/assets/images/'. $iconTheme .'/	like-'. $isliked .'.png" width="33" height="30" alt="like">'. '<span class="likeCounter">' . $this->likeCounter($post_id) . '</span>' .'
+					<img  id="comment_'. $post_id .'" class="comment click" src="/camagru/assets/images/'. $iconTheme .'/comment_0.png" width="33" height="30" alt="comment">' . '<span id="commentsCounter_'. $post_id .'" class="likeCounter">' . $this->commentCounter($post_id) . '</span>' .
+					'<img id="share_'. $post_id .'" class="share click" src="/camagru/assets/images/'. $iconTheme .'/share.png" width="33" height="30" alt="share">
 					<div class="commentsContainer" id="commentsContainer_'. $post_id .'">
 					<form class="commentForm" method="POST" action="gallery">
 						<div class="input-group mb-3">
@@ -139,10 +140,10 @@
 				}
 				echo '
 				<div class="shareContainer" id="shareContainer_'. $post_id .'">
-						<div class="shareLink"> http://10.12.2.2/camagru/post?id='. $post_id .'</div>
+						<textarea class="shareLink" id="shareLink_'. $post_id .'" readonly> '. $_SERVER['SERVER_NAME'] .'/camagru/post?id='. $post_id .'</textarea>
 						<div class="shareButtons">
-							<a class="copy botona" id="copy_'. $post_id .'"> Copy </a>
-							<a class="copy botona" href="https://www.twitter.com/" target="_blank"> Tweet </a>
+							<a class="copy botona coppy" id="copy_'. $post_id .'"> Copy </a>
+							<a class="copy botona tweet" href="https://www.twitter.com/intent/tweet?text=view%20'. $username .'%27s%20publication%20on%20Camagru%3A%0A'. $_SERVER['SERVER_NAME'] .'%2Fcamagru%2Fpost%3Fid%3D'. $post_id .'" target="_blank"> Tweet </a>
 						</div>
 				</div>
 				</div>';

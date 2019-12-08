@@ -10,10 +10,13 @@
 	<link rel="stylesheet" href="/camagru/assets/css/gallery.css">
 	<link rel="stylesheet" href="/camagru/assets/css/animations.css">
 	<script src="/camagru/assets/js/postManagement.js"></script>
+	<script src="/camagru/assets/js/themeSwitcher.js"></script>
 	<title>Camagru - Gallery</title>
+	<script src="/camagru/assets/js/themeSwitcher.js"></script>
 </head>
 <body id='body'>
 	<?php include("includes/navbar.php"); ?>
+	<div id="messages"></div>
 	<div class="container">
 		<?php if (isset($_SESSION) && isset($_SESSION['userLoggedIn'])) { ?>
 		<div class="jumbotron top-jumbotron text-center mx-auto">
@@ -47,5 +50,6 @@
 			</div>
 		</div>
 	</div>
+	<?php include_once('includes/footer.php') ?>
 </body>
 </html>

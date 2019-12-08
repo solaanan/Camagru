@@ -35,6 +35,7 @@
 		<link rel="stylesheet" href="/camagru/assets/css/animations.css">
 		<script src="/camagru/assets/js/postManagement.js"></script>
 		<title>Document</title>
+		<script src="/camagru/assets/js/themeSwitcher.js"></script>
 	</head>
 	<body>
 		<?php include_once('includes/navbar.php') ?>
@@ -44,7 +45,7 @@
 			$post->putPost($arroy);
 			else { ?>
 			<div class="jumbotron mx-auto" style="text-align:center">
-			<img src="/camagru/assets/images/bad.png" class ="bad" alt="error" width="200" height="200">
+			<img src="/camagru/assets/images/icons-dark/bad.png" class ="bad" alt="error" width="200" height="200">
 				<h1 class="display-4">Post not found !</h1>
 				<hr>
 				<p class="lead">We cannot find any post for you</p>

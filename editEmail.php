@@ -12,13 +12,14 @@
 	<link rel="stylesheet" href="/camagru/assets/css/animations.css">
 	<title>Camagru - Edit profile</title>
 	<script src="/camagru/assets/js/editEmail.js"></script>
+	<script src="/camagru/assets/js/themeSwitcher.js"></script>
 </head>
 <body id="body">
 	<?php include_once("includes/navbar.php"); ?>
 	<div class="container">
 		<div class="jumbotron">
 			<a href="javascript:history.back()" class="goback">
-				<img src="/camagru/assets/images/goback.png" alt="go back" width="30" height="30">
+				<img src="/camagru/assets/images/icons-dark/goback.png" alt="go back" width="30" height="30">
 			</a>
 			<h1 class="display-4"> Enter a new email address:</h1>
 			<p class="lead">A confirmation of your new email address will be needed!</p>

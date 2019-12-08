@@ -4,6 +4,7 @@
 	<?php include("includes/links.php") ?>
 	<link rel="stylesheet" href="/camagru/assets/css/notFound.css">
 	<title>Camagru - 404</title>
+	<script src="/camagru/assets/js/themeSwitcher.js"></script>
 </head>
 <body>
 	<div class="back"></div>

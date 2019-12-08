@@ -75,3 +75,43 @@
 		transform: translateY(2px);
 	}
 }
+
+.popup {
+	animation-name: popup;
+	animation-duration: 5s;
+	animation-timing-function: ease-in-out;
+}
+
+@keyframes popup{
+	0% {
+		transform: translateX(30px);
+		opacity: 0;
+	}0% {
+		transform: translateX(30px);
+		opacity: 0;
+	}
+	10% {
+		transform: translateX(0px);
+		opacity: 1;
+	}
+	90% {
+		transform: translateX(0px);
+		opacity: 1;
+	}
+	100% {
+		transform: translateX(30px);
+		opacity: 0;
+	}
+}
+
+.moveup {
+	animation-name: moveup;
+	animation-duration: 0.5s;
+	animation-timing-function: ease-in-out;
+}
+
+@keyframes moveup{
+	100% {
+		transform: translateY(-50px);
+	}
+}

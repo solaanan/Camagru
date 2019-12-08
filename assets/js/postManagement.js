@@ -221,18 +221,18 @@ window.addEventListener('load', function() {
 			var commentContainer = document.getElementById('commentsContainer_'+post_id);
 			var shareContainer = document.getElementById('shareContainer_'+post_id);
 			d.onmouseover = function () {
-				d.src = '/camagru/assets/images/comment_1.png'
+				d.src = d.src.replace('comment_0', 'comment_1');
 			}
 			d.onmouseout = function () {
 				if (commentContainer.style.display !== 'block')
-					d.src = '/camagru/assets/images/comment_0.png'
+					d.src = d.src.replace('comment_1', 'comment_0');
 			}
 			d.onclick = function() {
 				if (commentContainer.style.display === 'block') {
-					d.src = '/camagru/assets/images/comment_0.png'
+					d.src = d.src.replace('comment_1', 'comment_0');
 					commentContainer.style.display = 'none';
 				} else {
-					d.src = '/camagru/assets/images/comment_1.png'
+					d.src = d.src.replace('comment_0', 'comment_1');
 					commentContainer.style.display = 'block';
 					shareContainer.style.display = 'none';
 				}
@@ -599,7 +599,7 @@ window.addEventListener('load', function() {
 	postHandler();
 	deleteHandler();
 	window.addEventListener('scroll', function() {
-		if (document.documentElement.offsetHeight + document.documentElement.scrollTop === document.documentElement.scrollHeight) {
+		if (document.documentElement.offsetHeight + document.documentElement.scrollTop + 100 > document.documentElement.scrollHeight) {
 			if (postsContainer)
 			getData();
 			if (userPostsContainer)
@@ -617,7 +617,7 @@ window.addEventListener('load', function() {
 					if (this.readyState == 4 && this.status == 200) {
 						if (xhttp.responseText === 'All good') {
 							if (e.target.src.split('/')[e.target.src.split('/').length - 1] === 'like-0.png') {
-								e.target.src = '/camagru/assets/images/like-1.png';
+								e.target.src = e.target.src.replace('like-0', 'like-1');
 								if (e.target.nextSibling.innerHTML === '')
 									e.target.nextSibling.innerHTML = '1';
 								else
@@ -625,7 +625,7 @@ window.addEventListener('load', function() {
 								if (tooltip)
 									tooltip.innerHTML += userLoggedIn.innerHTML +'<br>'
 							} else {
-								e.target.src = '/camagru/assets/images/like-0.png';
+								e.target.src = e.target.src.replace('like-1', 'like-0');;
 								if (e.target.nextSibling.innerHTML === '1')
 									e.target.nextSibling.innerHTML = '';
 								else if (e.target.nextSibling.innerHTML !== '' && e.target.nextSibling.innerHTML !== '0')
@@ -703,7 +703,7 @@ window.addEventListener('load', function() {
 						if (xhttp.responseText === 'All good') {
 							if (like)
 							if (like.src.split('/')[like.src.split('/').length - 1] === 'like-0.png') {
-								like.src = '/camagru/assets/images/like-1.png';
+								like.src = like.src.replace('like-0', 'like-1');;
 								if (like.nextSibling.innerHTML === '')
 									like.nextSibling.innerHTML = '0';
 								like.nextSibling.innerHTML = (parseInt(like.nextSibling.innerHTML) + 1).toString();
@@ -854,6 +854,7 @@ window.addEventListener('load', function() {
 
 	function shareHandler() {
 		var share = document.querySelectorAll('.share');
+		var copy = document.querySelectorAll('.coppy');
 
 		share.forEach(function(d) {
 			var postId = d.id.replace('share_', '');
@@ -864,10 +865,29 @@ window.addEventListener('load', function() {
 				if (shareContainer.style.display === 'none') {
 					shareContainer.style.display = 'block';
 					commentsContainer.style.display = 'none';
-					commentToggler.src = '/camagru/assets/images/comment_0.png';
+					commentToggler.src = commentToggler.src.replace('comment_1', 'comment_0');
 				}
 				else
 					shareContainer.style.display = 'none';
+			}
+		})
+
+		copy.forEach(function(d) {
+			var postId = d.id.replace('copy_', '');
+			var shareLink = document.getElementById('shareLink_'+postId);
+
+			d.onclick = function(e) {
+				e.preventDefault;
+				shareLink.select();
+				shareLink.setSelectionRange(0, 99999);
+				document.execCommand("copy");
+				var div = document.createElement('div');
+				div.setAttribute("class", "alert alert-success message popup");
+				div.innerHTML = "Copied !";
+				document.getElementById('messages').appendChild(div);
+				setTimeout(function() {
+					div.remove();
+				}, 5000);
 			}
 		})
 	}
