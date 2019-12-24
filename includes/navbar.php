@@ -1,5 +1,5 @@
 <?php
-	include_once("includes/config.php");
+	include_once($_SERVER['DOCUMENT_ROOT'] . "/camagru/includes/config.php");
 	if (isset($_SESSION['userLoggedIn'])) {
 		$username = $_SESSION['userLoggedIn'];
 		$query = "SELECT * FROM users WHERE username = :userLoggedIn";

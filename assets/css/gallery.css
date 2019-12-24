@@ -58,7 +58,7 @@ html, body {
 	cursor: pointer;
 }
 
-#alert-container {
+.alert-container {
 	visibility: hidden;
 	opacity: 0;
 	transition: visibility 0s, opacity 0.3s linear;
@@ -67,10 +67,8 @@ html, body {
 .nothing {
 	display: block;
 	margin: auto;
+	margin-top: 100px;
 	opacity: 0.3;
-	width: 100%;
-	height: auto;
-	max-width: 100px;
 	text-align: center;
 }
 
@@ -193,7 +191,7 @@ html, body {
 	visibility: hidden;
 }
 
-.shareContainer {
+.shareContainer, .arrowsContainer {
 	display: none;
 }
 
@@ -218,6 +216,8 @@ html, body {
 	padding: 10px;
 	margin: 10px;
 	text-decoration: none;
+	color: white !important;
+	cursor: pointer;
 }
 
 .copy:hover {

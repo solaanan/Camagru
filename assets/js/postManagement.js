@@ -25,7 +25,7 @@ window.addEventListener('load', function() {
 
 	var comment = document.querySelectorAll('.commentt');
 	var showStatus = 0;
-	var xhttp = new XMLHttpRequest();
+	var xhttpCamera = new XMLHttpRequest();
 
 	var input = document.getElementById('fileInput');
 	var canvas = document.getElementById('canvas');
@@ -77,7 +77,7 @@ window.addEventListener('load', function() {
 	if (snap)
 		snap.disabled = true;
 	function initWebCam() {
-		if (typeof navigator.mediaDevices === 'object')
+		if ('mediaDevices' in navigator && 'getUserMedia' in navigator.mediaDevices)
 		navigator.mediaDevices.getUserMedia({ audio:false, video: true}).then(function (mediaStream) {
 			snap.disabled = false;
 			if ("srcObject" in video) {
@@ -90,13 +90,18 @@ window.addEventListener('load', function() {
 			video.onloadedmetadata = function(e) {
 			video.play();
 			sticker.style.display = 'block';
+			arrowsContainer.style.display = 'block';
 		};
+		}).catch(function() {
+			
 		});
 	}
 
 	function retake_pic() {
+		arrowsContainer.style.display = 'none';
 		video.style.display = "block";
 		snap.style.display = "block";
+		canvas.style.display = "none";
 		img.style.display = "none";
 		say.style.display = "none";
 		pub.style.display = "none";
@@ -112,7 +117,6 @@ window.addEventListener('load', function() {
 	if (snap) {
 		var sticker = document.getElementById('sticker');
 		snap.onclick = function (e) {
-			(i);
 			e.preventDefault();
 			var context = canvas.getContext('2d');
 			canvas.width = video.videoWidth;
@@ -144,18 +148,17 @@ window.addEventListener('load', function() {
 
 			retake.addEventListener('click', retake_pic);
 
-			var xhttp = new XMLHttpRequest();
-			xhttp.open('POST', '/camagru/includes/handlers/post-handler.php', true);
-			xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+			xhttpCamera.open('POST', '/camagru/includes/handlers/post-handler.php', true);
+			xhttpCamera.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 			save.onclick =  function(e) {
 				e.preventDefault();
 				save.disabled = true;
-				xhttp.send('loggedin=true&saveButton=true&publication='+ pub.value +'&pictureData='+data+'&index='+i);
+				xhttpCamera.send('loggedin=true&saveButton=true&publication='+ pub.value +'&pictureData='+data+'&index='+i);
 			}
-			xhttp.onreadystatechange = function() {
+			xhttpCamera.onreadystatechange = function() {
 				save.disabled = false;
 				if (this.readyState == 4 && this.status == 200) {
-					if (xhttp.responseText.match(/All good/g)) {
+					if (xhttpCamera.responseText.match(/All good/g)) {
 						var div = document.createElement("div");
 						div.setAttribute("class", "alert alert-success message");
 						div.setAttribute("id", "message");
@@ -164,7 +167,9 @@ window.addEventListener('load', function() {
 						setTimeout(function () {
 							div.remove();
 						}, 5000);
-						userPostsContainer.innerHTML = xhttp.responseText.substr(8) + userPostsContainer.innerHTML;
+						userPostsContainer.innerHTML = xhttpCamera.responseText.substr(8) + userPostsContainer.innerHTML;
+						if (document.querySelector('.nothing'))
+							document.querySelector('.nothing').style.display = 'none';
 						postHandler();
 						deleteHandler();
 						commentHandler();
@@ -180,6 +185,7 @@ window.addEventListener('load', function() {
 	/*                             COMMENTS                          */
 	/* ************************************************************* */
 
+	xhttpComment = new XMLHttpRequest();
 
 	commentHandler();
 	function newComment() {
@@ -192,14 +198,14 @@ window.addEventListener('load', function() {
 			d.onclick = function(e) {
 				e.preventDefault();
 				var commentText = comment.value;
-				xhttp.open('POST', '/camagru/includes/handlers/comment-handler.php', true);
-				xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-				xhttp.send('newCommentButton=true&newComment='+commentText+'&post_id='+post_id);
-				xhttp.onreadystatechange = function() {
+				xhttpComment.open('POST', '/camagru/includes/handlers/comment-handler.php', true);
+				xhttpComment.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+				xhttpComment.send('newCommentButton=true&newComment='+commentText+'&post_id='+post_id);
+				xhttpComment.onreadystatechange = function() {
 					comment.value = '';
 					if (this.readyState == 4 && this.status == 200) {
-						if (xhttp.responseText !== 'nah') {
-							var doc = new DOMParser().parseFromString(xhttp.responseText, "text/html");
+						if (xhttpComment.responseText !== 'nah') {
+							var doc = new DOMParser().parseFromString(xhttpComment.responseText, "text/html");
 							commentContainer.insertBefore(doc.childNodes[0].childNodes[1].childNodes[0], commentContainer.childNodes[2]);
 							autoResize(comment);
 							if (commentCounter.innerHTML === '')
@@ -327,12 +333,12 @@ window.addEventListener('load', function() {
 				comId = e.id.replace('delCom_', '');
 				postId = e.parentNode.parentNode.parentNode.id.replace('commentsContainer_', '');
 				commentCounter = document.getElementById('commentsCounter_'+postId);
-				xhttp.open('POST', '/camagru/includes/handlers/comment-handler.php', true);
-				xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-				xhttp.send('deleteComment=true&postId='+postId+'&commentId='+comId);
-				xhttp.onreadystatechange = function() {
+				xhttpComment.open('POST', '/camagru/includes/handlers/comment-handler.php', true);
+				xhttpComment.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+				xhttpComment.send('deleteComment=true&postId='+postId+'&commentId='+comId);
+				xhttpComment.onreadystatechange = function() {
 					if (this.readyState == 4 && this.status == 200) {
-						if (xhttp.responseText !== 'nah') {
+						if (xhttpComment.responseText !== 'nah') {
 							var commentToDelete = document.getElementById('comment_'+comId);
 							commentToDelete.remove();
 							if (commentCounter.innerHTML === '1')
@@ -349,135 +355,160 @@ window.addEventListener('load', function() {
 	/* ************************************************************* */
 	/*                           imageUploader                       */
 	/* ************************************************************* */
+	var xhttpImgUP = new XMLHttpRequest();
 	var elementt = document.getElementById('element');
 	var uploadBotona = document.getElementById('uploadBotona');
 	var dropImg = document.getElementById('dropImg');
 	var uploadHeading = document.getElementById('uploadHeading');
 	var dropHeading = document.getElementById('dropHeading');
+	var cancell = document.getElementById('cancell');
 
 	if (elementt) {
+		cancell.onclick = function() {
+			cancell.style.display = 'none';
+			pub.value = '';
+			pub.style.display = 'none';
+			preview.removeAttribute('src');
+			preview.style.display = 'none';
+			say.style.display = 'none';
+			save.style.display = 'none';
+			uploadBotona.style.display = "table";
+			sticker.style.display = 'none';
+			arrowsContainer.style.display = 'none';
+		}
+
 		body.ondragover = function (e) {
-			e.preventDefault();
-			e.stopPropagation();
-			[].slice.call(elementt.children).forEach(function(d) {
-					d.style.display = 'none';
-			})
-			dropImg.style.display = 'block';
-			dropHeading.style.display = 'block';
+			if (preview.src.length === 0) {
+				e.preventDefault();
+				e.stopPropagation();
+				[].slice.call(elementt.children).forEach(function(d) {
+						d.style.display = 'none';
+				})
+				dropImg.style.display = 'block';
+				dropHeading.style.display = 'block';
+			}
 		}
 		body.ondrop = function(e) {
-			e.preventDefault();
-			e.stopPropagation();
-			form.style.display = 'block';
-			uploadHeading.style.display = 'block';
-			dropImg.style.display = 'none';
-			dropHeading.style.display = 'none';
+			if (preview.src.length === 0) {
+				e.preventDefault();
+				e.stopPropagation();
+				form.style.display = 'block';
+				uploadHeading.style.display = 'block';
+				dropImg.style.display = 'none';
+				dropHeading.style.display = 'none';
+			}
 		}
 		elementt.ondrop = function(e) {
-			e.preventDefault();
-			e.stopPropagation();
-			form.style.display = 'block';
-			uploadHeading.style.display = 'block';
-			dropImg.style.display = 'none';
-			dropHeading.style.display = 'none';
+			if (preview.src.length === 0) {
+				e.preventDefault();
+				e.stopPropagation();
+				form.style.display = 'block';
+				uploadHeading.style.display = 'block';
+				dropImg.style.display = 'none';
+				dropHeading.style.display = 'none';
 
-			var dt = e.dataTransfer
-			pub.value = '';
-			var errors = document.querySelectorAll(".errorMessage");
-			var desiredWidth = 668;
-			errors.forEach(function (e) {
-				e.style.display = "none";
-			});
-			if (dt.files && dt.files[0]) {
-				var file = dt.files[0];
-				if (file.size >= 1 && file.size < 8000000) {
-					var img = new Image();
-					img.src = URL.createObjectURL(file);
-					img.onload = function() {
-						uploadBotona.style.display = "none";
-						say.style.display = "block";
-						save.style.display = "block";
-						var ctx = canvas.getContext('2d');
-						var ratio = img.height / img.width;
-						canvas.width = desiredWidth;
-						canvas.height = desiredWidth * ratio;
-						ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-						var data = canvas.toDataURL();
-						preview.src = data;
-						preview.style.display = 'block';
-						sticker.style.display = 'block';
-						sticker.parentNode.style.display = 'block';
-						arrowsContainer.style.display = 'block';
-						save.onclick = function(e) {
-							e.preventDefault();
+				var dt = e.dataTransfer
+				pub.value = '';
+				var errors = document.querySelectorAll(".errorMessage");
+				var desiredWidth = 668;
+				errors.forEach(function (e) {
+					e.style.display = "none";
+				});
+				if (dt.files && dt.files[0]) {
+					var file = dt.files[0];
+					if (file.size >= 1 && file.size < 8000000) {
+						var img = new Image();
+						img.src = URL.createObjectURL(file);
+						img.onload = function() {
+							uploadBotona.style.display = "none";
+							say.style.display = "block";
+							save.style.display = "inline-block";
+							cancell.style.display = 'inline-block'
+							var ctx = canvas.getContext('2d');
+							var ratio = img.height / img.width;
+							canvas.width = desiredWidth;
+							canvas.height = desiredWidth * ratio;
+							ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+							var data = canvas.toDataURL();
+							preview.src = data;
+							preview.style.display = 'block';
+							sticker.style.display = 'block';
+							sticker.parentNode.style.display = 'block';
+							arrowsContainer.style.display = 'block';
+							save.onclick = function(e) {
+								e.preventDefault();
+								say.style.display = 'none';
+								pub.style.display = 'none';
+								save.style.display = 'none';
+								preview.style.display = 'none';
+								sticker.style.display = 'none';
+								sticker.parentNode.style.display = 'none';
+								arrowsContainer.style.display = 'none';
+								spinner.style.display = 'block';
+								xhttpImgUP.open('POST', '/camagru/includes/handlers/post-handler.php', true);
+								xhttpImgUP.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+								xhttpImgUP.send('loggedin=true&picture='+data+'&publication='+pub.value+'&index='+ i);
+							}
+						}
+						img.onerror = function() {
 							say.style.display = 'none';
 							pub.style.display = 'none';
 							save.style.display = 'none';
-							preview.style.display = 'none';
-							sticker.style.display = 'none';
-							sticker.parentNode.style.display = 'none';
-							arrowsContainer.style.display = 'none';
 							spinner.style.display = 'block';
-							xhttp.open('POST', '/camagru/includes/handlers/post-handler.php', true);
-							xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-							xhttp.send('loggedin=true&picture='+data+'&publication='+pub.value+'&index='+ i);
+							xhttpImgUP.open('POST', '/camagru/includes/handlers/post-handler.php', true);
+							xhttpImgUP.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+							xhttpImgUP.send('picture=error&publication=error');
 						}
+					} else {
+						('big')
+						xhttpImgUP.open('POST', '/camagru/includes/handlers/post-handler.php', true);
+						xhttpImgUP.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+						xhttpImgUP.send('big=true');
 					}
-					img.onerror = function() {
-						say.style.display = 'none';
-						pub.style.display = 'none';
-						save.style.display = 'none';
-						spinner.style.display = 'block';
-						xhttp.open('POST', '/camagru/includes/handlers/post-handler.php', true);
-						xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-						xhttp.send('picture=error&publication=error');
-					}
-				} else {
-					('big')
-					xhttp.open('POST', '/camagru/includes/handlers/post-handler.php', true);
-					xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-					xhttp.send('big=true');
-				}
-				xhttp.onreadystatechange = function() {
-					if (this.readyState == 4 && this.status == 200) {
-						if (xhttp.responseText.match(/All good/g)) {
-							spinner.style.display = 'none';
-							pub.style.display = 'block';
-							save.style.display = 'block';
-							var div = document.createElement("div");
-							div.setAttribute("class", "alert alert-success message");
-							div.setAttribute("id", "message");
-							div.innerHTML = "Posted !";
-							body.insertBefore(div, body.children[2]);
-							setTimeout(function () {
-								div.remove();
-							}, 5000);
-							userPostsContainer.innerHTML = xhttp.responseText.substr(8) + userPostsContainer.innerHTML;
-							uploadBotona.style.display = "table";
-							say.style.display = "none";
-							save.style.display = "none";
-							pub.style.display = "none";
-						} else {
-							spinner.style.display = 'none';
-							uploadBotona.style.display = 'table';
-							var array = xhttp.responseText.split('\n');
-							array.forEach(function(e) {
-								if (e !== "") {
-									var div = document.createElement("div");
-									div.setAttribute("class", "alert errorMessage");
-									div.innerHTML = e;
-									form.insertBefore(div, form.firstChild);
-								}
-							});
+					xhttpImgUP.onreadystatechange = function() {
+						if (this.readyState == 4 && this.status == 200) {
+							if (xhttpImgUP.responseText.match(/All good/g)) {
+								var div = document.createElement("div");
+								div.setAttribute("class", "alert alert-success message");
+								div.setAttribute("id", "message");
+								div.innerHTML = "Posted !";
+								body.insertBefore(div, body.children[2]);
+								setTimeout(function () {
+									div.remove();
+								}, 5000);
+								userPostsContainer.innerHTML = xhttpImgUP.responseText.substr(8) + userPostsContainer.innerHTML;
+								if (document.querySelector('.nothing'))
+									document.querySelector('.nothing').style.display = 'none';
+								uploadBotona.style.display = "table";
+								spinner.style.display = 'none';
+								preview.removeAttribute('src');
+								say.style.display = "none";
+								save.style.display = "none";
+								pub.style.display = "none";
+								cancell.style.display = "none";
+							} else {
+								spinner.style.display = 'none';
+								uploadBotona.style.display = 'table';
+								var array = xhttpImgUP.responseText.split('\n');
+								array.forEach(function(e) {
+									if (e !== "") {
+										var div = document.createElement("div");
+										div.setAttribute("class", "alert errorMessage");
+										div.innerHTML = e;
+										form.insertBefore(div, form.firstChild);
+									}
+								});
+							}
+							postHandler();
+							deleteHandler();
+							commentHandler();
 						}
-						postHandler();
-						deleteHandler();
-						commentHandler();
 					}
 				}
 			}
 		}
 	}
+
 	if (input)
 	input.onchange = function() {
 		pub.value = '';
@@ -494,7 +525,8 @@ window.addEventListener('load', function() {
 				img.onload = function() {
 					uploadBotona.style.display = "none";
 					say.style.display = "block";
-					save.style.display = "block";
+					save.style.display = "inline-block";
+					cancell.style.display = 'inline-block'
 					var ctx = canvas.getContext('2d');
 					var ratio = img.height / img.width;
 					canvas.width = desiredWidth;
@@ -514,9 +546,9 @@ window.addEventListener('load', function() {
 						sticker.style.display = 'none';
 						arrowsContainer.style.display = 'none';
 						spinner.style.display = 'block';
-						xhttp.open('POST', '/camagru/includes/handlers/post-handler.php', true);
-						xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-						xhttp.send('loggedin=true&picture='+data+'&publication='+pub.value+'&index='+ i);
+						xhttpImgUP.open('POST', '/camagru/includes/handlers/post-handler.php', true);
+						xhttpImgUP.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+						xhttpImgUP.send('loggedin=true&picture='+data+'&publication='+pub.value+'&index='+ i);
 					}
 				}
 				img.onerror = function() {
@@ -524,22 +556,19 @@ window.addEventListener('load', function() {
 					pub.style.display = 'none';
 					save.style.display = 'none';
 					spinner.style.display = 'block';
-					xhttp.open('POST', '/camagru/includes/handlers/post-handler.php', true);
-					xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-					xhttp.send('picture=error&publication=error');
+					xhttpImgUP.open('POST', '/camagru/includes/handlers/post-handler.php', true);
+					xhttpImgUP.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+					xhttpImgUP.send('picture=error&publication=error');
 				}
 			} else {
 				('big')
-				xhttp.open('POST', '/camagru/includes/handlers/post-handler.php', true);
-				xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-				xhttp.send('big=true');
+				xhttpImgUP.open('POST', '/camagru/includes/handlers/post-handler.php', true);
+				xhttpImgUP.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+				xhttpImgUP.send('big=true');
 			}
-			xhttp.onreadystatechange = function() {
+			xhttpImgUP.onreadystatechange = function() {
 				if (this.readyState == 4 && this.status == 200) {
-					if (xhttp.responseText.match(/All good/g)) {
-						spinner.style.display = 'none';
-						pub.style.display = 'block';
-						save.style.display = 'block';
+					if (xhttpImgUP.responseText.match(/All good/g)) {
 						var div = document.createElement("div");
 						div.setAttribute("class", "alert alert-success message");
 						div.setAttribute("id", "message");
@@ -548,15 +577,20 @@ window.addEventListener('load', function() {
 						setTimeout(function () {
 							div.remove();
 						}, 5000);
-						userPostsContainer.innerHTML = xhttp.responseText.substr(8) + userPostsContainer.innerHTML;
+						userPostsContainer.innerHTML = xhttpImgUP.responseText.substr(8) + userPostsContainer.innerHTML;
+						if (document.querySelector('.nothing'))
+							document.querySelector('.nothing').style.display = 'none';
 						uploadBotona.style.display = "table";
+						spinner.style.display = 'none';
 						say.style.display = "none";
 						save.style.display = "none";
+						preview.removeAttribute('src');
 						pub.style.display = "none";
+						cancell.style.display = "none";
 					} else {
 						spinner.style.display = 'none';
 						uploadBotona.style.display = 'table';
-						var array = xhttp.responseText.split('\n');
+						var array = xhttpImgUP.responseText.split('\n');
 						array.forEach(function(e) {
 							if (e !== "") {
 								var div = document.createElement("div");
@@ -586,26 +620,25 @@ window.addEventListener('load', function() {
 
 	var postsContainer = document.getElementById('postsContainer');
 	var userPostsContainer = document.getElementById('userPostsContainer');
-	var xhttp = new XMLHttpRequest();
-	var start = 0;
-	var limit = 5;
+	var Obj = { start: 0, limit: 5 }
 	var reachedLimit = false;
 	var un;
+	var xhttpLike = new XMLHttpRequest();
 
 	if (postsContainer)
-	getData();
+	getData(Obj);
 	if (userPostsContainer)
-	getUserData();
+	getUserData(Obj);
 	postHandler();
 	deleteHandler();
-	window.addEventListener('scroll', function() {
-		if (document.documentElement.offsetHeight + document.documentElement.scrollTop + 100 > document.documentElement.scrollHeight) {
+	window.onscroll = function() {
+		if (document.documentElement.offsetHeight + document.documentElement.scrollTop === document.documentElement.scrollHeight) {
 			if (postsContainer)
-			getData();
+			getData(Obj);
 			if (userPostsContainer)
-			getUserData();
+			getUserData(Obj);
 		}
-	})
+	}
 	postHandler();
 	commentHandler();
 	function hitLike() {
@@ -613,61 +646,75 @@ window.addEventListener('load', function() {
 			d.onclick = function(e) {
 				var post_id = e.target.parentNode.id.replace('post_', '');
 				var tooltip = document.getElementById('tooltip_'+post_id);
-				xhttp.onreadystatechange = function() {
+				if (e.target.src.split('/')[e.target.src.split('/').length - 1] === 'like-0.png') {
+					e.target.src = e.target.src.replace('like-0', 'like-1');
+					if (e.target.nextSibling.innerHTML === '')
+						e.target.nextSibling.innerHTML = '1';
+					else
+						e.target.nextSibling.innerHTML = (parseInt(e.target.nextSibling.innerHTML) + 1).toString();
+					if (tooltip)
+						tooltip.innerHTML += userLoggedIn.innerHTML +'<br>'
+				} else {
+					e.target.src = e.target.src.replace('like-1', 'like-0');;
+					if (e.target.nextSibling.innerHTML === '1')
+						e.target.nextSibling.innerHTML = '';
+					else if (e.target.nextSibling.innerHTML !== '' && e.target.nextSibling.innerHTML !== '0')
+						e.target.nextSibling.innerHTML = (parseInt(e.target.nextSibling.innerHTML) - 1).toString();
+					if (tooltip) {
+						tooltip.innerHTML = tooltip.innerHTML.replace(userLoggedIn.innerHTML+'<br>', '');
+						if (tooltip.innerHTML === '')
+							tooltip.style.visibility = 'hidden';
+					}
+				}
+				e.target.className += ' heartbeat';
+				setTimeout(function () {
+					e.target.className = 'like';
+				}, 500);
+				xhttpLike.onreadystatechange = function() {
 					if (this.readyState == 4 && this.status == 200) {
-						if (xhttp.responseText === 'All good') {
-							if (e.target.src.split('/')[e.target.src.split('/').length - 1] === 'like-0.png') {
-								e.target.src = e.target.src.replace('like-0', 'like-1');
-								if (e.target.nextSibling.innerHTML === '')
-									e.target.nextSibling.innerHTML = '1';
-								else
-									e.target.nextSibling.innerHTML = (parseInt(e.target.nextSibling.innerHTML) + 1).toString();
-								if (tooltip)
-									tooltip.innerHTML += userLoggedIn.innerHTML +'<br>'
-							} else {
-								e.target.src = e.target.src.replace('like-1', 'like-0');;
+						if (xhttpLike.responseText !== 'All good') {
+							if (e.target.src.split('/')[e.target.src.split('/').length - 1] === 'like-1.png') {
+								e.target.src = e.target.src.replace('like-1', 'like-0');
 								if (e.target.nextSibling.innerHTML === '1')
 									e.target.nextSibling.innerHTML = '';
 								else if (e.target.nextSibling.innerHTML !== '' && e.target.nextSibling.innerHTML !== '0')
-								e.target.nextSibling.innerHTML = (parseInt(e.target.nextSibling.innerHTML) - 1).toString();
+									e.target.nextSibling.innerHTML = (parseInt(e.target.nextSibling.innerHTML) - 1).toString();
 								if (tooltip) {
 									tooltip.innerHTML = tooltip.innerHTML.replace(userLoggedIn.innerHTML+'<br>', '');
 									if (tooltip.innerHTML === '')
 										tooltip.style.visibility = 'hidden';
 								}
 							}
-							e.target.className += ' heartbeat';
-							setTimeout(function () {
-								e.target.className = 'like';
-							}, 500);
 						}
 					}
 				}
-				xhttp.open('POST', '/camagru/includes/handlers/post-handler.php', true);
-				xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-				xhttp.send('hitLike='+post_id);
+				xhttpLike.open('POST', '/camagru/includes/handlers/post-handler.php', true);
+				xhttpLike.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+				xhttpLike.send('hitLike='+post_id);
 			}
 		});
 	}
 
-	document.querySelectorAll('.like').forEach(function(d) {
-		d.onmouseover = function() {
-			var post_id = d.parentNode.id.replace('post_', '');
-			var tooltip = document.getElementById('tooltip_'+post_id);
-			if (tooltip) {
-				if (tooltip.innerHTML === '')
-					tooltip.style.visibility = 'hidden';
-				else
-					tooltip.style.visibility = 'visible';
+	function tooltipToggler() {
+		document.querySelectorAll('.like').forEach(function(d) {
+			d.onmouseover = function() {
+				var post_id = d.parentNode.id.replace('post_', '');
+				var tooltip = document.getElementById('tooltip_'+post_id);
+				if (tooltip) {
+					if (tooltip.innerHTML === '')
+						tooltip.style.visibility = 'hidden';
+					else
+						tooltip.style.visibility = 'visible';
+				}
 			}
-		}
-		d.onmouseout = function() {
-			var post_id = d.parentNode.id.replace('post_', '');
-			var tooltip = document.getElementById('tooltip_'+post_id);
-			if (tooltip)
-				tooltip.style.visibility = 'hidden';
-		}
-	})
+			d.onmouseout = function() {
+				var post_id = d.parentNode.id.replace('post_', '');
+				var tooltip = document.getElementById('tooltip_'+post_id);
+				if (tooltip)
+					tooltip.style.visibility = 'hidden';
+			}
+		})
+	}
 
 	function toggleDeletePost() {
 		var post = document.querySelectorAll('.post')
@@ -686,10 +733,14 @@ window.addEventListener('load', function() {
 
 	function postHandler() {
 		toggleDeletePost();
+		deleteHandler();
 		hitLike();
 		doubleHitLike();
 		shareHandler();
+		tooltipToggler()
 	}
+
+	var xhttpDblLike = new XMLHttpRequest();
 
 	function doubleHitLike() {
 		document.querySelectorAll('.postImg').forEach(function(d) {
@@ -698,69 +749,83 @@ window.addEventListener('load', function() {
 				var tooltip = document.getElementById('tooltip_'+post_id);
 				var heartContainer = document.getElementById('heart_'+post_id);
 				var like = document.getElementById('like_'+post_id);
-				xhttp.onreadystatechange = function() {
+				if (like)
+				if (like.src.split('/')[like.src.split('/').length - 1] === 'like-0.png') {
+					like.src = like.src.replace('like-0', 'like-1');;
+					if (like.nextSibling.innerHTML === '')
+						like.nextSibling.innerHTML = '0';
+					like.nextSibling.innerHTML = (parseInt(like.nextSibling.innerHTML) + 1).toString();
+					like.className += ' heartbeat';
+					setTimeout(function () {
+						like.className = 'like';
+					}, 500);
+					if (tooltip)
+						tooltip.innerHTML += userLoggedIn.innerHTML +'<br>'
+				} else {
+					like.className += ' heartbeat';
+					setTimeout(function () {
+						like.className = 'like';
+					}, 500);
+				}
+				if (like) {
+					var img = document.createElement('img');
+					img.src = '/camagru/assets/images/heart.png'
+					var length = (d.height < d.width) ? d.height : d.width;
+					img.style.height = length / 8 + 'px';
+					img.style.width = length / 8 + 'px';
+					img.style.position = 'absolute';
+					img.style.margin = 'auto';
+					img.style.top = d.height / 2 - img.style.height.replace('px' , '') / 2 + 'px';
+					img.style.left = d.width / 2 - img.style.width.replace('px', '') / 2 + 'px';
+					heartContainer.appendChild(img);
+					img.className = "heartbeat2";
+					setTimeout(function () {
+						img.remove();
+					}, 1000);
+				}
+				xhttpDblLike.onreadystatechange = function() {
 					if (this.readyState == 4 && this.status == 200) {
-						if (xhttp.responseText === 'All good') {
-							if (like)
-							if (like.src.split('/')[like.src.split('/').length - 1] === 'like-0.png') {
-								like.src = like.src.replace('like-0', 'like-1');;
-								if (like.nextSibling.innerHTML === '')
-									like.nextSibling.innerHTML = '0';
-								like.nextSibling.innerHTML = (parseInt(like.nextSibling.innerHTML) + 1).toString();
-								like.className += ' heartbeat';
-								setTimeout(function () {
-									like.className = 'like';
-								}, 500);
-								if (tooltip)
-									tooltip.innerHTML += userLoggedIn.innerHTML +'<br>'
-							} else {
-								like.className += ' heartbeat';
-								setTimeout(function () {
-									like.className = 'like';
-								}, 500);
-							}
-							if (like) {
-								var img = document.createElement('img');
-								img.src = '/camagru/assets/images/heart.png'
-								var length = (d.height < d.width) ? d.height : d.width;
-								img.style.height = length / 8 + 'px';
-								img.style.width = length / 8 + 'px';
-								img.style.position = 'absolute';
-								img.style.margin = 'auto';
-								img.style.top = d.height / 2 - img.style.height.replace('px' , '') / 2 + 'px';
-								img.style.left = d.width / 2 - img.style.width.replace('px', '') / 2 + 'px';
-								heartContainer.appendChild(img);
-								img.className = "heartbeat2";
-								setTimeout(function () {
-									img.remove();
-								}, 1000);
+						if (xhttpDblLike.responseText === 'All good') {
+							if (e.target.src.split('/')[e.target.src.split('/').length - 1] === 'like-1.png') {
+								e.target.src = e.target.src.replace('like-1', 'like-0');
+								if (e.target.nextSibling.innerHTML === '1')
+									e.target.nextSibling.innerHTML = '';
+								else if (e.target.nextSibling.innerHTML !== '' && e.target.nextSibling.innerHTML !== '0')
+									e.target.nextSibling.innerHTML = (parseInt(e.target.nextSibling.innerHTML) - 1).toString();
+								if (tooltip) {
+									tooltip.innerHTML = tooltip.innerHTML.replace(userLoggedIn.innerHTML+'<br>', '');
+									if (tooltip.innerHTML === '')
+										tooltip.style.visibility = 'hidden';
+								}
 							}
 						}
 					}
 				}
-				xhttp.open('POST', '/camagru/includes/handlers/post-handler.php', true);
-				xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-				xhttp.send('doubleHitLike='+post_id);
+				xhttpDblLike.open('POST', '/camagru/includes/handlers/post-handler.php', true);
+				xhttpDblLike.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+				xhttpDblLike.send('doubleHitLike='+post_id);
 			}
 		})
 	}
 
-	function getData() {
+	
+	function getData(Obj) {
+		var xhttpGetData = new XMLHttpRequest();
 		if (reachedLimit)
 			return ;
-		xhttp.open('POST', '/camagru/includes/handlers/gallery-handler.php', true);
-		xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-		xhttp.send('getData=1&start='+start+'&limit='+limit);
-		xhttp.onreadystatechange = function() {
+		xhttpGetData.open('POST', '/camagru/includes/handlers/gallery-handler.php', true);
+		xhttpGetData.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+		xhttpGetData.send('getData=1&start='+Obj.start+'&limit='+Obj.limit);
+		xhttpGetData.onreadystatechange = function() {
 			if (this.readyState == 4 && this.status == 200) {
-				if (xhttp.responseText === 'reachedLimit') {
+				if (xhttpGetData.responseText === 'reachedLimit') {
 					reachedLimit = true;
 				} else {
-					start += limit;
+					Obj.start += Obj.limit;
 					if (postsContainer) {
-						if (start === 0)
+						if (Obj.start === 0)
 							postsContainer.innerHTML = ''
-						postsContainer.innerHTML += xhttp.responseText;
+						postsContainer.innerHTML += xhttpGetData.responseText;
 					}
 					postHandler();
 					commentHandler();
@@ -769,26 +834,27 @@ window.addEventListener('load', function() {
 		}
 	}
 
-	function getUserData() {
+	function getUserData(Obj) {
+		var xhttpGetData = new XMLHttpRequest();
 		window.location.search.substr(1).split('&').forEach(function (a) {
 			if (a.match(/username/))
 				un = a.split('=')[1];
 		});
 		if (reachedLimit)
 			return ;
-		xhttp.open('POST', '/camagru/includes/handlers/gallery-handler.php', true);
-		xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-		xhttp.send('getData=1&start='+start+'&limit='+limit+'&loggedin=1&username='+un);
-		xhttp.onreadystatechange = function() {
+		xhttpGetData.open('POST', '/camagru/includes/handlers/gallery-handler.php', true);
+		xhttpGetData.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+		xhttpGetData.send('getData=1&start='+Obj.start+'&limit='+Obj.limit+'&loggedin=1&username='+un);
+		xhttpGetData.onreadystatechange = function() {
 			if (this.readyState == 4 && this.status == 200) {
-				if (xhttp.responseText === 'reachedLimit') {
+				if (xhttpGetData.responseText === 'reachedLimit') {
 					reachedLimit = true;
 				} else {
-					start += limit;
+					Obj.start += Obj.limit;
 					if (userPostsContainer) {
-						if (start === 0)
+						if (Obj.start === 0)
 							userPostsContainer.innerHTML = ''
-						userPostsContainer.innerHTML += xhttp.responseText;
+						userPostsContainer.innerHTML += xhttpGetData.responseText;
 					}
 					postHandler();
 					commentHandler();
@@ -801,10 +867,12 @@ window.addEventListener('load', function() {
 	/*                          DeleteHandler                        */
 	/* ************************************************************* */
 
+	var xhttpDelete = new XMLHttpRequest();
+
 	function deleteHandler() {
-		onclick = function(e) {
+		document.onclick = function(e) {
+			e.stopPropagation();
 			if (e.target.className === 'delete float-right my-auto') {
-			body.style.overflow = 'hidden';
 			alertContainer.style.visibility = 'visible';
 			alertContainer.style.opacity = '1';
 			post_id = e.target.parentNode.id.replace('post_', '');
@@ -813,12 +881,11 @@ window.addEventListener('load', function() {
 				setTimeout(function () {
 					alertContainer.style.visibility = 'hidden';
 				}, 500);
-				body.style.overflow = 'unset';
 			}
 			else if (e.target === alertDelete) {
-				xhttp.onreadystatechange = function() {
+				xhttpDelete.onreadystatechange = function() {
 					if (this.readyState == 4 && this.status == 200) {
-						if (xhttp.responseText === 'All good') {
+						if (xhttpDelete.responseText === 'All good') {
 							var div = document.createElement("div");
 							div.setAttribute("class", "alert alert-success message");
 							div.setAttribute("id", "message");
@@ -827,23 +894,20 @@ window.addEventListener('load', function() {
 							setTimeout(function () {
 								div.remove();
 							}, 5000);
-							start = 0;
 							document.getElementById('post_'+post_id).remove();
-							body.style.overflow = 'unset';
 							postHandler();
 							deleteHandler();
 							commentHandler();
 						}
 					}
 				}
-				xhttp.open('POST', '/camagru/includes/handlers/post-handler.php', true);
-				xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-				xhttp.send('loggedin=true&delete=true&post_id='+post_id);
+				xhttpDelete.open('POST', '/camagru/includes/handlers/post-handler.php', true);
+				xhttpDelete.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+				xhttpDelete.send('loggedin=true&delete=true&post_id='+post_id);
 				setTimeout(function () {
 					alertContainer.style.visibility = 'hidden';
-				}, 500);alertContainer.style.visibility = 'hidden';
+				}, 500);
 				alertContainer.style.opacity = '0';
-				body.style.overflow = 'unset';
 			}
 		}
 	}

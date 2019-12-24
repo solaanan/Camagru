@@ -6,3 +6,9 @@
 <link href="https://fonts.googleapis.com/css?family=Lobster&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/camagru/assets/frameworks/bootstrap/css/bootstrap.css">
 <link rel="stylesheet" href="/camagru/assets/css/global.css">
+<?php
+	if (isset($_COOKIE['theme']) && $_COOKIE['theme'] === '1')
+		echo '<link rel="stylesheet" href="/camagru/assets/css/light-mode.css">';
+	else
+		echo '<link rel="stylesheet" href="/camagru/assets/css/dark-mode.css">';
+?>

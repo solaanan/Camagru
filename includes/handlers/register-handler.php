@@ -1,6 +1,7 @@
 <?php
 	if (!isset($_SESSION))
 		session_start();
+	include_once($_SERVER['DOCUMENT_ROOT'] . '/camagru/includes/session_expiry.php');
 	function	sanitizeFormUsername($un) {
 		$un = trim($un);
 		$un = htmlspecialchars($un);

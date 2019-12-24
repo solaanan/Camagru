@@ -3,11 +3,11 @@
 		session_start();
 	if (isset($_SESSION) && isset($_SESSION['userLoggedIn']))
 		header('Location: /camagru/gallery');
-	include("includes/config.php");
-	include ("includes/classes/Account.class.php");
-	include ("includes/classes/Constants.class.php");
+	include($_SERVER['DOCUMENT_ROOT'] . "/camagru/includes/config.php");
+	include ($_SERVER['DOCUMENT_ROOT'] . "/camagru/includes/classes/Account.class.php");
+	include ($_SERVER['DOCUMENT_ROOT'] . "/camagru/includes/classes/Constants.class.php");
 	$account = new Account($pdo);
-	include ("includes/handlers/login-handler.php");
+	include ($_SERVER['DOCUMENT_ROOT'] . "/camagru/includes/handlers/login-handler.php");
 
 	function getInputValue($name) {
 		if (isset($_POST[$name])) {
@@ -19,31 +19,35 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<?php include("includes/links.php") ?>
+		<?php include($_SERVER['DOCUMENT_ROOT'] . "/camagru/includes/links.php") ?>
 		<link rel="stylesheet" href="/camagru/assets/css/login.css">
 		<title>Camagru - Login</title>
 		<script src="/camagru/assets/js/themeSwitcher.js"></script>
 	</head>
 <body>
-	<div class="back" id="bg"></div>
-	<?php include("includes/navbar.php"); ?>
-	<div class="container">
-		<div class="jumbotron">
-			<a href="javascript:history.back()" class="goback">
-				<img src="/camagru/assets/images/icons-dark/goback.png" alt="go back" width="30" height="30">
-			</a>
-			<h1 class="display-4">login !</h1>
-			<form action="login.php" method="POST">
-				<?php echo $account->getError(Constants::$confirmationNeeded); ?>
-				<?php echo $account->getError(Constants::$loginFailed); ?>
-				<input name="loginUsername" class="form-control form-control-lg inputt" type="text" value="<?php getInputValue('loginUsername') ?>" placeholder="Username" required>
-				<input name="loginPassword" class="form-control form-control-lg inputt" type="password" placeholder="Password" required>
-				<button name ="loginButton" type="submit" class="login-btn btn-lg botona">Login</button>
-				<p class="create text-break" style="font-size:15px"> <a href="/camagru/register">Create a new account</a> if you still don't have an account.</p>
-				<p class="forgot text-break" id="forgot"><a href="/camagru/resetPassword">Reset your password</a> if you have forgotten it.</p>
-			</form>
+	<?php include($_SERVER['DOCUMENT_ROOT'] . "/camagru/includes/navbar.php"); ?>
+	<div class="everything">
+		<div class="back" id="bg"></div>
+		<div class="container">
+			<div class="jumbotron">
+				<a href="javascript:history.back()" class="goback">
+					<img src="/camagru/assets/images/icons-dark/goback.png" alt="go back" width="30" height="30">
+				</a>
+				<h1 class="display-4">login !</h1>
+				<form action="login.php" method="POST">
+					<?php echo $account->getError(Constants::$confirmationNeeded); ?>
+					<?php echo $account->getError(Constants::$loginFailed); ?>
+					<input id="loginUsername" name="loginUsername" class="form-control form-control-lg inputt" type="text" value="<?php getInputValue('loginUsername') ?>" placeholder="Username" required>
+					<input id="loginPassword" name="loginPassword" class="form-control form-control-lg inputt" type="password" placeholder="Password" required>
+					<button id="loginButton" name ="loginButton" type="submit" class="login-btn btn-lg botona">Login</button>
+					<p class="create text-break" style="font-size:15px"> <a href="/camagru/register">Create a new account</a> if you still don't have an account.</p>
+					<p class="forgot text-break" id="forgot"><a href="/camagru/resetPassword">Reset your password</a> if you have forgotten it.</p>
+				</form>
+			</div>
 		</div>
 	</div>
-	<?php include_once('includes/footer.php') ?>
+	<div class="loading-container" id="loading" style="display: flex;">
+		<div class="spinner-border m-auto" style="color: white;"></div>	
+	</div>
 </body>
 </html>

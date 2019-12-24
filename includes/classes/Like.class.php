@@ -1,7 +1,9 @@
 <?php
 	if (!isset($_SESSION))
 		session_start();
-	class Like {
+	include_once($_SERVER['DOCUMENT_ROOT'] . '/camagru/includes/classes/Mail.class.php');
+
+	class Like extends Mail {
 		private $pdo;
 		private $un;
 
@@ -11,6 +13,8 @@
 		}
 
 		public function like($post_id) {
+			if (!isset($this->un) || empty($this->un))
+				return false;
 			if (!$this->likeChecker($post_id)) {
 				try {
 					$query = "INSERT INTO likes (id_post, id_user) SELECT :post_id, id FROM users WHERE username=:username";
@@ -19,12 +23,24 @@
 					$stmt->bindValue(':username', $this->un);
 					$stmt->execute();
 					if ($stmt === false)
-						die('There was an error communicating with the databases');
-					} catch (PDOException $e) {
-						die('There was an error communicating with the databases: ' . $e);
-					}
+						return false;
+				} catch (PDOException $e) {
+					return false;
 				}
-				return true;
+				try {
+					$query = "SELECT username, email, publication FROM posts INNER JOIN users ON users.id=posts.user_id WHERE post_id=:post_id";
+					$stmt = $this->pdo->prepare($query);
+					$stmt->bindValue(':post_id', $post_id);
+					$stmt->execute();
+					if ($stmt === false)
+						return false;
+				} catch (PDOException $e) {
+					return false;
+				}
+				$arrr = $stmt->fetch();
+				$this->someone_liked($this->un, $arrr['username'], $arrr['publication'], $arrr['email'], $post_id);
+			}
+			return true;
 		}
 
 		public function		likeCounter($post_id) {
@@ -34,9 +50,9 @@
 				$stmt->bindValue(':post_id', $post_id);
 				$stmt->execute();
 				if ($stmt === NULL)
-					die('There was an error communicating with the databases.');
+					return false;
 			} catch (PDOException $e) {
-				die('There was an error communicating with the databases: ' . $e);
+				return false;
 			}
 			$array = $stmt->fetch();
 			if ($array['counter'] === '0')

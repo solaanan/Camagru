@@ -15,6 +15,7 @@ html {
 	background-image: url('../images/back2.png');
 	background-repeat: no-repeat;
 	background-size: cover;
+	background-color: #1d2442;
 }
 
 body
@@ -75,3 +76,23 @@ hr {
   .inputt::placeholder {
 	color: rgba(255, 255, 255, 0.658);
   }
+
+  .loading-container {
+	background: #1c2444;
+}
+
+.spinner-border {
+	color: white;
+}
+
+.tooltipp {
+	color: white !important;
+}
+
+.profilepic {
+	border-color: white;
+}
+
+.absolute-div {
+	border-color:  white;
+}

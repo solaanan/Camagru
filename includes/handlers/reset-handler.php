@@ -1,7 +1,7 @@
 <?php
-	include_once("../config.php");
-	include_once("../classes/Constants.class.php");
-	include_once("../classes/Account.class.php");
+	include_once($_SERVER['DOCUMENT_ROOT'] . "/camagru/includes/config.php");
+	include_once($_SERVER['DOCUMENT_ROOT'] . "/camagru/includes/classes/Constants.class.php");
+	include_once($_SERVER['DOCUMENT_ROOT'] . "/camagru/includes/classes/Account.class.php");
 
 	$account = new Account($pdo);
 

@@ -1,6 +1,7 @@
 <?php
 	if (!isset($_SESSION))
 		session_start();
+	include_once($_SERVER['DOCUMENT_ROOT'] . '/camagru/includes/session_expiry.php');
 	$img = "bad.png";
 	$header = "Something went wrong!";
 	$paragraph = "Unexpected error was ocurred during your email confirmation process.";

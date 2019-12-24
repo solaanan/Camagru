@@ -1,7 +1,7 @@
 <?php
 	if (!isset($_SESSION))
 		session_start();
-	include ("Mail.class.php");
+	include ($_SERVER['DOCUMENT_ROOT'] . "/camagru/includes/classes/Mail.class.php");
 	class Account extends Mail {
 		private $errorArray;
 		private $pdo;

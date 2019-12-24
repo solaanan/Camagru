@@ -1,7 +1,11 @@
 <?php
 	if (!isset($_SESSION))
 		session_start();
-	include_once('Like.class.php');
+	include_once($_SERVER['DOCUMENT_ROOT'] . '/camagru/includes/classes/Like.class.php');
+	include_once($_SERVER['DOCUMENT_ROOT'] . '/camagru/includes/classes/Mail.class.php');
+
+	$mail = new Mail();
+
 	class Post extends Like {
 		private		$pdo;
 		private		$errorArray;
@@ -142,8 +146,8 @@
 				<div class="shareContainer" id="shareContainer_'. $post_id .'">
 						<textarea class="shareLink" id="shareLink_'. $post_id .'" readonly> '. $_SERVER['SERVER_NAME'] .'/camagru/post?id='. $post_id .'</textarea>
 						<div class="shareButtons">
-							<a class="copy botona coppy" id="copy_'. $post_id .'"> Copy </a>
-							<a class="copy botona tweet" href="https://www.twitter.com/intent/tweet?text=view%20'. $username .'%27s%20publication%20on%20Camagru%3A%0A'. $_SERVER['SERVER_NAME'] .'%2Fcamagru%2Fpost%3Fid%3D'. $post_id .'" target="_blank"> Tweet </a>
+							<a class="copy botona coppy" id="copy_'. $post_id .'"><img src="/camagru/assets/images/copy.png" width="20" height="20"> Copy </a>
+							<a class="copy botona tweet" href="https://www.twitter.com/intent/tweet?text=view%20'. $username .'%27s%20publication%20on%20Camagru%3A%0A'. $_SERVER['SERVER_NAME'] .'%2Fcamagru%2Fpost%3Fid%3D'. $post_id .'" target="_blank"><img src="/camagru/assets/images/twitter.png" width="20" height="20"> Tweet </a>
 						</div>
 				</div>
 				</div>';
@@ -152,6 +156,8 @@
 		public function			insertNewComment($comment, $post_id) {
 			$comment = trim($comment);
 			$comment = htmlspecialchars($comment);
+			$comment = str_replace("\n", '<br>', $comment);
+			$comment = str_replace(' ', '&nbsp;', $comment);
 			if (strlen($comment) > 500)
 				return false;
 			if (isset($comment) && $comment !== '') {
@@ -315,7 +321,9 @@
 				return false;
 			}
 			$pub = trim($pub);
-			$pub = strip_tags($pub);
+			$pub = htmlspecialchars($pub);
+			$pub = str_replace("\n", '<br>', $pub);
+			$pub = str_replace(" ", '&nbsp;', $pub);
 			return ($pub);
 		}
 

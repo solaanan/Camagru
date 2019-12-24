@@ -1,4 +1,24 @@
 window.addEventListener('load', function() {
+	function onReady(callback) {
+		var intervalId = window.setInterval(function() {
+		  if (document.getElementsByTagName('body')[0] !== undefined) {
+			window.clearInterval(intervalId);
+			callback.call(this);
+		  }
+		}, 1000);
+	  }
+	  
+	  function setVisible(selector, visible) {
+		document.querySelector(selector).style.display = visible ? 'block' : 'none';
+	  }
+	  
+	  onReady(function() {
+		setVisible('.everything', true);
+		setVisible('#loading', false);
+	  });
+	
+
+
 	var toggler = document.getElementById("themeSelector");
 	var head = document.querySelector('head');
 
@@ -12,17 +32,17 @@ window.addEventListener('load', function() {
 		if (this.readyState == 4 && this.status == 200) {
 			if (xhttp.responseText === '1') {
 				var imgs = document.querySelectorAll('img');
-				toggler.firstElementChild.src = toggler.firstElementChild.src.replace('light', 'night');
+				toggler.firstElementChild.src = toggler.firstElementChild.src.replace(/light/g, 'night');
 				toggler.lastElementChild.innerHTML = 'Night mode'
 				toggler.firstElementChild.width = '19';
-				if (!head.innerHTML.match(/<link rel\=\"stylesheet\" href=\"\/camagru\/assets\/css\/light-mode\.css\">/))
-				head.innerHTML += '<link rel="stylesheet" href="/camagru/assets/css/light-mode.css">';
+				// if (!head.innerHTML.match(/<link rel\=\"stylesheet\" href=\"\/camagru\/assets\/css\/light-mode\.css\">/))
+				// head.innerHTML += '<link rel="stylesheet" href="/camagru/assets/css/light-mode.css">';
 				imgs.forEach(function (e) {
-					e.src = e.src.replace('icons-dark', 'icons-light');
+					e.src = e.src.replace(/icons-dark/g, 'icons-light');
 				})
 			} else if (xhttp.responseText === '0') {
-				if (!head.innerHTML.match(/<link rel\=\"stylesheet\" href=\"\/camagru\/assets\/css\/dark-mode\.css\">/))
-					head.innerHTML += '<link rel="stylesheet" href="/camagru/assets/css/dark-mode.css">';
+				// if (!head.innerHTML.match(/<link rel\=\"stylesheet\" href=\"\/camagru\/assets\/css\/dark-mode\.css\">/))
+					// head.innerHTML += '<link rel="stylesheet" href="/camagru/assets/css/dark-mode.css">';
 			}
 		}
 	}
@@ -30,26 +50,26 @@ window.addEventListener('load', function() {
 	toggler.onclick = function() {
 			var imgs = document.querySelectorAll('img');
 			if (toggler.lastElementChild.innerHTML.trim() === 'Light mode') {
-			toggler.firstElementChild.src = toggler.firstElementChild.src.replace('light', 'night');
+			toggler.firstElementChild.src = toggler.firstElementChild.src.replace(/light/g, 'night');
 			toggler.firstElementChild.width = '19';
 			toggler.firstElementChild.height = 25;
 			toggler.lastElementChild.innerHTML = 'Night mode'
 			var imgs = document.querySelectorAll('img');
-			head.innerHTML = head.innerHTML.replace('dark-mode', 'light-mode');
+			head.innerHTML = head.innerHTML.replace(/dark-mode/g, 'light-mode');
 			imgs.forEach(function (e) {
-				e.src = e.src.replace('icons-dark', 'icons-light');
+				e.src = e.src.replace(/icons-dark/g, 'icons-light');
 			})
 			xhttp.open('POST', '/camagru/includes/handlers/theme-handler.php');
 			xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 			xhttp.send('setTheme=1');
 		} else {
-			toggler.firstElementChild.src = toggler.firstElementChild.src.replace('night', 'light');
+			toggler.firstElementChild.src = toggler.firstElementChild.src.replace(/night/g, 'light');
 			toggler.firstElementChild.width = '25';
 			toggler.firstElementChild.height = '25';
 			toggler.lastElementChild.innerHTML = 'Light mode';
-			head.innerHTML = head.innerHTML.replace('light-mode', 'dark-mode');
+			head.innerHTML = head.innerHTML.replace(/light-mode/g, 'dark-mode');
 			imgs.forEach(function (e) {
-				e.src = e.src.replace('icons-light', 'icons-dark');
+				e.src = e.src.replace(/icons-light/g, 'icons-dark');
 			})
 			xhttp.open('POST', '/camagru/includes/handlers/theme-handler.php');
 			xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');

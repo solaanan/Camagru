@@ -1,9 +1,10 @@
 <?php
 	if (!isset($_SESSION))
 	session_start();
-	include_once("../config.php");
-	include_once("../classes/Constants.class.php");
-	include_once("../classes/Post.class.php");
+	include_once($_SERVER['DOCUMENT_ROOT'] . '/camagru/includes/session_expiry.php');
+	include_once($_SERVER['DOCUMENT_ROOT'] . "/camagru/includes/config.php");
+	include_once($_SERVER['DOCUMENT_ROOT'] . "/camagru/includes/classes/Constants.class.php");
+	include_once($_SERVER['DOCUMENT_ROOT'] . "/camagru/includes/classes/Post.class.php");
 
 	$post = new Post($pdo);
 

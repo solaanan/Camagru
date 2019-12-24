@@ -1,7 +1,8 @@
 <?php
 	session_start();
-	include_once('includes/config.php');
-	include_once('includes/classes/Post.class.php');
+	include_once($_SERVER['DOCUMENT_ROOT'] . '/camagru/includes/session_expiry.php');
+	include_once($_SERVER['DOCUMENT_ROOT'] . '/camagru/includes/config.php');
+	include_once($_SERVER['DOCUMENT_ROOT'] . '/camagru/includes/classes/Post.class.php');
 	
 	$post = new Post($pdo);
 
@@ -29,7 +30,7 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<?php include_once('includes/links.php') ?>
+		<?php include_once($_SERVER['DOCUMENT_ROOT'] . '/camagru/includes/links.php') ?>
 		<link rel="stylesheet" href="/camagru/assets/css/login.css">
 		<link rel="stylesheet" href="/camagru/assets/css/gallery.css">
 		<link rel="stylesheet" href="/camagru/assets/css/animations.css">
@@ -37,20 +38,43 @@
 		<title>Document</title>
 		<script src="/camagru/assets/js/themeSwitcher.js"></script>
 	</head>
-	<body>
-		<?php include_once('includes/navbar.php') ?>
-		<div class="container">
-			<?php 
-			if (!isset($_GET['error']) && isset($_GET['id']))
-			$post->putPost($arroy);
-			else { ?>
-			<div class="jumbotron mx-auto" style="text-align:center">
-			<img src="/camagru/assets/images/icons-dark/bad.png" class ="bad" alt="error" width="200" height="200">
-				<h1 class="display-4">Post not found !</h1>
-				<hr>
-				<p class="lead">We cannot find any post for you</p>
+	<body id="body">
+		<?php include_once($_SERVER['DOCUMENT_ROOT'] . '/camagru/includes/navbar.php') ?>
+		<div class="everything">
+			<div id="messages"></div>
+			<div class="container">
+				<?php 
+				if (!isset($_GET['error']) && isset($_GET['id']))
+				$post->putPost($arroy);
+				else { ?>
+				<div class="jumbotron mx-auto" style="text-align:center">
+				<img src="/camagru/assets/images/icons-dark/bad.png" class ="bad" alt="error" width="200" height="200">
+					<h1 class="display-4">Post not found !</h1>
+					<hr>
+					<p class="lead">We cannot find any post for you</p>
+				</div>
+				<?php } ?>
 			</div>
-			<?php } ?>
 		</div>
-</body>
+		<div class="alert-container" id="alert-container">
+			<div class="container" id="alert-body">
+				<div class="alert-card jumbotron text-center m-auto">
+					<h1 class="text-break">Are you sure ?</h1>
+					<hr>
+					<p class="lead text-break">Do you really want to delete this post?<br>This action is irreversible!</p>
+					<button class="btn btn-lg botona my-2 mx-4 click" id="delete">
+						<img src="/camagru/assets/images/good.png" alt="yes" width="30" height="30">
+						Delete
+					</button>
+					<button class="btn btn-lg botona m-0 mx-4 click" id="cancel">
+						<img src="/camagru/assets/images/bad.png" alt="no" width="30" height="30">
+						Cancel
+					</button>
+				</div>
+			</div>
+		</div>
+		<div class="loading-container" id="loading" style="display: flex;">
+			<div class="spinner-border m-auto" style="color: white;"></div>	
+		</div>
+	</body>
 </html>

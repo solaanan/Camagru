@@ -1,5 +1,5 @@
 <?php
-	include_once('../classes/Theme.class.php');
+	include_once($_SERVER['DOCUMENT_ROOT'] . '/camagru/includes/classes/Theme.class.php');
 
 	$theme = new Theme();
 

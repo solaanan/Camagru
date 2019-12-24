@@ -10,6 +10,7 @@ html {
 	background-image: url('../images/back.png');
 	background-repeat: no-repeat;
 	background-size: cover;
+	background-color: #dfdfdf;;
 }
 
 body
@@ -23,7 +24,7 @@ body
 
 .jumbotron
 {
-	background-color: #ffffffE5;
+	background-color: #ffffffE5 !important;
 	color: white;
 	-webkit-box-shadow: 0px 1px 5px 0px rgb(28, 36, 68) !important;
 	-moz-box-shadow: 0px 1px 5px 0px rgb(28, 36, 68) !important;
@@ -65,7 +66,7 @@ hr, .separator {
 }
 
 .comment-text, .shareLink {
-	background: #dfdfdf;
+	background: #dfdfdf !important;
 	-webkit-box-shadow: 0px 1px 5px 0px rgb(28, 36, 68) !important;
 	-moz-box-shadow: 0px 1px 5px 0px rgb(28, 36, 68) !important;
 	box-shadow: 0px 3px 6px -3px rgb(28, 36, 68) !important;
@@ -76,16 +77,49 @@ hr, .separator {
 }
 
 .inputt {
-	background-color: white;
+	background-color: #ffffff00 !important;
 	border-color: rgb(28, 36, 68);
-	color: white;
+	color: rgb(28, 36, 68);	
 }
 
 .inputt:focus {
 	background-color: #272f5100;
-	color: white;
+	border-color: rgb(28, 36, 68);
+	color: rgb(28, 36, 68);
 }
 
 .inputt::placeholder {
 	color: rgb(28, 36, 68);
+}
+
+.loading-container {
+	background: #dfdfdf;
+}
+
+.spinner-border {
+	color: #272f51;
+}
+
+.tooltipp {
+	color: white !important;
+}
+
+.info-container, .info {
+	background: #dfdfdf !important;
+}
+
+.edit {
+	background: #dfdfdf !important;
+}
+
+.edit:hover {
+	background: #aaaaaa !important;
+}
+
+.profilepic {
+	border-color: #272f51;
+}
+
+.absolute-div {
+	border-color:  #5a5959;
 }

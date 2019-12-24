@@ -1,7 +1,8 @@
 <?php
 	session_start();
-	include_once('../config.php');
-	include_once('../classes/Post.class.php');
+	include_once($_SERVER['DOCUMENT_ROOT'] . '/camagru/includes/session_expiry.php');
+	include_once($_SERVER['DOCUMENT_ROOT'] . '/camagru/includes/config.php');
+	include_once($_SERVER['DOCUMENT_ROOT'] . '/camagru/includes/classes/Post.class.php');
 
 	$post = new Post($pdo);
 
@@ -28,6 +29,8 @@
 		} catch (PDOException $e) {
 			die('An error occured communicating with the databases');
 		}
+		if ($stmt->rowCount() === 0 && $start === '0')
+			exit('<img class="nothing" src="/camagru/assets/images/nothing.png" width="200" height="200">');
 		if ($stmt->rowCount() > 0)
 		{
 			$reponse = "";
