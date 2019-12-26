@@ -18,6 +18,7 @@
 <body id="body">
 	<?php include_once($_SERVER['DOCUMENT_ROOT'] . "/camagru/includes/navbar.php"); ?>
 	<div class="everything">
+		<div id="messages"></div>
 		<div class="container">
 			<div class="jumbotron">
 				<a href="javascript:history.back()" class="goback">

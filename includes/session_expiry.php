@@ -11,7 +11,5 @@
 		session_unset();
 		session_destroy();
 		header('Location: expired.php');
+		$_SESSION['LAST_ACTIVITY'] = $time;
 	}
-
-
-	$_SESSION['LAST_ACTIVITY'] = $time;

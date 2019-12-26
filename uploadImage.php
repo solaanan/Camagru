@@ -35,7 +35,7 @@
 							<input type="file" name="imageFile" id="fileInput" enctype="multipart/form-data" accept="image/*">
 							<label for="fileInput" class="label botona" id="uploadBotona">
 								<img id="upload_img" src="/camagru/assets/images/upload_file.png" alt="snap" width="25" height="20">
-								<span id="upload_text"> Upload </span>
+								Upload
 							</label>
 						</form>
 						<div class="stickerContainer">

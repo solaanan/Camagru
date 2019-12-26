@@ -9,6 +9,7 @@
 <html lang="en">
 <head>
 	<?php include_once($_SERVER['DOCUMENT_ROOT'] . "/camagru/includes/links.php"); ?>
+	<link rel="stylesheet" href="/camagru/assets/css/animations.css">
 	<link rel="stylesheet" href="/camagru/assets/css/login.css">
 	<title>Camagru - Edit profile</title>
 	<script src="/camagru/assets/js/editPassword.js"></script>
@@ -17,6 +18,7 @@
 <body id="body">
 	<?php include_once($_SERVER['DOCUMENT_ROOT'] . "/camagru/includes/navbar.php"); ?>
 	<div class="everything">
+		<div id="messages"></div>
 		<div class="container">
 			<div class="jumbotron">
 				<a href="javascript:history.back()" class="goback">

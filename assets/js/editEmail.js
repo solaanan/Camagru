@@ -1,6 +1,5 @@
 window.addEventListener("load", function() {
 	var botona = document.getElementById('botona');
-	var message = document.getElementById('message')
 	var form = document.getElementById('form');
 	var body = document.getElementById('body');
 	var save = document.getElementById('save');
@@ -26,14 +25,16 @@ window.addEventListener("load", function() {
 				if (xhttp.responseText === "All good")
 				{
 					div = document.createElement("div");
-					div.setAttribute("class", "alert alert-success message");
+					div.setAttribute("class", "alert alert-success message popup");
 					div.setAttribute("id", "message");
 					div.innerHTML = "Your email address has been changed successfully, <span class='important'> please verify your new email address </span>";
 					div.style.opacity = "100";
-					body.insertBefore(div, body.children[2]);
+					document.getElementById('messages').appendChild(div);
 					setTimeout(function () {
 						div.remove();
 					}, 5000);
+					email1.value = '';
+					email2.value = '';
 				}
 				else
 				{

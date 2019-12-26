@@ -103,8 +103,8 @@
 			echo '
 			<div class="jumbotron py-3 px-3 mx-auto post" id="post_'. $post_id .'">
 				<a class="text-decoration-none text-reset click" href="/camagru/profile?username='. $username .'">
-					<img class="profilepic" src="'. $profilePic .'" width="30" height="30" class="d-inline-block align-top" alt="">
-					<span class="text">'. $username .'</span>';
+					<div class="profilepic" style="background-image:url(\''. $profilePic .'\')" class="d-inline-block align-top" alt=""></div>
+					<span class="text username" style="vertical-align:middle">'. $username .'</span>';
 				if ($days < 7)
 					echo '<span class="badge badge-secondary new-badge">New</span>';
 				echo '</a>';
@@ -118,7 +118,7 @@
 				if (isset($_SESSION) && isset($_SESSION['userLoggedIn'])) {
 					echo '<hr class="separator">
 					<div class="tooltip-holder">';
-					// if ($tooltip)
+					if ($tooltip)
 						echo '<span id="tooltip_'. $post_id .'" class="tooltipp">'. $tooltip .'</span>';
 					echo '</div>
 					<img class="like" id="like_'. $post_id .'" src="/camagru/assets/images/'. $iconTheme .'/	like-'. $isliked .'.png" width="33" height="30" alt="like">'. '<span class="likeCounter">' . $this->likeCounter($post_id) . '</span>' .'
@@ -237,12 +237,12 @@
 				echo '
 				<div class="media commentt" id="comment_'. $commentId .'">
 					<a class="text-decoration-none text-reset" href="/camagru/profile?username='. $username .'">
-						<img class="profilepic" src="'. $profilePic .'" width="30" height="30" class="d-inline-block align-top" alt="">
+						<div class="profilepic" style="background-image: url(\''. $profilePic .'\')" width="30" height="30" class="d-inline-block align-top"></div>
 					</a>
 					<div class="media-body comment-body">';
 					if ($username === $this->username)
 						echo '<img id="delCom_'. $commentId .'" src="/camagru/assets/images/delete.png" class="deleteComment float-right my-auto" width="10" height="10" alt="delete">';
-					echo	'<span class="text mt-0 comment-head">'. $username .'</span>
+					echo	'<span class="text mt-0 comment-head username">'. $username .'</span>
 						<br><span class="text text-break comment-text d-block">'. $commentBody .'</span>
 					</div>
 				</div>';

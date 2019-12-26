@@ -24,13 +24,14 @@ window.addEventListener("load", function() {
 				{
 					userLoggedIn.innerHTML = username.value;
 					div = document.createElement("div");
-					div.setAttribute("class", "alert alert-success message");
+					div.setAttribute("class", "alert alert-success message popup");
 					div.setAttribute("id", "message");
 					div.innerHTML = "Your username has been changed successfully";
-					body.insertBefore(div, body.children[2]);
+					document.getElementById('messages').appendChild(div);
 					setTimeout(function () {
 						div.remove();
 					}, 5000);
+					username.value = '';
 				}
 				else
 				{

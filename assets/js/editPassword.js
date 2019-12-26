@@ -31,10 +31,13 @@ window.addEventListener("load", function() {
 					div.setAttribute("class", "alert alert-success message");
 					div.setAttribute("id", "message");
 					div.innerHTML = "Your password has been changed successfully";
-					body.insertBefore(div, body.children[2]);
+					document.getElementById('messages').appendChild(div);
 					setTimeout(function () {
 						div.remove();
 					}, 5000);
+					oldpw.value = '';
+					pw1.value = '';
+					pw2.value = '';
 				}
 				else
 				{

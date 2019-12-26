@@ -14,7 +14,9 @@
 			die ('There was a problem communicating with the databases: ' . $e->getMessage());
 		}
 		unset($_SESSION['userLoggedIn']);
+		unset($_SESSION['LAST_ACTIVITY']);
 		session_unset();
 		session_destroy();
 		session_start();
+		exit('success');
 	}

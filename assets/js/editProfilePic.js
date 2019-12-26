@@ -2,7 +2,6 @@ window.addEventListener('load', function() {
 	var xhttp = new XMLHttpRequest();
 	var input = document.getElementById("newPicture");
 	var canvas = document.getElementById("canvas");
-	var pdp2 = document.getElementById("imgNavbar");
 	var absoluteDiv = document.getElementById("absoluteDiv");
 	var spinner = document.getElementById("spinner");
 	var data = "";
@@ -52,13 +51,15 @@ window.addEventListener('load', function() {
 				spinner.style.display = "none";
 				if (this.readyState == 4 && this.status == 200) {
 					if (xhttp.responseText === "All good") {
-						pdp2.setAttribute("src", data);
+						document.querySelectorAll('.profilepic').forEach(function(d) {
+							d.style.backgroundImage = 'url(\'' + data + '\')';
+						})
 						absoluteDiv.style.backgroundImage = "url('"+data+"'";
 						var div = document.createElement("div");
-						div.setAttribute("class", "alert alert-success message");
+						div.setAttribute("class", "alert alert-success message popup");
 						div.setAttribute("id", "message");
 						div.innerHTML = "Your Profile picture has been changed successfully";
-						body.insertBefore(div, body.children[2]);
+						document.getElementById('messages').appendChild(div);
 						setTimeout(function () {
 							div.remove();
 						}, 5000);

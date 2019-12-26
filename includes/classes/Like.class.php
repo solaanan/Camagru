@@ -38,6 +38,7 @@
 					return false;
 				}
 				$arrr = $stmt->fetch();
+				if ($arrr['username'] !== $this->un)
 				$this->someone_liked($this->un, $arrr['username'], $arrr['publication'], $arrr['email'], $post_id);
 			}
 			return true;

@@ -926,7 +926,7 @@ window.addEventListener('load', function() {
 			var commentsContainer = document.getElementById('commentsContainer_'+postId);
 			var commentToggler = document.getElementById('comment_'+postId);
 			d.onclick = function(e) {
-				if (shareContainer.style.display === 'none') {
+				if (shareContainer.style.display !== 'block') {
 					shareContainer.style.display = 'block';
 					commentsContainer.style.display = 'none';
 					commentToggler.src = commentToggler.src.replace('comment_1', 'comment_0');

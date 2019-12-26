@@ -96,3 +96,7 @@ hr {
 .absolute-div {
 	border-color:  white;
 }
+
+.loading {
+	background: #3d497d !important;
+}

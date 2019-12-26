@@ -115,3 +115,41 @@
 		transform: translateY(-50px);
 	}
 }
+
+.loading {
+	animation-name: loading;
+	animation-duration: 1s;
+	animation-timing-function: ease-in-out;
+	animation-iteration-count: infinite;
+}
+
+@keyframes loading{
+	0% {
+		opacity: 0; 
+	}
+	50% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+	}
+}
+
+.loading2 {
+	animation-name: loading2;
+	animation-duration: 1.5s;
+	animation-timing-function: ease-in-out;
+	animation-iteration-count: infinite;
+}
+
+@keyframes loading2{
+	0% {
+		opacity: 0; 
+	}
+	50% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+	}
+}

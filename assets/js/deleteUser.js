@@ -17,8 +17,8 @@ window.addEventListener('load', function() {
 			xhttpDeleteUser.send('deleteUser=true');
 			xhttpDeleteUser.onreadystatechange = function() {
 				if (this.readyState == 4 && this.status == 200) {
-					if (xhttpDeleteUser.responseText) {
-						// document.location.replace('/camagru/index');
+					if (xhttpDeleteUser.responseText === 'success') {
+						document.location.replace('/camagru/index');
 					}
 				}
 			}

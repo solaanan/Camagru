@@ -34,7 +34,7 @@
 			<span class="text"> Log out </span>
 		</a>
 		<a class="click" href="/Camagru/profile.php" id="">
-			<img id="imgNavbar" class="profilepic" src="'. $picPath .'" width="30" height="30" class="d-inline-block align-top" alt="">
+			<div id="imgNavbar" class="profilepic" style="background-image:url(\''. $picPath .'\')" width="30" height="30" class="d-inline-block align-top"></div>
 			<span class="text" id="userLoggedIn">'. $username .'</span>
 		</a>
 		';

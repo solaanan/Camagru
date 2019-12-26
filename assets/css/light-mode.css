@@ -123,3 +123,7 @@ hr, .separator {
 .absolute-div {
 	border-color:  #5a5959;
 }
+
+.loading {
+	background: #dfdfdf !important;
+}
