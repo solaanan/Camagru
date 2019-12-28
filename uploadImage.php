@@ -90,7 +90,45 @@
 		</div>
 	</div>
 	<div class="loading-container" id="loading" style="display: flex;">
-		<div class="spinner-border m-auto" style="color: white;"></div>	
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-xs-1 col-md-1"></div>
+				<div class="colona col-xs-12 col-md-5 loading2">
+					<div class="element jumbotron">
+						<div class="h2 text-break loading" style="width:50%; height:40px; margin:auto"></div>
+						<img id="dropImg" src="/camagru/assets/images/icons-dark/upload.png" alt="snap" width="60" height="60">
+						<h1 class="h2 text-break" id="dropHeading">Drop your image here!</h1>
+							<div class="label botona loading" style="display:table">
+								<img src="/camagru/assets/images/upload_file.png" alt="snap" width="25" height="20" style="visibility:hidden">
+								<span style="visibility:hidden">Upload</span>
+							</div>
+					</div>
+				</div>
+				<div class="col-xs-1 col-md-1"></div>
+				<div class="colona posts col-xs-6 col-md-4">
+					<div class="h2 text-break loading" style="width:50%; height:40px"></div>
+					<div>
+						<div class="jumbotron py-3 px-3 mx-auto post loading2">
+							<a class="text-decoration-none text-reset click">
+								<img class="profilepic" src="/camagru/assets/images/icons-dark/blank-pdp.png" width="30" height="30" class="d-inline-block align-top" >
+								<span class="text loading" style="width:20%; height:20px; display:inline-block;  vertical-align:middle"> </span>
+								<span class="badge badge-secondary new-badge loading" style="width:50px; height:20px; display:inline-block;  vertical-align:middle; border-radius:10px; transition-duration: none"></span>
+								</a>
+								<hr class="separator loading">
+								<p class="text-break loading" style="width:50%; height:20px; display:inline-block;  vertical-align:middle"></p>
+								<div class="heartContainer"></div>
+								<img class="loading postImg" src="/camagru/assets/images/icons-dark/blank-post.png">
+								<hr class="loading separator">
+								<img class="loading" src="/camagru/assets/images/icons-dark/blank-icon.png" width="33" height="30" style="border-radius:200px"><span class="loading" style="width:50px; height:20px; display:inline-block; margin-left:10px; vertical-align:middle"></span>
+								<img class="loading" src="/camagru/assets/images/icons-dark/blank-icon.png" width="33" height="30" style="border-radius:200px"><span  class="loading" style="width:50px; height:20px; display:inline-block; margin-left:10px; vertical-align:middle"></span>
+								<img class="loading" src="/camagru/assets/images/icons-dark/blank-icon.png" width="33" height="30" style="border-radius:200px">
+							</img>
+						</div>
+					</div>
+				</div>
+				<div class="col-xs-1 col-md-1"></div>
+			</div>
+		</div>
 	</div>
 </body>
 </html>

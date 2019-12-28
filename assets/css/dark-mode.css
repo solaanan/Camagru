@@ -30,7 +30,7 @@ body
 
 .jumbotron
 {
-	background-color: #272f51E5;
+	background-color: #272f51E5 !important;
 	color: white;
 }
 

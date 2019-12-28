@@ -150,8 +150,34 @@
 			</div>
 		</div>
 	</div>
-	<div class="loading-container" id="loading" style="display: flex;">
-		<div class="spinner-border m-auto" style="color: white;"></div>	
+	<div class="loading-container" id="loading" style="display: block;">
+		<div class="container">
+			<div class="jumbotron mx-auto profile loading2">
+				<div class="absolute-div loading" style="height:150px; width:150px; display:block; margin:auto; border-radius:200px"></div>
+				<div class="loading" style="height:20px; width:20%; display:block; margin-top:20px"></div>
+				<div class="info loading" style="height:50px; width:100%; display:block; border-radius: 10px; margin-top:10px"></div>
+				<div class="loading" style="height:20px; width:20%; display:block; margin-top:20px"></div>
+				<div class="info loading" style="height:50px; width:100%; display:block; border-radius: 10px; margin-top:10px"></div>
+				<div class="loading" style="height:20px; width:20%; display:block; margin-top:20px"></div>
+				<div class="info loading" style="height:50px; width:100%; display:block; border-radius: 10px; margin-top:10px"></div>
+			</div>
+			<div class="jumbotron py-3 px-3 mx-auto post loading2">
+							<a class="text-decoration-none text-reset click">
+								<img class="profilepic" src="/camagru/assets/images/icons-dark/blank-pdp.png" width="30" height="30" class="d-inline-block align-top" >
+								<span class="text loading" style="width:20%; height:20px; display:inline-block;  vertical-align:middle"> </span>
+								<span class="badge badge-secondary new-badge loading" style="width:50px; height:20px; display:inline-block;  vertical-align:middle; border-radius:10px; transition-duration: none"></span>
+								</a>
+								<hr class="separator loading">
+								<p class="text-break loading" style="width:50%; height:20px; display:inline-block;  vertical-align:middle"></p>
+								<div class="heartContainer"></div>
+								<img class="loading postImg" src="/camagru/assets/images/icons-dark/blank-post.png">
+								<hr class="loading separator">
+								<img class="loading" src="/camagru/assets/images/icons-dark/blank-icon.png" width="33" height="30" style="border-radius:200px"><span class="loading" style="width:50px; height:20px; display:inline-block; margin-left:10px; vertical-align:middle"></span>
+								<img class="loading" src="/camagru/assets/images/icons-dark/blank-icon.png" width="33" height="30" style="border-radius:200px"><span  class="loading" style="width:50px; height:20px; display:inline-block; margin-left:10px; vertical-align:middle"></span>
+								<img class="loading" src="/camagru/assets/images/icons-dark/blank-icon.png" width="33" height="30" style="border-radius:200px">
+							</img>
+						</div>
+		</div>
 	</div>
 </body>
 </html>

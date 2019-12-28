@@ -112,7 +112,7 @@
 					echo '<img id="delete_'. $post_id .'" src="/camagru/assets/images/delete.png" class="delete float-right my-auto" width="20" height="20" alt="delete">';
 				echo '<hr class="separator">';
 				if ($publication !== '')
-				echo ' <p class="text-break">'. $publication .'</p>';
+				echo ' <p class="text-break publicationn">'. $publication .'</p>';
 				echo '<div class="heartContainer" id="heart_'. $post_id .'"></div>';
 				echo '<img class="postImg" src="'. $picture .'">';
 				if (isset($_SESSION) && isset($_SESSION['userLoggedIn'])) {
@@ -187,6 +187,19 @@
 			} else {
 				return false;
 			}
+			try {
+				$query = "SELECT username, email, publication FROM posts INNER JOIN users ON users.id=posts.user_id WHERE post_id=:post_id";
+				$stmt = $this->pdo->prepare($query);
+				$stmt->bindValue(':post_id', $post_id);
+				$stmt->execute();
+				if ($stmt === false)
+					return false;
+			} catch (PDOException $e) {
+				return false;
+			}
+			$arrr = $stmt->fetch();
+			if ($arrr['username'] !== $this->un)
+			$this->someone_commented($this->username, $arrr['username'], $arrr['publication'], $comment, $arrr['email'], $post_id);
 			try {
 				$query = 'SELECT comment_id FROM comments WHERE post_id=:post_id AND `user_id`=:user_id AND comment_body=:comment_body';
 				$stmt = $this->pdo->prepare($query);

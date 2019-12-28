@@ -268,3 +268,12 @@ body
 .coppy, .tweet {
 	border-radius: 10px;
 }
+
+.long-text {
+	display: none
+}
+
+.show-more-button {
+	cursor: pointer;
+	text-decoration: underline;
+}

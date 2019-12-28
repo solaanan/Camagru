@@ -29,7 +29,7 @@
 	<?php
 		if (isset($_SESSION['userLoggedIn'])) {
 		echo '
-		<a class="click" href="/Camagru/logout.php">
+		<a class="click" href="/Camagru/logout.php?id='. session_id() .'">
 			<img class="logout" src="/Camagru/assets/images/icons-dark/logout.png" width="25" height="25" class="d-inline-block align-top" alt="">
 			<span class="text"> Log out </span>
 		</a>

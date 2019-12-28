@@ -93,7 +93,6 @@ window.addEventListener('load', function() {
 			arrowsContainer.style.display = 'block';
 		};
 		}).catch(function() {
-			
 		});
 	}
 
@@ -148,11 +147,12 @@ window.addEventListener('load', function() {
 
 			retake.addEventListener('click', retake_pic);
 
-			xhttpCamera.open('POST', '/camagru/includes/handlers/post-handler.php', true);
-			xhttpCamera.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 			save.onclick =  function(e) {
 				e.preventDefault();
 				save.disabled = true;
+				sticker.style.display = 'none';
+				xhttpCamera.open('POST', '/camagru/includes/handlers/post-handler.php', true);
+				xhttpCamera.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 				xhttpCamera.send('loggedin=true&saveButton=true&publication='+ pub.value +'&pictureData='+data+'&index='+i);
 			}
 			xhttpCamera.onreadystatechange = function() {
@@ -160,10 +160,10 @@ window.addEventListener('load', function() {
 				if (this.readyState == 4 && this.status == 200) {
 					if (xhttpCamera.responseText.match(/All good/g)) {
 						var div = document.createElement("div");
-						div.setAttribute("class", "alert alert-success message");
+						div.setAttribute("class", "alert alert-success message popup");
 						div.setAttribute("id", "message");
 						div.innerHTML = "Posted !";
-						body.insertBefore(div, body.children[2]);
+						document.getElementById('messages').appendChild(div);
 						setTimeout(function () {
 							div.remove();
 						}, 5000);
@@ -201,10 +201,21 @@ window.addEventListener('load', function() {
 				xhttpComment.open('POST', '/camagru/includes/handlers/comment-handler.php', true);
 				xhttpComment.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 				xhttpComment.send('newCommentButton=true&newComment='+commentText+'&post_id='+post_id);
+				var doc = new DOMParser().parseFromString('<div class="media commentt" style="opacity:0.5" id="tempComment">\
+				<a class="text-decoration-none text-reset">\
+					<img class="profilepic d-inline-block align-top" src="'+ document.getElementById('imgNavbar').style.backgroundImage.replace('url("', '').replace('")', '') +'" width="30" height="30">\
+				</a>\
+				<div class="media-body comment-body"><img src="/camagru/assets/images/delete.png" class="deleteComment float-right my-auto" width="10" height="10" alt="delete" style="display: none;"><span class="text mt-0 comment-head">'+ document.getElementById('userLoggedIn').textContent +'</span>\
+					<br><span class="text text-break comment-text d-block">'+ commentText.replace(/\n/g, '<br>').replace(/ /g, '&nbsp;') +'</span>\
+				</div>\
+			</div>', "text/html");
+				commentContainer.insertBefore(doc.childNodes[0].childNodes[1].childNodes[0], commentContainer.childNodes[2]);
 				xhttpComment.onreadystatechange = function() {
 					comment.value = '';
 					if (this.readyState == 4 && this.status == 200) {
 						if (xhttpComment.responseText !== 'nah') {
+							if (tempComment = document.getElementById('tempComment'))
+								tempComment.remove();
 							var doc = new DOMParser().parseFromString(xhttpComment.responseText, "text/html");
 							commentContainer.insertBefore(doc.childNodes[0].childNodes[1].childNodes[0], commentContainer.childNodes[2]);
 							autoResize(comment);
@@ -212,6 +223,9 @@ window.addEventListener('load', function() {
 							commentCounter.innerHTML = '1';
 							else
 							commentCounter.innerHTML = (parseInt(commentCounter.innerHTML) + 1).toString();
+						} else {
+							if (tempComment = document.getElementById('tempComment'))
+								tempComment.remove();
 						}
 					}
 					commentHandler();
@@ -221,8 +235,8 @@ window.addEventListener('load', function() {
 	}
 
 	function commentToggle() {
-	var commentToggler = document.querySelectorAll('.comment');
-	commentToggler.forEach(function (d) {
+		var commentToggler = document.querySelectorAll('.comment');
+		commentToggler.forEach(function (d) {
 			var post_id = d.parentNode.id.replace('post_', '');
 			var commentContainer = document.getElementById('commentsContainer_'+post_id);
 			var shareContainer = document.getElementById('shareContainer_'+post_id);
@@ -261,6 +275,7 @@ window.addEventListener('load', function() {
 		toggleDeleteComment();
 		toggleShowMore();
 		deleteComment();
+		ShowMoreHandler();
 
 		var inpot = document.querySelectorAll('.inpot');
 		if (inpot)
@@ -469,10 +484,10 @@ window.addEventListener('load', function() {
 						if (this.readyState == 4 && this.status == 200) {
 							if (xhttpImgUP.responseText.match(/All good/g)) {
 								var div = document.createElement("div");
-								div.setAttribute("class", "alert alert-success message");
+								div.setAttribute("class", "alert alert-success message popup");
 								div.setAttribute("id", "message");
 								div.innerHTML = "Posted !";
-								body.insertBefore(div, body.children[2]);
+								document.getElementById('messages').appendChild(div);
 								setTimeout(function () {
 									div.remove();
 								}, 5000);
@@ -570,10 +585,10 @@ window.addEventListener('load', function() {
 				if (this.readyState == 4 && this.status == 200) {
 					if (xhttpImgUP.responseText.match(/All good/g)) {
 						var div = document.createElement("div");
-						div.setAttribute("class", "alert alert-success message");
+						div.setAttribute("class", "alert alert-success message popup");
 						div.setAttribute("id", "message");
 						div.innerHTML = "Posted !";
-						body.insertBefore(div, body.children[2]);
+						document.getElementById('messages').appendChild(div);
 						setTimeout(function () {
 							div.remove();
 						}, 5000);
@@ -738,6 +753,7 @@ window.addEventListener('load', function() {
 		doubleHitLike();
 		shareHandler();
 		tooltipToggler()
+		ShowMoreHandler();
 	}
 
 	var xhttpDblLike = new XMLHttpRequest();
@@ -824,7 +840,7 @@ window.addEventListener('load', function() {
 					Obj.start += Obj.limit;
 					if (postsContainer) {
 						if (Obj.start === 0)
-							postsContainer.innerHTML = ''
+							postsContainer.innerHTML = '';
 						postsContainer.innerHTML += xhttpGetData.responseText;
 					}
 					postHandler();
@@ -887,10 +903,10 @@ window.addEventListener('load', function() {
 					if (this.readyState == 4 && this.status == 200) {
 						if (xhttpDelete.responseText === 'All good') {
 							var div = document.createElement("div");
-							div.setAttribute("class", "alert alert-success message");
+							div.setAttribute("class", "alert alert-success message popup");
 							div.setAttribute("id", "message");
 							div.innerHTML = "Deleted !";
-							body.insertBefore(div, body.children[2]);
+							document.getElementById('messages').appendChild(div);
 							setTimeout(function () {
 								div.remove();
 							}, 5000);
@@ -954,5 +970,45 @@ window.addEventListener('load', function() {
 				}, 5000);
 			}
 		})
+	}
+
+	/* ************************************************************* */
+	/*                           ShareHandler                        */
+	/* ************************************************************* */
+
+	function ShowMoreHandler() {
+		document.querySelectorAll('.publicationn').forEach(function(d) {
+			var char_limit = 150;
+			if(d.childNodes.length === 1 && d.textContent.length > char_limit)
+				d.innerHTML = '<span class="short-text">' + d.textContent.substr(0, char_limit) + '</span><span class="long-text">' + d.textContent.substr(char_limit) + '</span><span class="text-dots">...</span><span class="show-more-button" data-more="0">Read More</span>';
+		})
+
+		document.querySelectorAll('.comment-text').forEach(function(d) {
+			var char_limit = 150;
+			if (d.childNodes.length === 1 && d.textContent.length > char_limit)
+				d.innerHTML = '<span class="short-text">' + d.textContent.substr(0, char_limit) + '</span><span class="long-text">' + d.textContent.substr(char_limit) + '</span><span class="text-dots">...</span><span class="show-more-button" data-more="0">Read More</span>';
+		})
+
+		document.querySelectorAll('.show-more-button').forEach(function(d) {
+			d.onclick = function() {
+				console.log(typeof d.getAttribute('data-more'));
+				if (this.getAttribute('data-more') === '0') {
+					this.setAttribute('data-more', 1);
+					this.style.display = 'block';
+					this.innerHTML = 'Read Less';
+			
+					this.previousSibling.style.display = 'none';
+					this.previousSibling.previousSibling.style.display = 'inline';
+				}
+				else if(this.getAttribute('data-more') === '1') {
+					this.setAttribute('data-more', 0);
+					this.style.display = 'inline';
+					this.innerHTML = 'Read More';
+			
+					this.previousSibling.style.display = 'inline';
+					this.previousSibling.previousSibling.style.display = 'none';
+				}	
+			}
+		});
 	}
 })
