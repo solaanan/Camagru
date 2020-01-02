@@ -198,7 +198,7 @@
 				return false;
 			}
 			$arrr = $stmt->fetch();
-			if ($arrr['username'] !== $this->un)
+			if ($arrr['username'] !== $this->username)
 			$this->someone_commented($this->username, $arrr['username'], $arrr['publication'], $comment, $arrr['email'], $post_id);
 			try {
 				$query = 'SELECT comment_id FROM comments WHERE post_id=:post_id AND `user_id`=:user_id AND comment_body=:comment_body';

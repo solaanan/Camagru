@@ -1,3 +1,13 @@
+Array.prototype.myEach = function(callback) {
+	for (var i = 0; i < this.length; i++)
+		callback(this[i], i, this);
+};
+
+Object.prototype.myEach = function(callback) {
+	for (var i = 0; i < this.length; i++)
+		callback(this[i], i, this);
+};
+
 window.addEventListener('load', function() {
 	var body = document.getElementById('body');
 	var input = document.getElementById('resetEmail');
@@ -11,7 +21,7 @@ window.addEventListener('load', function() {
 
 	if (emailButton)
 	emailButton.onclick = function(e) {
-		document.querySelectorAll('.errorMessage').forEach(function(d) {
+		document.querySelectorAll('.errorMessage').myEach(function(d) {
 			d.remove();
 		})
 		e.preventDefault();
@@ -63,7 +73,7 @@ window.addEventListener('load', function() {
 	if (newPasswordButton)
 	newPasswordButton.onclick = function(e) {
 		e.preventDefault();
-		document.querySelectorAll('.errorMessage').forEach(function(d) {
+		document.querySelectorAll('.errorMessage').myEach(function(d) {
 			d.remove();
 		})
 		newPasswordButton.disabled = true;
@@ -94,7 +104,7 @@ window.addEventListener('load', function() {
 					input2.className = "form-control form-control-lg inputt"
 				}, 1000);
 				var array = xhttp.responseText.split('\n');
-				array.forEach(function(e) {
+				array.myEach(function(e) {
 					if (e !== "") {
 					var div = document.createElement("div");
 					div.setAttribute("class", "alert errorMessage");

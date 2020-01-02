@@ -1,3 +1,13 @@
+Array.prototype.myEach = function(callback) {
+	for (var i = 0; i < this.length; i++)
+		callback(this[i], i, this);
+};
+
+Object.prototype.myEach = function(callback) {
+	for (var i = 0; i < this.length; i++)
+		callback(this[i], i, this);
+};
+
 window.addEventListener('load', function() {
 	var userLoggedIn = document.getElementById('userLoggedIn');
 	/* ************************************************************* */
@@ -124,7 +134,7 @@ window.addEventListener('load', function() {
 			context.scale(-1, 1);
 			context.drawImage(video, 0, 0, canvas.width, canvas.height);
 			var data = canvas.toDataURL('image/png');
-			stream.getTracks().forEach(function(track) {
+			stream.getTracks().myEach(function(track) {
 				track.stop();
 			});
 			img.setAttribute("src", data);
@@ -190,7 +200,7 @@ window.addEventListener('load', function() {
 	commentHandler();
 	function newComment() {
 		var comantir = document.querySelectorAll('.comantir');
-		comantir.forEach(function(d) {
+		comantir.myEach(function(d) {
 			var post_id = d.id.replace('newCommentButton_', '');
 			var comment = document.getElementById('newComment_'+post_id);
 			var commentContainer = document.getElementById('commentsContainer_'+post_id);
@@ -236,7 +246,7 @@ window.addEventListener('load', function() {
 
 	function commentToggle() {
 		var commentToggler = document.querySelectorAll('.comment');
-		commentToggler.forEach(function (d) {
+		commentToggler.myEach(function (d) {
 			var post_id = d.parentNode.id.replace('post_', '');
 			var commentContainer = document.getElementById('commentsContainer_'+post_id);
 			var shareContainer = document.getElementById('shareContainer_'+post_id);
@@ -258,7 +268,7 @@ window.addEventListener('load', function() {
 				}
 				var array = Array.prototype.slice.call(commentContainer.children);
 				var i = 0;
-				array.forEach(function(e) {
+				array.myEach(function(e) {
 					if (e.id.match(/comment_.+/)) {
 						if (i > 1)
 							e.style.display = 'none';
@@ -279,7 +289,7 @@ window.addEventListener('load', function() {
 
 		var inpot = document.querySelectorAll('.inpot');
 		if (inpot)
-		inpot.forEach( function(d) {
+		inpot.myEach( function(d) {
 			d.onkeydown = function(e) {
 				e.target.nextElementSibling.firstElementChild.disabled = (e.target.value.length > 500) ? true : false;
 				autoResize(e.target)
@@ -296,7 +306,7 @@ window.addEventListener('load', function() {
 
 	function toggleDeleteComment() {
 		comment = document.querySelectorAll('.commentt');
-		comment.forEach(function (d) {
+		comment.myEach(function (d) {
 			var id = d.id.replace('comment_', '');
 			var delCom = document.getElementById('delCom_'+id);
 			d.onmouseover = function () {
@@ -312,7 +322,7 @@ window.addEventListener('load', function() {
 
 	function toggleShowMore() {
 		var showMore = document.querySelectorAll('.showMore');
-		showMore.forEach(function(d) {
+		showMore.myEach(function(d) {
 			var id = d.id.replace('show_', '');
 			var commentContainer = document.getElementById('commentsContainer_'+id);
 			var array = Array.prototype.slice.call(commentContainer.children);
@@ -320,7 +330,7 @@ window.addEventListener('load', function() {
 				var i = 0;
 				if (showStatus === 0) {
 					showStatus = 1;
-					array.forEach(function (e) {
+					array.myEach(function (e) {
 						if (e.id.match(/comment_.+/)) {
 								e.style.display = 'flex';
 						}
@@ -328,7 +338,7 @@ window.addEventListener('load', function() {
 					d.innerHTML = 'Show less';
 				} else {
 					showStatus = 0;
-					array.forEach(function (e) {
+					array.myEach(function (e) {
 						if (e.id.match(/comment_.+/)) {
 							if (i > 1)
 								e.style.display = 'none';
@@ -343,7 +353,7 @@ window.addEventListener('load', function() {
 
 	function deleteComment() {
 		var delComm = document.querySelectorAll('.deleteComment');
-		delComm.forEach(function (e) {
+		delComm.myEach(function (e) {
 			e.onclick = function() {
 				comId = e.id.replace('delCom_', '');
 				postId = e.parentNode.parentNode.parentNode.id.replace('commentsContainer_', '');
@@ -396,7 +406,7 @@ window.addEventListener('load', function() {
 			if (preview.src.length === 0) {
 				e.preventDefault();
 				e.stopPropagation();
-				[].slice.call(elementt.children).forEach(function(d) {
+				[].slice.call(elementt.children).myEach(function(d) {
 						d.style.display = 'none';
 				})
 				dropImg.style.display = 'block';
@@ -426,7 +436,7 @@ window.addEventListener('load', function() {
 				pub.value = '';
 				var errors = document.querySelectorAll(".errorMessage");
 				var desiredWidth = 668;
-				errors.forEach(function (e) {
+				errors.myEach(function (e) {
 					e.style.display = "none";
 				});
 				if (dt.files && dt.files[0]) {
@@ -505,7 +515,7 @@ window.addEventListener('load', function() {
 								spinner.style.display = 'none';
 								uploadBotona.style.display = 'table';
 								var array = xhttpImgUP.responseText.split('\n');
-								array.forEach(function(e) {
+								array.myEach(function(e) {
 									if (e !== "") {
 										var div = document.createElement("div");
 										div.setAttribute("class", "alert errorMessage");
@@ -529,7 +539,7 @@ window.addEventListener('load', function() {
 		pub.value = '';
 		var errors = document.querySelectorAll(".errorMessage");
 		var desiredWidth = 668;
-		errors.forEach(function (e) {
+		errors.myEach(function (e) {
 			e.style.display = "none";
 		});
 		if (this.files && this.files[0]) {
@@ -606,7 +616,7 @@ window.addEventListener('load', function() {
 						spinner.style.display = 'none';
 						uploadBotona.style.display = 'table';
 						var array = xhttpImgUP.responseText.split('\n');
-						array.forEach(function(e) {
+						array.myEach(function(e) {
 							if (e !== "") {
 								var div = document.createElement("div");
 								div.setAttribute("class", "alert errorMessage");
@@ -657,7 +667,7 @@ window.addEventListener('load', function() {
 	postHandler();
 	commentHandler();
 	function hitLike() {
-		document.querySelectorAll('.like').forEach(function(d) {
+		document.querySelectorAll('.like').myEach(function(d) {
 			d.onclick = function(e) {
 				var post_id = e.target.parentNode.id.replace('post_', '');
 				var tooltip = document.getElementById('tooltip_'+post_id);
@@ -711,7 +721,7 @@ window.addEventListener('load', function() {
 	}
 
 	function tooltipToggler() {
-		document.querySelectorAll('.like').forEach(function(d) {
+		document.querySelectorAll('.like').myEach(function(d) {
 			d.onmouseover = function() {
 				var post_id = d.parentNode.id.replace('post_', '');
 				var tooltip = document.getElementById('tooltip_'+post_id);
@@ -733,7 +743,7 @@ window.addEventListener('load', function() {
 
 	function toggleDeletePost() {
 		var post = document.querySelectorAll('.post')
-		post.forEach(function(d) {
+		post.myEach(function(d) {
 			var del = document.getElementById('delete_'+d.id.replace('post_', ''));
 			d.onmouseover = function () {
 				if (del)
@@ -759,7 +769,7 @@ window.addEventListener('load', function() {
 	var xhttpDblLike = new XMLHttpRequest();
 
 	function doubleHitLike() {
-		document.querySelectorAll('.postImg').forEach(function(d) {
+		document.querySelectorAll('.postImg').myEach(function(d) {
 			d.ondblclick = function(e) {
 				var post_id = d.parentNode.id.replace('post_', '');
 				var tooltip = document.getElementById('tooltip_'+post_id);
@@ -832,12 +842,12 @@ window.addEventListener('load', function() {
 		xhttpGetData.open('POST', '/camagru/includes/handlers/gallery-handler.php', true);
 		xhttpGetData.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 		xhttpGetData.send('getData=1&start='+Obj.start+'&limit='+Obj.limit);
+		Obj.start += Obj.limit;
 		xhttpGetData.onreadystatechange = function() {
 			if (this.readyState == 4 && this.status == 200) {
 				if (xhttpGetData.responseText === 'reachedLimit') {
 					reachedLimit = true;
 				} else {
-					Obj.start += Obj.limit;
 					if (postsContainer) {
 						if (Obj.start === 0)
 							postsContainer.innerHTML = '';
@@ -852,7 +862,7 @@ window.addEventListener('load', function() {
 
 	function getUserData(Obj) {
 		var xhttpGetData = new XMLHttpRequest();
-		window.location.search.substr(1).split('&').forEach(function (a) {
+		window.location.search.substr(1).split('&').myEach(function (a) {
 			if (a.match(/username/))
 				un = a.split('=')[1];
 		});
@@ -861,12 +871,12 @@ window.addEventListener('load', function() {
 		xhttpGetData.open('POST', '/camagru/includes/handlers/gallery-handler.php', true);
 		xhttpGetData.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 		xhttpGetData.send('getData=1&start='+Obj.start+'&limit='+Obj.limit+'&loggedin=1&username='+un);
+		Obj.start += Obj.limit;
 		xhttpGetData.onreadystatechange = function() {
 			if (this.readyState == 4 && this.status == 200) {
 				if (xhttpGetData.responseText === 'reachedLimit') {
 					reachedLimit = true;
 				} else {
-					Obj.start += Obj.limit;
 					if (userPostsContainer) {
 						if (Obj.start === 0)
 							userPostsContainer.innerHTML = ''
@@ -936,7 +946,7 @@ window.addEventListener('load', function() {
 		var share = document.querySelectorAll('.share');
 		var copy = document.querySelectorAll('.coppy');
 
-		share.forEach(function(d) {
+		share.myEach(function(d) {
 			var postId = d.id.replace('share_', '');
 			var shareContainer = document.getElementById('shareContainer_'+postId);
 			var commentsContainer = document.getElementById('commentsContainer_'+postId);
@@ -952,7 +962,7 @@ window.addEventListener('load', function() {
 			}
 		})
 
-		copy.forEach(function(d) {
+		copy.myEach(function(d) {
 			var postId = d.id.replace('copy_', '');
 			var shareLink = document.getElementById('shareLink_'+postId);
 
@@ -977,19 +987,19 @@ window.addEventListener('load', function() {
 	/* ************************************************************* */
 
 	function ShowMoreHandler() {
-		document.querySelectorAll('.publicationn').forEach(function(d) {
+		document.querySelectorAll('.publicationn').myEach(function(d) {
 			var char_limit = 150;
 			if(d.childNodes.length === 1 && d.textContent.length > char_limit)
 				d.innerHTML = '<span class="short-text">' + d.textContent.substr(0, char_limit) + '</span><span class="long-text">' + d.textContent.substr(char_limit) + '</span><span class="text-dots">...</span><span class="show-more-button" data-more="0">Read More</span>';
 		})
 
-		document.querySelectorAll('.comment-text').forEach(function(d) {
+		document.querySelectorAll('.comment-text').myEach(function(d) {
 			var char_limit = 150;
 			if (d.childNodes.length === 1 && d.textContent.length > char_limit)
 				d.innerHTML = '<span class="short-text">' + d.textContent.substr(0, char_limit) + '</span><span class="long-text">' + d.textContent.substr(char_limit) + '</span><span class="text-dots">...</span><span class="show-more-button" data-more="0">Read More</span>';
 		})
 
-		document.querySelectorAll('.show-more-button').forEach(function(d) {
+		document.querySelectorAll('.show-more-button').myEach(function(d) {
 			d.onclick = function() {
 				console.log(typeof d.getAttribute('data-more'));
 				if (this.getAttribute('data-more') === '0') {

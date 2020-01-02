@@ -1,3 +1,13 @@
+Array.prototype.myEach = function(callback) {
+	for (var i = 0; i < this.length; i++)
+		callback(this[i], i, this);
+};
+
+Object.prototype.myEach = function(callback) {
+	for (var i = 0; i < this.length; i++)
+		callback(this[i], i, this);
+};
+
 window.addEventListener('load', function() {
 	var xhttp = new XMLHttpRequest();
 	var input = document.getElementById("newPicture");
@@ -9,7 +19,7 @@ window.addEventListener('load', function() {
 	if (input)
 	input.onchange = function() {
 		var errors = document.querySelectorAll(".errorMessage");
-		errors.forEach(function (e) {
+		errors.myEach(function (e) {
 			e.style.display = "none";
 		});
 		spinner.style.display = "block";
@@ -51,7 +61,7 @@ window.addEventListener('load', function() {
 				spinner.style.display = "none";
 				if (this.readyState == 4 && this.status == 200) {
 					if (xhttp.responseText === "All good") {
-						document.querySelectorAll('.profilepic').forEach(function(d) {
+						document.querySelectorAll('.profilepic').myEach(function(d) {
 							d.style.backgroundImage = 'url(\'' + data + '\')';
 						})
 						absoluteDiv.style.backgroundImage = "url('"+data+"'";
@@ -66,7 +76,7 @@ window.addEventListener('load', function() {
 					}
 					else {
 						var array = xhttp.responseText.split('\n');
-						array.forEach(function(e) {
+						array.myEach(function(e) {
 							if (e !== "") {
 							var div = document.createElement("div");
 							div.setAttribute("class", "alert errorMessage");

@@ -14,6 +14,9 @@
 			$stmt->execute([":id" => $array["id"]]);
 			$img = "good.png";
 			$header = "Email confirmed successfully!";
-			$paragraph = "You may now <a class='login' href='/camagru/login.php'>log in</a> to your account.";
+			if (isset($_SESSION['userLoggedIn']) && !empty($_SESSION['userLoggedIn']))
+				$paragraph = 'Go to <a class="login" href="/camagru/gallery.php">Gallery</a>';
+			else
+				$paragraph = "You may now <a class='login' href='/camagru/login.php'>log in</a> to your account.";
 		}
 	}

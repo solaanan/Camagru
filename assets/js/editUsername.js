@@ -1,3 +1,13 @@
+Array.prototype.myEach = function(callback) {
+	for (var i = 0; i < this.length; i++)
+		callback(this[i], i, this);
+};
+
+Object.prototype.myEach = function(callback) {
+	for (var i = 0; i < this.length; i++)
+		callback(this[i], i, this);
+};
+
 window.addEventListener("load", function() {
 	var botona = document.getElementById('botona');
 	var userLoggedIn = document.getElementById('userLoggedIn');
@@ -8,7 +18,7 @@ window.addEventListener("load", function() {
 	botona.onclick = function ( e ) {
 		e.preventDefault();
 		var errors = document.querySelectorAll(".errorMessage");
-		errors.forEach(function (e) {
+		errors.myEach(function (e) {
 			e.style.display = "none";
 		});
 		var username = document.getElementById('username');
@@ -41,7 +51,7 @@ window.addEventListener("load", function() {
 					}, 1000);
 					username.style.border = "1px solid red";
 					var array = xhttp.responseText.split('\n');
-					array.forEach(function(e) {
+					array.myEach(function(e) {
 						if (e !== "") {
 						var div = document.createElement("div");
 						div.setAttribute("class", "alert errorMessage");

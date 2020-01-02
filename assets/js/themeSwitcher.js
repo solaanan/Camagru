@@ -1,4 +1,16 @@
+Array.prototype.myEach = function(callback) {
+	for (var i = 0; i < this.length; i++)
+		callback(this[i], i, this);
+};
+
+Object.prototype.myEach = function(callback) {
+	for (var i = 0; i < this.length; i++)
+		callback(this[i], i, this);
+};
+
+
 window.addEventListener('load', function() {
+
 	function onReady(callback) {
 		var intervalId = window.setInterval(function() {
 		if (document.getElementsByTagName('body')[0] !== undefined) {
@@ -37,7 +49,7 @@ window.addEventListener('load', function() {
 				toggler.firstElementChild.width = '19';
 				// if (!head.innerHTML.match(/<link rel\=\"stylesheet\" href=\"\/camagru\/assets\/css\/light-mode\.css\">/))
 				// head.innerHTML += '<link rel="stylesheet" href="/camagru/assets/css/light-mode.css">';
-				imgs.forEach(function (e) {
+				imgs.myEach(function (e) {
 					e.src = e.src.replace(/icons-dark/g, 'icons-light');
 				})
 			} else if (xhttp.responseText === '0') {
@@ -49,6 +61,8 @@ window.addEventListener('load', function() {
 
 	toggler.onclick = function() {
 			var imgs = document.querySelectorAll('img');
+			imgs = Array.prototype.slice.call(imgs);
+			console.log(typeof imgs)
 			if (toggler.lastElementChild.innerHTML.trim() === 'Light mode') {
 			toggler.firstElementChild.src = toggler.firstElementChild.src.replace(/light/g, 'night');
 			toggler.firstElementChild.width = '19';
@@ -56,7 +70,7 @@ window.addEventListener('load', function() {
 			toggler.lastElementChild.innerHTML = 'Night mode'
 			var imgs = document.querySelectorAll('img');
 			head.innerHTML = head.innerHTML.replace(/dark-mode/g, 'light-mode');
-			imgs.forEach(function (e) {
+			imgs.myEach(function (e) {
 				e.src = e.src.replace(/icons-dark/g, 'icons-light');
 			})
 			xhttp.open('POST', '/camagru/includes/handlers/theme-handler.php');
@@ -68,7 +82,7 @@ window.addEventListener('load', function() {
 			toggler.firstElementChild.height = '25';
 			toggler.lastElementChild.innerHTML = 'Light mode';
 			head.innerHTML = head.innerHTML.replace(/light-mode/g, 'dark-mode');
-			imgs.forEach(function (e) {
+			imgs.myEach(function (e) {
 				e.src = e.src.replace(/icons-light/g, 'icons-dark');
 			})
 			xhttp.open('POST', '/camagru/includes/handlers/theme-handler.php');
