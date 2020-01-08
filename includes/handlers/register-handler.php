@@ -25,7 +25,8 @@
 		$email2 = sanitizeFormEmail($_POST['registerEmail2']);
 		$password1 = sanitizeFormPassword($_POST['registerPassword']);
 		$password2 = sanitizeFormPassword($_POST['registerPassword2']);
-		$status = $account->register($username, $email1, $email2, $password1, $password2);
+		$notif = isset($_POST['notif']) ? 0 : 1;
+		$status = $account->register($username, $email1, $email2, $password1, $password2, $notif);
 		if ($status)
 			header("Location: confirmMail.php");
 	}

@@ -20,6 +20,7 @@
 	$em = $array["email"];
 	$pcPath = $array["profilePic"];
 	$date = $array['signUpDate'];
+	$notif = $array['notif'] === '1' ? 'checked' : '';
 	if ($array === false && !isset($_GET['error'])) {
 		header('Location: /camagru/profile?error=nouser');
 	}
@@ -35,6 +36,7 @@
 	<script src="/camagru/assets/js/updatePicOnHover.js"></script>
 	<script src="/camagru/assets/js/editProfilePic.js"></script>
 	<script src="/camagru/assets/js/postManagement.js"></script>
+	<script src="/camagru/assets/js/emailNotifs.js"></script>
 	<script src="/camagru/assets/js/deleteUser.js"></script>
 	<script src="/camagru/assets/js/themeSwitcher.js"></script>
 	<title>Camagru - My Profile</title>
@@ -98,6 +100,13 @@
 								<a href="/camagru/editPassword.php" class="edit">
 										<img class="click" src="/camagru/assets/images/icons-dark/edit.png" width="20" height="20" alt="edit">
 								</a>
+							</div>
+							<div class="switch-container">
+								<span class="switch-label">Enable email\'s notifications:</span>
+								<label class="switch">
+									<input type="checkbox" '. $notif .' id="switcha">
+									<span class="slider round"></span>
+								</label>
 							</div>';
 					?>
 					<span class="label">Member since:</span>

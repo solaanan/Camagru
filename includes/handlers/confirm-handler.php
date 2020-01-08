@@ -5,11 +5,20 @@
 	$img = "bad.png";
 	$header = "Something went wrong!";
 	$paragraph = "Unexpected error was ocurred during your email confirmation process.";
-	if ($token_get = $_GET['token']) {
-		$stmt = $pdo->prepare("SELECT * FROM users WHERE token=:tok");
-		$stmt->execute([":tok" => $token_get]);
+	if (isset($_GET['token'])) {
+		$token_get = $_GET['token'];
+		try {
+			$query = 'SELECT * FROM users WHERE token=:token';
+			$stmt = $pdo->prepare($query);
+			$stmt->bindValue(':token', $token_get);
+			$stmt->execute();
+			if ($stmt === false)
+				die();
+		} catch (PDOException $e) {
+			die ('Error: ' . $e->getMessage());
+		}
 		$array = $stmt->fetch();
-		if ($array["token"] == $token_get) {
+		if ($array !== false && $array["token"] === $token_get) {
 			$stmt = $pdo->prepare("UPDATE users SET token='' WHERE id = :id");
 			$stmt->execute([":id" => $array["id"]]);
 			$img = "good.png";

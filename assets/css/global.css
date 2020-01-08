@@ -146,7 +146,7 @@ body
 .goback {
 	margin-bottom: 50px;
 	text-align: left;
-	display: block;
+	display: table;
 }
 
 .goback:hover {
@@ -276,4 +276,47 @@ body
 .show-more-button {
 	cursor: pointer;
 	text-decoration: underline;
+}
+
+.logo-svg {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+.logo-svg circle:nth-child(2) {
+	stroke-dasharray: 267px;
+	stroke-dashoffset: 267px;
+	animation: line-anim 2s ease-in-out;
+}
+
+.logo-svg circle:nth-child(3) {
+	stroke-dasharray: 208px;
+	stroke-dashoffset: 208px;
+	animation: line-anim 2s ease-in-out;
+}
+
+.logo-svg circle:nth-child(4) {
+	stroke-dasharray: 44px;
+	stroke-dashoffset: 44px;
+	animation: line-anim 2s ease-in-out;
+}
+
+.logo-svg rect:nth-child(1) {
+	stroke-dasharray: 520px;
+	stroke-dashoffset: 520px;
+	animation: line-anim 2s ease-in-out;
+}
+
+.logo-svg rect:nth-child(5) {
+	stroke-dasharray: 161px;
+	stroke-dashoffset: 161px;
+	animation: line-anim 2s ease-in-out;
+}
+
+@keyframes line-anim {
+	50% {
+		stroke-dashoffset: 0;
+	}
 }

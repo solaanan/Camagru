@@ -30,28 +30,29 @@
 			}
 		}
 
-		public function		register($username, $email, $email2, $password, $password2) {
+		public function		register($username, $email, $email2, $password, $password2, $notif) {
 			$this->validateUsername($username);
 			$this->validatePasswords($password, $password2);
 			$this->validateEmails($email, $email2);
 			if (empty($this->errorArray))
-				return $this->insertUserDetails($username, $email, $password);
+				return $this->insertUserDetails($username, $email, $password, $notif);
 			else
 				return false;
 		}
 
-		private function	insertUserDetails($username, $email, $password) {
+		private function	insertUserDetails($username, $email, $password, $notif) {
 			$encryptedPw = hash('whirlpool', Constants::$salt . $password);
 			$profilePic = "/camagru/assets/images/profilePics/default.png";
 			$token = hash('sha256', $username . uniqid());
-			$query = 'INSERT INTO `users`(`username`, `email`, `passwd`, `signUpDate`, `profilePic`, `token`) VALUES (:username,:email,:passwd, NOW() ,:profilePic,:token)';
+			$query = 'INSERT INTO `users`(`username`, `email`, `passwd`, `signUpDate`, `profilePic`, `token`, `notif`) VALUES (:username,:email,:passwd, NOW() ,:profilePic,:token, :notif)';
 			try {
 				$stmt = $this->pdo->prepare($query);
 				$stmt->bindValue(':username', $username);
 				$stmt->bindValue(':email', $email);
 				$stmt->bindValue(':passwd', $encryptedPw);
 				$stmt->bindValue(':profilePic', $profilePic);
-				$stmt->bindValue(':token', $token);	
+				$stmt->bindValue(':token', $token);
+				$stmt->bindValue(':notif', $notif);
 				$stmt->execute();
 				if ($stmt === false)
 					return false;

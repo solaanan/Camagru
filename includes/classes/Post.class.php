@@ -198,7 +198,7 @@
 				return false;
 			}
 			$arrr = $stmt->fetch();
-			if ($arrr['username'] !== $this->username)
+			if ($arrr['username'] !== $this->username && $this->notifStatus($arrr['username']) === '1')
 			$this->someone_commented($this->username, $arrr['username'], $arrr['publication'], $comment, $arrr['email'], $post_id);
 			try {
 				$query = 'SELECT comment_id FROM comments WHERE post_id=:post_id AND `user_id`=:user_id AND comment_body=:comment_body';
@@ -364,6 +364,20 @@
 				unlink($name);
 				return false;
 			}
+		}
+
+		public function notifStatus($username) {
+			try {
+				$query = 'SELECT notif FROM users WHERE username=:username';
+				$stmt = $this->pdo->prepare($query);
+				$stmt->bindValue(':username', $username);
+				$stmt->execute();
+				if ($stmt === false)
+					return false;
+			} catch (PDOException $e) {
+				die ('Error: ' . $e->getMessage());
+			}
+			return ($stmt->fetch()['notif']);
 		}
 
 		public function getErrors() {

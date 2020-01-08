@@ -49,6 +49,8 @@
 					<?php echo $account->getError(Constants::$passwordCharacters); ?>
 					<input name="registerPassword" class="form-control form-control-lg inputt" type="password" placeholder="Password" required>
 					<input name="registerPassword2" class="form-control form-control-lg inputt" type="password" placeholder="Re-type Password" required>
+					<input type="checkbox" name="notif" id="notif">
+					<span class="label-checkini">Please don't email me about notifications.</span><br>
 					<button name="registerButton" type="submit" class="btn-lg login-btn botona">Sign Up</button>
 					<span class="text-break" style="font-size:15px"> or <a href="/camagru/login">Login</a> if you alreay have an account.</span>
 				</form>
@@ -56,7 +58,14 @@
 		</div>
 	</div>
 	<div class="loading-container" id="loading" style="display: flex;">
-		<div class="spinner-border m-auto" style="color: white;"></div>	
+		<!-- <div class="spinner-border m-auto" style="color: white;"></div> -->
+		<svg class="logo-svg" width="142" height="142" viewBox="0 0 142 142" fill="none" xmlns="http://www.w3.org/2000/svg">
+			<rect x="0.5" y="0.5" width="141" height="141" rx="25.5" stroke="white"/>
+			<circle cx="71.0001" cy="71" r="42.5656" stroke="white"/>
+			<circle cx="70.9999" cy="71" r="33.2541" stroke="white"/>
+			<circle cx="120.602" cy="19.3398" r="7.06557" stroke="white"/>
+			<rect x="0.5" y="33.0901" width="8.31148" height="75.8197" rx="4.15574" stroke="white"/>
+		</svg>
 	</div>
 </body>
 </html>

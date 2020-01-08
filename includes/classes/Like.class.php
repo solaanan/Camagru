@@ -38,7 +38,7 @@
 					return false;
 				}
 				$arrr = $stmt->fetch();
-				if ($arrr['username'] !== $this->un)
+				if ($arrr['username'] !== $this->un && $this->notifStatus($arrr['username']) === '1')
 				$this->someone_liked($this->un, $arrr['username'], $arrr['publication'], $arrr['email'], $post_id);
 			}
 			return true;
@@ -95,5 +95,19 @@
 				return false;
 			else
 				return true;
+		}
+
+		public function notifStatus($username) {
+			try {
+				$query = 'SELECT notif FROM users WHERE username=:username';
+				$stmt = $this->pdo->prepare($query);
+				$stmt->bindValue(':username', $username);
+				$stmt->execute();
+				if ($stmt === false)
+					return false;
+			} catch (PDOException $e) {
+				die ('Error: ' . $e->getMessage());
+			}
+			return ($stmt->fetch()['notif']);
 		}
 	}
