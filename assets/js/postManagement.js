@@ -842,9 +842,9 @@ window.addEventListener('load', function() {
 		xhttpGetData.open('POST', '/camagru/includes/handlers/gallery-handler.php', true);
 		xhttpGetData.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 		xhttpGetData.send('getData=1&start='+Obj.start+'&limit='+Obj.limit);
-		Obj.start += Obj.limit;
 		xhttpGetData.onreadystatechange = function() {
 			if (this.readyState == 4 && this.status == 200) {
+				Obj.start += Obj.limit;
 				if (xhttpGetData.responseText === 'reachedLimit') {
 					reachedLimit = true;
 				} else {
@@ -871,9 +871,9 @@ window.addEventListener('load', function() {
 		xhttpGetData.open('POST', '/camagru/includes/handlers/gallery-handler.php', true);
 		xhttpGetData.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 		xhttpGetData.send('getData=1&start='+Obj.start+'&limit='+Obj.limit+'&loggedin=1&username='+un);
-		Obj.start += Obj.limit;
 		xhttpGetData.onreadystatechange = function() {
 			if (this.readyState == 4 && this.status == 200) {
+				Obj.start += Obj.limit;
 				if (xhttpGetData.responseText === 'reachedLimit') {
 					reachedLimit = true;
 				} else {

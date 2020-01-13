@@ -4,10 +4,8 @@
 	error_reporting(E_ALL);
 	date_default_timezone_set('Europe/Paris');
 	$DB_DSN = 'mysql:dbname=Camagru;host=mysql:3306';
-	// $DB_DSN = 'mysql:dbname=camagru;host=localhost';
 	$DB_USER = 'root';
 	$DB_PASSWORD = 'tiger';
-	// $DB_PASSWORD = '';
 
 	try 
 	{

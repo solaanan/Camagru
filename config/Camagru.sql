@@ -2,16 +2,17 @@
 -- Database: `Camagru`
 --
 
--- --------------------------------------------------------
 CREATE DATABASE IF NOT EXISTS `Camagru` CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 USE `Camagru`;
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `comments`
 --
 
-CREATE TABLE IF NOT EXISTS `comments` (
+CREATE TABLE `comments` (
   `comment_id` int(11) NOT NULL,
   `post_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
@@ -25,7 +26,7 @@ CREATE TABLE IF NOT EXISTS `comments` (
 -- Table structure for table `likes`
 --
 
-CREATE TABLE IF NOT EXISTS `likes` (
+CREATE TABLE `likes` (
   `like_id` int(11) NOT NULL,
   `id_post` int(11) NOT NULL,
   `id_user` int(11) NOT NULL
@@ -37,7 +38,7 @@ CREATE TABLE IF NOT EXISTS `likes` (
 -- Table structure for table `posts`
 --
 
-CREATE TABLE IF NOT EXISTS `posts` (
+CREATE TABLE `posts` (
   `post_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `picture` varchar(200) NOT NULL,
@@ -51,7 +52,7 @@ CREATE TABLE IF NOT EXISTS `posts` (
 -- Table structure for table `tokens`
 --
 
-CREATE TABLE IF NOT EXISTS `tokens` (
+CREATE TABLE `tokens` (
   `token_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `token` varchar(64) NOT NULL
@@ -63,17 +64,16 @@ CREATE TABLE IF NOT EXISTS `tokens` (
 -- Table structure for table `users`
 --
 
-CREATE TABLE IF NOT EXISTS `users` (
+CREATE TABLE `users` (
   `id` int(11) NOT NULL,
   `username` varchar(50) NOT NULL,
   `email` varchar(200) NOT NULL,
   `passwd` varchar(128) NOT NULL,
   `signUpDate` date NOT NULL,
   `profilePic` varchar(500) NOT NULL,
-  `token` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL
+  `token` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  `notif` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
 
 --
 -- Indexes for dumped tables
@@ -113,8 +113,6 @@ ALTER TABLE `tokens`
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`);
 
--- --------------------------------------------------------
-
 --
 -- AUTO_INCREMENT for dumped tables
 --
@@ -123,19 +121,19 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `comments`
 --
 ALTER TABLE `comments`
-  MODIFY `comment_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `comment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `likes`
 --
 ALTER TABLE `likes`
-  MODIFY `like_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `like_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `posts`
 --
 ALTER TABLE `posts`
-  MODIFY `post_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `post_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `tokens`
@@ -147,9 +145,7 @@ ALTER TABLE `tokens`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
-
--- --------------------------------------------------------
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Constraints for dumped tables
@@ -178,3 +174,4 @@ ALTER TABLE `posts`
 --
 ALTER TABLE `tokens`
   ADD CONSTRAINT `tokens_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+COMMIT;

@@ -92,10 +92,6 @@ hr, .separator {
 	color: rgb(28, 36, 68);
 }
 
-.loading-container {
-	background: #dfdfdf;
-}
-
 .spinner-border {
 	color: #272f51;
 }
@@ -126,4 +122,12 @@ hr, .separator {
 
 .loading {
 	background: #dfdfdf !important;
+}
+
+.slider {
+	background-color: #5a5959;
+}
+
+.logo-svg * {
+	stroke: #5a5959;
 }

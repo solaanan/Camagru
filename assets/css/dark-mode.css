@@ -20,7 +20,7 @@ html {
 
 body
 {
-	background: #1c2444;
+	background: #0c1434;
 }
 
 .topnav, .footer {
@@ -77,10 +77,6 @@ hr {
 	color: rgba(255, 255, 255, 0.658);
   }
 
-  .loading-container {
-	background: #1c2444;
-}
-
 .spinner-border {
 	color: white;
 }
@@ -99,4 +95,8 @@ hr {
 
 .loading {
 	background: #3d497d !important;
+}
+
+.slider {
+	background-color: #141a2e;
 }

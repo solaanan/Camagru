@@ -28,11 +28,9 @@
 	<?php include_once($_SERVER['DOCUMENT_ROOT'] . '/camagru/includes/navbar.php') ?>
 	<div class="everything">
 		<div class="back"></div>
+		<div id="messages"></div>
 		<div class="container">
 			<div class="jumbotron" id="form">
-				<a href="javascript:history.back()" class="goback">
-					<img src="/camagru/assets/images/icons-dark/goback.png" alt="go back" width="30" height="30">
-				</a>
 				<?php
 					if (!isset($_GET['token']) || empty($_GET['token']))
 						echo '<h1 class="display-4">Reset your password !</h1>
@@ -56,7 +54,11 @@
 						$username = $arr['username'];
 						$id = $arr['id'];
 						if ($res)
-							echo '<h1 class="display-4">Reset your password !</h1>
+							echo '
+							<a href="javascript:history.back()" class="goback">
+								<img src="/camagru/assets/images/icons-dark/goback.png" alt="go back" width="30" height="30">
+							</a>
+							<h1 class="display-4">Reset your password !</h1>
 							<p class="lead">Enter a new password for the user: <span id="username">'. $username .'</span></p>
 							<input type="password" name="newPassword1" id="newPassword1" class="form-control form-control-lg inputt" placeholder="New password" required>
 							<input type="password" name="newPassword2" id="newPassword2" class="form-control form-control-lg inputt" placeholder="Re-type new password" required>

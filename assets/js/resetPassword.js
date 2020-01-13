@@ -46,11 +46,10 @@ window.addEventListener('load', function() {
 					input.value = '';
 					emailButton.disabled = false;
 					var div = document.createElement("div");
-					div.setAttribute("class", "alert alert-success message");
+					div.setAttribute("class", "alert alert-success message popup");
 					div.setAttribute("id", "message");
 					div.innerHTML = "Password reset link has been sent successfully, <span class='important'> please check your inbox</span>";
-					div.style.opacity = "100";
-					body.insertBefore(div, body.children[2]);
+					document.getElementById('messages').appendChild(div);
 					setTimeout(function () {
 						div.remove();
 					}, 5000);
