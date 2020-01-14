@@ -3,9 +3,9 @@
 	ini_set('display_startup_errors', 1);
 	error_reporting(E_ALL);
 	date_default_timezone_set('Europe/Paris');
-	$DB_DSN = 'mysql:dbname=Camagru;host=mysql:3306';
-	$DB_USER = 'root';
-	$DB_PASSWORD = 'tiger';
+	$DB_DSN = 'mysql:dbname=Camagru;host=localhost:3306';
+	$DB_USER = 'slaanani';
+	$DB_PASSWORD = 'I09m13G07o15@@';
 
 	try 
 	{

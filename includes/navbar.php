@@ -19,33 +19,33 @@
 <script src="/camagru/assets/js/responsiveNavbar.js"></script>
 <div class="topnav" id="navbarElements">
 	<a class="navbar-brand click" href="/camagru/index.php">
-	<img src="/Camagru/assets/images/logo.svg" width="30" height="30" class="d-inline-block align-top" alt="">
+	<img src="/camagru/assets/images/logo.svg" width="30" height="30" class="d-inline-block align-top" alt="">
 	<span id="brand"> Camagru </span>
 	</a>
 	<a id="themeSelector" class="click">
-		<img class="logout" src="/Camagru/assets/images/light.png" width="25" height="25" class="d-inline-block align-top" alt="">
+		<img class="logout" src="/camagru/assets/images/light.png" width="25" height="25" class="d-inline-block align-top" alt="">
 		<span class="text themeName"> Light mode </span>
 	</a>
 	<?php
 		if (isset($_SESSION['userLoggedIn'])) {
 		echo '
-		<a class="click" href="/Camagru/logout.php?id='. session_id() .'">
-			<img class="logout" src="/Camagru/assets/images/icons-dark/logout.png" width="25" height="25" class="d-inline-block align-top" alt="">
+		<a class="click" href="/camagru/logout.php?id='. session_id() .'">
+			<img class="logout" src="/camagru/assets/images/icons-dark/logout.png" width="25" height="25" class="d-inline-block align-top" alt="">
 			<span class="text"> Log out </span>
 		</a>
-		<a class="click" href="/Camagru/profile.php" id="">
+		<a class="click" href="/camagru/profile.php" id="">
 			<div id="imgNavbar" class="profilepic" style="background-image:url(\''. $picPath .'\')" width="30" height="30" class="d-inline-block align-top"></div>
 			<span class="text" id="userLoggedIn">'. $username .'</span>
 		</a>
 		';
 		}else{
 		echo '
-		<a class="click" href="/Camagru/login.php">
-			<img class="logout" src="/Camagru/assets/images/icons-dark/login.png" width="25" height="25" class="d-inline-block align-top" alt="">
+		<a class="click" href="/camagru/login.php">
+			<img class="logout" src="/camagru/assets/images/icons-dark/login.png" width="25" height="25" class="d-inline-block align-top" alt="">
 			<span class="text"> Log in </span>
 		</a>
-		<a class="click" href="/Camagru/gallery">
-			<img class="logout" src="/Camagru/assets/images/icons-dark/snap.png" width="30" height="23" class="d-inline-block align-top" alt="">
+		<a class="click" href="/camagru/gallery">
+			<img class="logout" src="/camagru/assets/images/icons-dark/snap.png" width="30" height="23" class="d-inline-block align-top" alt="">
 			<span class="text"> Gallery </span>
 		</a>
 		';
