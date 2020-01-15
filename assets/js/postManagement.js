@@ -160,7 +160,13 @@ window.addEventListener('load', function() {
 			save.onclick =  function(e) {
 				e.preventDefault();
 				save.disabled = true;
+				say.style.display = 'none';
+				pub.style.display = 'none';
+				save.style.display = 'none';
+				preview.style.display = 'none';
 				sticker.style.display = 'none';
+				arrowsContainer.style.display = 'none';
+				spinner.style.display = 'block';
 				xhttpCamera.open('POST', '/camagru/includes/handlers/post-handler.php', true);
 				xhttpCamera.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 				xhttpCamera.send('loggedin=true&saveButton=true&publication='+ pub.value +'&pictureData='+data+'&index='+i);
@@ -177,6 +183,13 @@ window.addEventListener('load', function() {
 						setTimeout(function () {
 							div.remove();
 						}, 5000);
+						uploadBotona.style.display = "table";
+						spinner.style.display = 'none';
+						preview.removeAttribute('src');
+						say.style.display = "none";
+						save.style.display = "none";
+						pub.style.display = "none";
+						cancell.style.display = "none";
 						userPostsContainer.innerHTML = xhttpCamera.responseText.substr(8) + userPostsContainer.innerHTML;
 						if (document.querySelector('.nothing'))
 							document.querySelector('.nothing').style.display = 'none';
@@ -185,6 +198,9 @@ window.addEventListener('load', function() {
 						commentHandler();
 						snap.disabled = true;
 						retake_pic();
+					} else {
+						uploadBotona.style.display = "table";
+						spinner.style.display = 'none';
 					}
 				}
 			}
