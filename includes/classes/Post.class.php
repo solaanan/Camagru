@@ -105,8 +105,8 @@
 				<a class="text-decoration-none text-reset click" href="/camagru/profile?username='. $username .'">
 					<div class="profilepic" style="background-image:url(\''. $profilePic .'\')" class="d-inline-block align-top" alt=""></div>
 					<span class="text username" style="vertical-align:middle">'. $username .'</span>';
-				if ($days < 7)
-					echo '<span class="badge badge-secondary new-badge">New</span>';
+				// if ($days < 7)
+				// 	echo '<span class="badge badge-secondary new-badge">New</span>';
 				if ($username === 'holk')
 					echo '<span class="badge badge-secondary admin-badge">Admin</span>';
 				echo '</a>';
