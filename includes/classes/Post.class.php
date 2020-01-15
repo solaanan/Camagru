@@ -108,7 +108,7 @@
 				// if ($days < 7)
 				// 	echo '<span class="badge badge-secondary new-badge">New</span>';
 				if ($username === 'holk')
-					echo '<span class="badge badge-secondary admin-badge">Admin</span>';
+					echo '<span class="badge badge-secondary admin-badge">Creator</span>';
 				echo '</a>';
 				if ($username === $this->username)
 					echo '<img id="delete_'. $post_id .'" src="/camagru/assets/images/delete.png" class="delete float-right my-auto" width="20" height="20" alt="delete">';
