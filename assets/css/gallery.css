@@ -21,6 +21,10 @@ html, body {
 	background: #191e36;
 }
 
+.admin-badge {
+	background: #e74c3c;
+}
+
 .postImg {
 	width: 100%;
 	height: auto;
