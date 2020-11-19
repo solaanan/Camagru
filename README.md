@@ -52,13 +52,14 @@ If you don't want to use you camera to add a post, you can surely upload an exis
 
 * <b>Edit your own profile</b><br>
   You can change your username, email address, password, and your profile picture, you should verify the new email address after changing it.
-  
+
 ## Built with:
 
 * Back-end: Vanilla PHP (No MVC).
 * Front-end: Vanilla Javascript.
 * Database: MySQL. (used PDO interface)
 * Styling: CSS, Bootstrap
+
 
 ## Authors
 
@@ -67,3 +68,11 @@ If you don't want to use you camera to add a post, you can surely upload an exis
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
+
+## Open for testing:
+
+If you care to test my Camagru, you can visit it through [here](https://slaanani.ml/camagru) and use this test account for login:
+
+| Username | Password |
+| --- | --- |
+| test | Test@2020 |
